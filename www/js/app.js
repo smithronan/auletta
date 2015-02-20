@@ -1,4 +1,4 @@
-angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services'])
+angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
