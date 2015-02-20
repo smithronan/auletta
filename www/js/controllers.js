@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('auletta.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
