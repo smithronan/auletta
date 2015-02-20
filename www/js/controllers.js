@@ -66,7 +66,8 @@ angular.module('auletta.controllers', [])
 										{
 											alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 										}
-							);								
+							);
+												
 			}
 	);
 	
