@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.l2d.auletta" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.l2d.auletta" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0>
   <name>Auletta</name>
   <description>Project Auletta Development Version</description>
   <author email="apps@level2digital.com" href="http://www.level2digital.com/">Level2 Digital</author>
@@ -12,4 +12,5 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <gap:plugin name="org.apache.cordova.media" />
 </widget>
