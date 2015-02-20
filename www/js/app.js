@@ -1,12 +1,31 @@
+var AulettaGlobal = AulettaGlobal || {};
+
+AulettaGlobal.helpers = 
+{
+		isNotString: function(str) 
+		{
+			return (typeof str !== "string");
+		}, 		
+		getPhoneGapPath: function() 
+		{
+			var pgPath = "";
+			var path = window.location.pathname;
+			return path.substr( path, path.length - 10 );
+		}
+};
+
+
+
+
 angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
+    //if (window.cordova && window.cordova.plugins.Keyboard) {
+    //  cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    //}
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();

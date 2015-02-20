@@ -40,59 +40,58 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia) {
+.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture) {
 	
+	$scope.helpers = AulettaGlobal.helpers;
 	$scope.success = "";
+	$scope.src = "";
 	
-	$scope.recordAudio = function()
+	$ionicPlatform.ready(
+			function() 
+			{
+				
+				console.log("IonicPlatform Ready");
+				$scope.success = "Platform Ready";
+				
+				//Load a sample sound
+				$scope.src = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
+				$scope.media = new Media
+							(
+										$scope.src, 
+										function()
+										{
+											console.log("playAudio():Audio Success");
+										}, 
+										function(error)
+										{
+											alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+										}
+							);								
+			}
+	);
+	
+		
+	
+	$scope.playAudio = function()
 	{
-		$ionicPlatform.ready(
-				function() 
-				{
-					
-					var src = "http://www.stephaniequinn.com/Music/Commercial%20DEMO%20-%2013.mp3";
-					var media = $cordovaMedia.newMedia(src).then(
-							function() {
-								$scope.success = "New Media Returned Success";
-								media.play();
-							}, 
-							function () {
-								$scope.success = "New Media Returned Error";
-							}
-					);
+		$scope.media.play();
+	}
+	
+	$scope.captureImage = function()
+	{
+		var options = { limit: 1 };
 
-						
-					//media.play(options); // iOS only!
-					//media.play(); // Android
-
-					//media.pause();
-
-					//media.stop();
-
-					//media.release();
-
-					//media.seekTo(5000); // milliseconds value
-
-					//media.setVolume(0.5);
-
-					//media.startRecord();
-
-					setTimeout(
-								function() 
-								{
-									media.stopRecord();
-								}, 5000
-					);		
-			
-				}
-		);
+	    $cordovaCapture.captureImage(options).then(function(imageData) {
+	      console.log(imageData);
+	    }, function(err) {
+	      console.log("An error occurred capturing image");
+	    });
+	}
+	
+	$scope.captureAudio = function()
+	{
 		
-		
-		
-		
-		
-		
-	}	
+	}
 	
 })
 

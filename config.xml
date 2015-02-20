@@ -13,4 +13,5 @@
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
   <gap:plugin name="org.apache.cordova.media" />
+  <gap:plugin name="org.apache.cordova.media-capture" />
 </widget>
