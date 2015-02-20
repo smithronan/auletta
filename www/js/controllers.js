@@ -42,7 +42,7 @@ angular.module('auletta.controllers', [])
 
 .controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia) {
 	
-	
+	$scope.success = "";
 	
 	$scope.recordAudio = function()
 	{
@@ -53,16 +53,17 @@ angular.module('auletta.controllers', [])
 					var src = "http://www.stephaniequinn.com/Music/Commercial%20DEMO%20-%2013.mp3";
 					var media = $cordovaMedia.newMedia(src).then(
 							function() {
-								// success
+								$scope.success = "New Media Returned Success";
+								media.play();
 							}, 
 							function () {
-							   // error
+								$scope.success = "New Media Returned Error";
 							}
 					);
 
-
+						
 					//media.play(options); // iOS only!
-					media.play(); // Android
+					//media.play(); // Android
 
 					//media.pause();
 
@@ -85,6 +86,12 @@ angular.module('auletta.controllers', [])
 			
 				}
 		);
+		
+		
+		
+		
+		
+		
 	}	
 	
 })
