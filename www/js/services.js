@@ -1,5 +1,58 @@
 angular.module('auletta.services', [])
 
+.factory('Decks', function() {
+	// Some fake testing data
+	var decks = [
+	             {
+	            	 id: 0,
+	            	 title: 'Ben Sparrow',
+	            	 description: 'You on your way?',
+	            	 thumb: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
+	             }, 
+	             {
+				    id: 1,
+				    title: 'Max Lynx',
+				    description: 'Hey, it\'s me',
+				    thumb: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
+				 }, 
+				 {
+				    id: 2,
+				    title: 'Andrew Jostlin',
+				    description: 'Did you get the ice cream?',
+				    thumb: 'https://pbs.twimg.com/profile_images/491274378181488640/Tti0fFVJ.jpeg'
+				 }, 
+				 {
+				    id: 3,
+				    title: 'Adam Bradleyson',
+				    description: 'I should buy a boat',
+				    thumb: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
+				  }, 
+				  {
+				    id: 4,
+				    title: 'Perry Governor',
+				    description: 'Look at my mukluks!',
+				    thumb: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg'
+				  }
+				 ];
+
+	return {
+		all: function() {
+			return decks;
+		},
+		remove: function(deck) {
+			decks.splice(decks.indexOf(deck), 1);
+		},
+		get: function(deckId) {
+			for (var i = 0; i < decks.length; i++) {
+				if (decks[i].id === parseInt(deckId)) {
+					return decks[i];
+				}
+			}
+			return null;
+		}
+	}
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

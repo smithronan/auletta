@@ -1,24 +1,53 @@
 angular.module('auletta.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DecksCtrl', 
+		function($scope, Decks, $ionicActionSheet) 
+		{
+			$scope.decks = Decks.all();
+			
+			
+			
+			
+			$scope.toggleReorder = function()
+			{
+				$scope.shouldShowReorder = !$scope.shouldShowReorder;
+			}
+			
+			$scope.toggleEdit = function()
+			{
+				$scope.shouldShowDelete = !$scope.shouldShowDelete;
+			}
+			
+			$scope.trashDeck = function(_deckId)
+			{
+				var hideSheet = $ionicActionSheet.show(
+						{
+							destructiveText: 'Delete',
+							titleText: 'Are you sure you want to delete this deck?',
+							cancelText: 'Cancel',
+							cancel: function() {
+								
+							},
+							buttonClicked: function(index) {
+								return true;
+							}
+						}
+				);
+			}
+			
+		}		
+)
 
-.controller('ChatsCtrl', function($scope, Chats) {
+
+.controller('AddDeckCtrl', function($scope) {
+  
+})
+
+.controller('SettingsCtrl', function($scope, Chats) {
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
     Chats.remove(chat);
   }
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
-})
-
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
 })
 
 .controller('AccountCtrl', function($scope) {
