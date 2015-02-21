@@ -143,6 +143,8 @@ angular.module('auletta.controllers', [])
 	
 	$scope.playAudio = function(_audioFile)
 	{
+		_audioFile = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
+		
 		$scope.media = new Media
 		(
 					_audioFile, 
