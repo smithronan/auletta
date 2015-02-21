@@ -222,7 +222,7 @@ angular.module('auletta.controllers', [])
 	    $cordovaCapture.captureAudio(options).then(
 	    		function(audioData) {
 	    			// Success! Audio data is here
-	    			alert(audioData);
+	    			$scope.currentCard.cardAudio = audioData[0].fullPath;
 	    		}, 
 	    		function(err) {
 	    			// An error occurred. Show a message to the user
