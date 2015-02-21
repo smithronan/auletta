@@ -57,7 +57,7 @@ angular.module('auletta.services', [])
 		},
 		add: function(deck)
 		{
-			decks.push(deck);
+			decks.unshift(deck);
 		}
 	}
 })

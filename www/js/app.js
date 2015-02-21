@@ -42,10 +42,10 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/menu.html"
   })
 
   // Each tab has its own nav history stack:
@@ -53,7 +53,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   .state('tab.decks', {
     url: '/decks',
     views: {
-      'tab-decks': {
+      'menuContent': {
         templateUrl: 'templates/tab-decks.html',
         controller: 'DecksCtrl'
       }
@@ -63,7 +63,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   .state('tab.settings', {
       url: '/settings',
       views: {
-        'tab-settings': {
+        'menuContent': {
           templateUrl: 'templates/tab-settings.html',
           controller: 'SettingsCtrl'
         }
@@ -73,7 +73,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   .state('tab.addDeck', {
       url: '/addDeck',
       views: {
-        'tab-adddeck': {
+        'menuContent': {
           templateUrl: 'templates/tab-adddeck.html',
           controller: 'AddDeckCtrl'
         }
@@ -84,7 +84,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   .state('tab.account', {
     url: '/account',
     views: {
-      'tab-account': {
+      'menuContent': {
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
       }

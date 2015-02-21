@@ -1,13 +1,7 @@
 /* Empty. Add your own CSS if you like */
-div.card-preview-gallery
-{
-	float: left;
-	margin-right: 2%
-}
-
 div.card-preview-small
 {
-	width: 45%;
+	width: 47%;
 	margin-left: auto;
 	margin-right: auto;
 	border: solid 1px #ccc;
@@ -15,6 +9,14 @@ div.card-preview-small
 	padding: 5px;
 	margin-top: 10px;	
 }
+
+div.card-preview-gallery
+{
+	float: left;
+	margin-right: 3%;
+	margin-bottom: 20px;
+}
+
 
 img.card-preview
 {
@@ -37,4 +39,5 @@ div.add-card-count
 	padding-bottom: 10px;
 	margin-bottom: 5px;	
 }
+
 

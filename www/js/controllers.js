@@ -40,7 +40,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera) {
+.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
@@ -65,6 +65,7 @@ angular.module('auletta.controllers', [])
 		{
 		 	deckTitle: "",
 		 	deckDescription: "",
+		 	deckThumb: "",
 		 	deckCards: []
 		};	
 	
@@ -138,7 +139,9 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveDeck = function()
 	{
+		$scope.deck.deckThumb = $scope.deck.deckCards[0].cardImage;
 		Decks.add($scope.deck);
+		$state.go('tab.decks');
 	}
 	
 	$scope.playAudio = function(_audioFile)
