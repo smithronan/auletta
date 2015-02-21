@@ -1,1 +1,23 @@
 /* Empty. Add your own CSS if you like */
+img.card-preview
+{
+	width: 100%;
+}
+
+h2.card-preview
+{
+	width: 100%;
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+
+div.add-card-count
+{
+	width: 100%;
+	text-align: center;
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 10px;
+	margin-bottom: 5px;	
+}
+

@@ -17,12 +17,14 @@
   </ion-content>
   
   <ion-content ng-show="(contentStep==2)" class="padding">
-    <div>{{deck.deckCards.length}}</div>
-    <button class="button icon ion-camera" ng-click="captureImage()"></button>
-    <button class="button icon ion-quote" ng-click="captureText()"></button>
-    <button class="button icon ion-mic-a" ng-click="captureAudio()"></button>
-    <img class="padding" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-    <h2 ng-click="captureText()">{{currentCard.cardText}}</h2>
+    <div ng-show="(deck.deckCards.length > 0)" class="add-card-count">You have added {{deck.deckCards.length}} cards</div>
+    <div class="button-bar">
+    	<button class="button icon ion-camera" ng-click="captureImage()"></button>
+    	<button class="button icon ion-quote" ng-click="captureText()"></button>
+    	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button>
+    </div>
+    <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+    <h2 class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h2>
     <button class="button button-block icon ion-play "></button>
     <div class="">&nbsp;</div>
     <div class="button-bar">

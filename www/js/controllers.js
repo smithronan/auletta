@@ -217,14 +217,25 @@ angular.module('auletta.controllers', [])
 	
 	$scope.captureAudio = function()
 	{
-		
+		var options = { limit: 1, duration: 10 };
+
+	    $cordovaCapture.captureAudio(options).then(
+	    		function(audioData) {
+	    			// Success! Audio data is here
+	    			alert(audioData);
+	    		}, 
+	    		function(err) {
+	    			// An error occurred. Show a message to the user
+	    			alert(err);
+	    		}
+	    );
 	}
 	
 	function blankCard()
 	{
 		$scope.currentCard = 
 		{
-			cardImage: "http://placehold.it/350x150",
+			cardImage: "http://placehold.it/1024X768",
 			cardText: "[add your text here]",
 			cardAudio: ""
 		}
