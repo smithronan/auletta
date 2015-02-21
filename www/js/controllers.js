@@ -152,13 +152,22 @@ angular.module('auletta.controllers', [])
 						if(index == 0)
 						{
 							//Capture new
-							var options = { limit: 1 };
+							var options = 
+							{
+									destinationType: Camera.DestinationType.DATA_URL,
+								    sourceType: Camera.PictureSourceType.CAMERA,
+							};
 
-						    $cordovaCapture.captureImage(options).then(function(imageData) {
-						      console.log(imageData);
-						    }, function(err) {
-						      console.log("An error occurred capturing image");
-						    });
+							$cordovaCamera.getPicture(options).then(
+									function(imageData) 
+									{
+										$scope.currentCard.cardImage = "data:image/png;base64,"+imageData;								
+									}, 
+									function(err) 
+									{
+										// error
+									}
+							);
 						}
 						else if(index == 1)
 						{
