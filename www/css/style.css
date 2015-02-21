@@ -1,10 +1,27 @@
 /* Empty. Add your own CSS if you like */
+div.card-preview-gallery
+{
+	float: left;
+	margin-right: 2%
+}
+
+div.card-preview-small
+{
+	width: 45%;
+	margin-left: auto;
+	margin-right: auto;
+	border: solid 1px #ccc;
+	border-radius: 10px;
+	padding: 5px;
+	margin-top: 10px;	
+}
+
 img.card-preview
 {
 	width: 100%;
 }
 
-h2.card-preview
+h2.card-preview, h3.card-preview, h4.card-preview
 {
 	width: 100%;
 	text-align: center;

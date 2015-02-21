@@ -47,6 +47,20 @@ angular.module('auletta.controllers', [])
 	$scope.success = "";
 	$scope.src = "";
 	
+	$scope.showPreview = false;
+	$scope.togglePreview = function()
+	{
+		$scope.showPreview = !$scope.showPreview;
+		if($scope.contentStep == 2)
+		{
+			$scope.contentStep = 0;
+		}
+		else
+		{
+			$scope.contentStep = 2;
+		}
+	}
+	
 	$scope.deck = 
 		{
 		 	deckTitle: "",
@@ -72,7 +86,7 @@ angular.module('auletta.controllers', [])
 				
 				//Load a sample sound
 				$scope.src = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
-				
+				/*
 				$scope.media = new Media
 							(
 										$scope.src, 
@@ -85,7 +99,7 @@ angular.module('auletta.controllers', [])
 											alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 										}
 							);
-				
+				*/
 												
 			}
 	);
@@ -127,8 +141,20 @@ angular.module('auletta.controllers', [])
 		Decks.add($scope.deck);
 	}
 	
-	$scope.playAudio = function()
+	$scope.playAudio = function(_audioFile)
 	{
+		$scope.media = new Media
+		(
+					_audioFile, 
+					function()
+					{
+						console.log("playAudio():Audio Success");
+					}, 
+					function(error)
+					{
+						alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+					}
+		);
 		$scope.media.play();
 	}
 	
