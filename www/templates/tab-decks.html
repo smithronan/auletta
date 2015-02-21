@@ -8,10 +8,10 @@
     <ion-list ng-controller="DecksCtrl" show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe" >
   		<ion-item ng-repeat="deck in decks" class="item">
 		    <div class="list card ">
-		    	<div class="item item-divider"><h2>{{deck.title}}</h2></div>
+		    	<div class="item item-divider"><h2>{{deck.deckTitle}} ({{deck.deckCards.length}})</h2></div>
 		    	<a class="item item-thumbnail-left item-text-wrap" href="#">
-		    		<img ng-src="{{deck.thumb}}">    				
-    				<p>{{deck.description}}</p>
+		    		<img ng-src="{{deck.deckThumb}}">    				
+    				<p>{{deck.deckDescription}}</p>
     			</a>
     			<div class="item">
 					<button class="button button-block icon ion-play "></button>															

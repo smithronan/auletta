@@ -1,11 +1,55 @@
-<ion-view view-title="Add New Card">
+<ion-view view-title="Add Deck">
   <ion-nav-buttons side="secondary">
   	<button class="button icon ion-close" href="#/tab/decks"></button>  	  	
   </ion-nav-buttons>
-  <ion-content class="padding">
+  <ion-content ng-show="(contentStep==1)" class="padding">
+  	<div class="list">
+	  <label class="item item-input item-stacked-label">
+	    <span class="input-label">Deck Title</span>
+	    <input type="text" placeholder="John" ng-model="deck.deckTitle">
+	  </label>
+	  <label class="item item-input item-stacked-label">
+	    <span class="input-label">Description</span>
+	    <textarea rows="10" ng-model="deck.deckDescription"></textarea>
+	  </label>	  
+	</div>
+  	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(2)">Next</button>
+  </ion-content>
+  
+  <ion-content ng-show="(contentStep==2)" class="padding">
+    <div>{{deck.deckCards.length}}</div>
     <button class="button icon ion-camera" ng-click="captureImage()"></button>
-    <button class="button icon ion-quote" ng-click="captureImage()"></button>
-    <button class="button icon ion-mic-a" ng-click="playAudio()"></button>   
-    <p>
+    <button class="button icon ion-quote" ng-click="captureText()"></button>
+    <button class="button icon ion-mic-a" ng-click="captureAudio()"></button>
+    <img class="padding" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+    <h2 ng-click="captureText()">{{currentCard.cardText}}</h2>
+    <button class="button button-block icon ion-play "></button>
+    <div class="">&nbsp;</div>
+    <div class="button-bar">
+  		<button class="button" ng-click="saveCard()">
+  			<i class="icon ion-checkmark"></i> Save Card  			
+  		</button>
+  		<button class="button" ng-click="resetToBlankCard()">
+  			<i class="icon ion-refresh"></i> Reset Card  			
+  		</button>
+	</div>
+	<p></p>
+	<div class="button-bar">
+  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(1)">Back</a>
+  		<a class="button icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)">Next</a>  		
+	</div>	   
+    <p></p>   
+  </ion-content>
+  
+  <ion-content ng-show="(contentStep==3)" class="padding">
+  	{{deck.deckTitle}}
+  	<br/>
+  	{{deck.deckDescription}}
+  	<br/>
+  	Cards Added: {{deck.deckCards.length}}
+  	<div class="button-bar">  		
+  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(2)">Back</a>
+  		<a class="button icon-right ion-checkmark button-balanced" ng-click="saveDeck()">Save Deck</a>  		
+	</div>  		  	
   </ion-content>
 </ion-view>

@@ -40,11 +40,28 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture) {
+.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
+	
 	$scope.success = "";
 	$scope.src = "";
+	
+	$scope.deck = 
+		{
+		 	deckTitle: "",
+		 	deckDescription: "",
+		 	deckCards: []
+		};	
+	
+	
+	//Object to model a blank card
+	blankCard();	
+	
+	//Controls for displaying the right content based on step
+	$scope.contentStep = 1;
+	
+
 	
 	$ionicPlatform.ready(
 			function() 
@@ -55,6 +72,7 @@ angular.module('auletta.controllers', [])
 				
 				//Load a sample sound
 				$scope.src = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
+				
 				$scope.media = new Media
 							(
 										$scope.src, 
@@ -67,11 +85,47 @@ angular.module('auletta.controllers', [])
 											alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 										}
 							);
+				
 												
 			}
 	);
 	
 		
+	//Process flow functions
+	$scope.gotoStep = function(_stepId)
+	{
+		$scope.contentStep = _stepId;
+	}
+	
+	$scope.saveCard = function()
+	{
+		$scope.deck.deckCards.push($scope.currentCard);
+		blankCard();
+	}
+	
+	$scope.resetToBlankCard = function()
+	{
+		var actionSheet = $ionicActionSheet.show(
+				{
+					destructiveText: 'Reset',
+					titleText: 'Are you sure you want to reset this card?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{
+						
+					},
+					destructiveButtonClicked: function() {
+						blankCard();
+						return true;
+					}					
+				}
+		);
+	}
+	
+	$scope.saveDeck = function()
+	{
+		Decks.add($scope.deck);
+	}
 	
 	$scope.playAudio = function()
 	{
@@ -80,18 +134,91 @@ angular.module('auletta.controllers', [])
 	
 	$scope.captureImage = function()
 	{
-		var options = { limit: 1 };
+		
+		var actionSheet = $ionicActionSheet.show(
+				{
+					buttons: [
+					          { text: 'Take Photo' },
+					          { text: 'Choose Existing' }
+					        ],
+					titleText: 'Add an image to your card',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{
+						
+					},
+					buttonClicked: function(index) 
+					{
+						if(index == 0)
+						{
+							//Capture new
+							var options = { limit: 1 };
 
-	    $cordovaCapture.captureImage(options).then(function(imageData) {
-	      console.log(imageData);
-	    }, function(err) {
-	      console.log("An error occurred capturing image");
-	    });
+						    $cordovaCapture.captureImage(options).then(function(imageData) {
+						      console.log(imageData);
+						    }, function(err) {
+						      console.log("An error occurred capturing image");
+						    });
+						}
+						else if(index == 1)
+						{
+							//Existing photo
+							var options = 
+							{
+									destinationType: Camera.DestinationType.DATA_URL,
+								    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+							};
+
+							$cordovaCamera.getPicture(options).then(
+									function(imageData) 
+									{
+										$scope.currentCard.cardImage = "data:image/png;base64,"+imageData;								
+									}, 
+									function(err) 
+									{
+										// error
+									}
+							);
+						}
+						return true;
+					}
+									
+				}
+		);
+	}
+	
+	$scope.captureText = function()
+	{
+		var myPopup = $ionicPopup.show({
+		    template: '<input type="text" ng-model="currentCard.cardText">',
+		    title: 'Enter the text for this card',
+		    scope: $scope,
+		    buttons: [
+		      { text: 'Cancel' },
+		      {
+		        text: '<b>Ok</b>',
+		        type: 'button-positive',
+		        onTap: function(e) {		          
+		            return $scope.currentCard.cardText;		          
+		        }
+		      }
+		    ]
+		  });
 	}
 	
 	$scope.captureAudio = function()
 	{
 		
+	}
+	
+	function blankCard()
+	{
+		$scope.currentCard = 
+		{
+			cardImage: "http://placehold.it/350x150",
+			cardText: "[add your text here]",
+			cardAudio: ""
+		}
 	}
 	
 })

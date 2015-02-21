@@ -5,33 +5,38 @@ angular.module('auletta.services', [])
 	var decks = [
 	             {
 	            	 id: 0,
-	            	 title: 'Ben Sparrow',
-	            	 description: 'You on your way?',
-	            	 thumb: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
+	            	 deckTitle: 'Ben Sparrow',
+	            	 deckDescription: 'You on your way?',
+	            	 deckThumb: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png',
+	            	 deckCards: [1,2,3,4,5,6,7,8,9]
 	             }, 
 	             {
 				    id: 1,
-				    title: 'Max Lynx',
-				    description: 'Hey, it\'s me',
-				    thumb: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
+				    deckTitle: 'Max Lynx',
+				    deckDescription: 'Hey, it\'s me',
+				    deckThumb: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460',
+				    deckCards: [1,2,3,4,5,6,7,8,9]
 				 }, 
 				 {
 				    id: 2,
-				    title: 'Andrew Jostlin',
-				    description: 'Did you get the ice cream?',
-				    thumb: 'https://pbs.twimg.com/profile_images/491274378181488640/Tti0fFVJ.jpeg'
+				    deckTitle: 'Andrew Jostlin',
+				    deckDescription: 'Did you get the ice cream?',
+				    deckThumb: 'https://pbs.twimg.com/profile_images/491274378181488640/Tti0fFVJ.jpeg',
+				    deckCards: [1,2,3,4,5,6,7,8,9]
 				 }, 
 				 {
 				    id: 3,
-				    title: 'Adam Bradleyson',
-				    description: 'I should buy a boat',
-				    thumb: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
+				    deckTitle: 'Adam Bradleyson',
+				    deckDescription: 'I should buy a boat',
+				    deckThumb: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg',
+				    deckCards: [1,2,3,4,5,6,7,8,9]
 				  }, 
 				  {
 				    id: 4,
-				    title: 'Perry Governor',
-				    description: 'Look at my mukluks!',
-				    thumb: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg'
+				    deckTitle: 'Perry Governor',
+				    deckDescription: 'Look at my mukluks!',
+				    deckThumb: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg',
+				    deckCards: [1,2,3,4,5,6,7,8,9]
 				  }
 				 ];
 
@@ -49,6 +54,10 @@ angular.module('auletta.services', [])
 				}
 			}
 			return null;
+		},
+		add: function(deck)
+		{
+			decks.push(deck);
 		}
 	}
 })

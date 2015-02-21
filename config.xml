@@ -14,4 +14,5 @@
   </feature>
   <gap:plugin name="org.apache.cordova.media" />
   <gap:plugin name="org.apache.cordova.media-capture" />
+  <gap:plugin name="org.apache.cordova.camera" />
 </widget>
