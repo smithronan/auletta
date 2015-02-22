@@ -4,6 +4,12 @@ div.deck-card
 	width: 110%;
 }
 
+div.card-add-controls
+{
+	float: left;
+	width: 10%;
+}
+
 div.card-preview-small
 {
 	width: 47%;

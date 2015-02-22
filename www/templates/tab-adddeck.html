@@ -1,4 +1,4 @@
-<ion-view view-title="Add Deck">
+<ion-view title="{{viewTitle}}">
   <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
@@ -21,18 +21,19 @@
   
   <ion-content ng-show="(contentStep==2)" class="padding">
     <div ng-show="(currentDeck.deckCards.length > 0)" class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
-    <div class="button-bar">
-    	<button class="button icon ion-camera" ng-click="captureImage()"></button>
-    	<button class="button icon ion-quote" ng-click="captureText()"></button>
-    	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button>
+    <div class="card-add-controls">
+    	<button class="button icon ion-camera" ng-click="captureImage()"></button><br/>
+    	<button class="button icon ion-quote" ng-click="captureText()"></button><br/>
+    	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button><br/><br/><br/>
+    	<button class="button icon ion-monitor" ng-click="togglePreview()"></button>
     </div>
     
     <div class="card-preview-small">
     <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-	<h4 class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h2>
+	<h4 class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>
 	<button class="button button-block icon ion-play" ng-click="playAudio(currentCard.cardAudio)"></button>	
     </div>
-    <button class="button button-block" ng-click="togglePreview()">Full Preview</button>
+    
         
     <div class="">&nbsp;</div>
     <div class="button-bar">

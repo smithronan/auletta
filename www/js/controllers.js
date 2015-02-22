@@ -56,6 +56,8 @@ angular.module('auletta.controllers', [])
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
+	$scope.viewTitle = "Add New Deck";
+	
 	$scope.success = "";
 	$scope.src = "";
 	
@@ -66,10 +68,12 @@ angular.module('auletta.controllers', [])
 		if($scope.contentStep == 2)
 		{
 			$scope.contentStep = 0;
+			$scope.viewTitle = "Preview Card";
 		}
 		else
 		{
 			$scope.contentStep = 2;
+			$scope.viewTitle = "Add Cards";
 		}
 	}
 	
@@ -122,6 +126,23 @@ angular.module('auletta.controllers', [])
 	//Process flow functions
 	$scope.gotoStep = function(_stepId)
 	{
+		if(_stepId == 1)
+		{
+			$scope.viewTitle = "Add New Deck";
+		}
+		else if(_stepId == 2)
+		{
+			$scope.viewTitle = "Add Cards";
+		}	
+		else if(_stepId == 3)
+		{
+			$scope.viewTitle = "Review &amp; Save";
+		}
+		else if(_stepId == 0)
+		{
+			$scope.viewTitle = "Preview Card";
+		}
+		
 		$scope.contentStep = _stepId;
 	}
 	
@@ -251,6 +272,11 @@ angular.module('auletta.controllers', [])
 	
 	$scope.captureText = function()
 	{
+		if($scope.currentCard.cardText == '[add your text here]')
+		{
+			$scope.currentCard.cardText = '';
+		}
+		
 		var myPopup = $ionicPopup.show({
 		    template: '<input type="text" ng-model="currentCard.cardText">',
 		    title: 'Enter the text for this card',
