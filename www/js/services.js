@@ -2,50 +2,45 @@ angular.module('auletta.services', [])
 
 .factory('Decks', function() {
 	// Some fake testing data
-	var decks = [
+	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));
+	
+	var decks = (ls_decks !== null) ? ls_decks : [
 	             {
-	            	 id: 0,
-	            	 deckTitle: 'Ben Sparrow',
-	            	 deckDescription: 'You on your way?',
-	            	 deckThumb: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png',
-	            	 deckCards: [1,2,3,4,5,6,7,8,9]
-	             }, 
-	             {
-				    id: 1,
-				    deckTitle: 'Max Lynx',
-				    deckDescription: 'Hey, it\'s me',
-				    deckThumb: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460',
-				    deckCards: [1,2,3,4,5,6,7,8,9]
-				 }, 
-				 {
-				    id: 2,
-				    deckTitle: 'Andrew Jostlin',
-				    deckDescription: 'Did you get the ice cream?',
-				    deckThumb: 'https://pbs.twimg.com/profile_images/491274378181488640/Tti0fFVJ.jpeg',
-				    deckCards: [1,2,3,4,5,6,7,8,9]
-				 }, 
-				 {
-				    id: 3,
-				    deckTitle: 'Adam Bradleyson',
-				    deckDescription: 'I should buy a boat',
-				    deckThumb: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg',
-				    deckCards: [1,2,3,4,5,6,7,8,9]
-				  }, 
-				  {
-				    id: 4,
-				    deckTitle: 'Perry Governor',
-				    deckDescription: 'Look at my mukluks!',
-				    deckThumb: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg',
-				    deckCards: [1,2,3,4,5,6,7,8,9]
-				  }
-				 ];
+	            	 deckId: AulettaGlobal.helpers.generateGUID(),
+	            	 deckTitle: 'Sample Alphabet Deck',
+	            	 deckDescription: 'A sample flashcard deck with the letters of the alphabet',
+	            	 deckThumb: 'https://lh6.ggpht.com/kebsMJJ5QGBrfAatABQcN4xZ7cvCzvaU-9eGXusMHbms3zMqc1XzR-Dp-9mhoqLXow4=w300',
+	            	 deckCards: []
+	             } 	             
+				 ];	
 
 	return {
 		all: function() {
 			return decks;
 		},
-		remove: function(deck) {
-			decks.splice(decks.indexOf(deck), 1);
+		reorder: function(_deckId, _from, _to)
+		{
+			var deckToMove = decks[_from];
+			decks.splice(_from, 1);
+			decks.splice(_to, 0, deckToMove);
+			return decks;
+		},
+		remove: function(_deckId) {
+			var spliceAt = -1;
+			
+			for (var i = 0; i < decks.length; i++) 
+			{
+				if (decks[i].deckId === _deckId) {
+					spliceAt = i;
+				}
+			}
+			
+			if(spliceAt > -1)
+			{
+				decks.splice(spliceAt, 1);
+			}
+			
+			return decks
 		},
 		get: function(deckId) {
 			for (var i = 0; i < decks.length; i++) {
@@ -58,6 +53,10 @@ angular.module('auletta.services', [])
 		add: function(deck)
 		{
 			decks.unshift(deck);
+		},
+		persist: function()
+		{
+			localStorage.setItem("auletta_decks", JSON.stringify(decks));
 		}
 	}
 })

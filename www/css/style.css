@@ -1,4 +1,9 @@
 /* Empty. Add your own CSS if you like */
+div.deck-card
+{
+	width: 110%;
+}
+
 div.card-preview-small
 {
 	width: 47%;

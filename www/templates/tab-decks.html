@@ -7,9 +7,9 @@
   	<button class="button icon ion-trash-a" ng-click="toggleEdit()"></button>  	
   </ion-nav-buttons>
   <ion-content class="padding">
-    <ion-list ng-controller="DecksCtrl" show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe" >
-  		<ion-item ng-repeat="deck in decks" class="item">
-		    <div class="list card ">
+    <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe" >
+  		<ion-item ng-repeat="deck in decks track by $index" class="item">
+		    <div class="list card deck-card">
 		    	<div class="item item-divider"><h2>{{deck.deckTitle}} ({{deck.deckCards.length}})</h2></div>
 		    	<a class="item item-thumbnail-left item-text-wrap" href="#">
 		    		<img ng-src="{{deck.deckThumb}}">    				

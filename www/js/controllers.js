@@ -4,9 +4,8 @@ angular.module('auletta.controllers', [])
 		function($scope, Decks, $ionicActionSheet) 
 		{
 			$scope.decks = Decks.all();
-			
-			
-			
+			console.log("Printing Decks");
+			console.log($scope.decks);
 			
 			$scope.toggleReorder = function()
 			{
@@ -18,8 +17,15 @@ angular.module('auletta.controllers', [])
 				$scope.shouldShowDelete = !$scope.shouldShowDelete;
 			}
 			
-			$scope.trashDeck = function(_deckId)
+			$scope.reorderItem = function(_deck, _from, _to)
 			{
+				console.log("Move " + _deck.deckId + " from " + _from + " to " + _to);
+				Decks.reorder(_deck.deckId, _from, _to);
+				Decks.persist();
+			}
+			
+			$scope.trashDeck = function(_deck)
+			{	
 				var hideSheet = $ionicActionSheet.show(
 						{
 							destructiveText: 'Delete',
@@ -31,7 +37,13 @@ angular.module('auletta.controllers', [])
 							},
 							buttonClicked: function(index) {
 								return true;
-							}
+							},
+							destructiveButtonClicked: function() {
+								$scope.decks = Decks.remove(_deck.deckId);
+								Decks.persist();
+								$scope.toggleEdit();
+								return true;
+							}	
 						}
 				);
 			}
@@ -40,7 +52,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state) {
+.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
@@ -61,9 +73,10 @@ angular.module('auletta.controllers', [])
 		}
 	}
 	
-	$scope.deck = 
+	$scope.currentDeck = 
 		{
-		 	deckTitle: "",
+		 	deckId: $scope.helpers.generateGUID(),
+			deckTitle: "",
 		 	deckDescription: "",
 		 	deckThumb: "",
 		 	deckCards: []
@@ -114,7 +127,7 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveCard = function()
 	{
-		$scope.deck.deckCards.push($scope.currentCard);
+		$scope.currentDeck.deckCards.push($scope.currentCard);
 		blankCard();
 	}
 	
@@ -139,9 +152,18 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveDeck = function()
 	{
-		$scope.deck.deckThumb = $scope.deck.deckCards[0].cardImage;
-		Decks.add($scope.deck);
-		$state.go('tab.decks');
+		$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
+		Decks.add($scope.currentDeck);
+		Decks.persist();
+		
+		console.log(Decks.all());
+		
+		$ionicHistory.nextViewOptions(
+				{
+					disableBack: true
+				}
+		);
+		$state.go('tab.decks');		
 	}
 	
 	$scope.playAudio = function(_audioFile)

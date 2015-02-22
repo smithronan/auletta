@@ -9,18 +9,18 @@
   	<div class="list">
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Deck Title</span>
-	    <input type="text" placeholder="John" ng-model="deck.deckTitle">
+	    <input type="text" placeholder="John" ng-model="currentDeck.deckTitle">
 	  </label>
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Description</span>
-	    <textarea rows="10" ng-model="deck.deckDescription"></textarea>
+	    <textarea rows="10" ng-model="currentDeck.deckDescription"></textarea>
 	  </label>	  
 	</div>
   	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(2)">Next</button>
   </ion-content>
   
   <ion-content ng-show="(contentStep==2)" class="padding">
-    <div ng-show="(deck.deckCards.length > 0)" class="add-card-count">You have added {{deck.deckCards.length}} cards</div>
+    <div ng-show="(currentDeck.deckCards.length > 0)" class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
     <div class="button-bar">
     	<button class="button icon ion-camera" ng-click="captureImage()"></button>
     	<button class="button icon ion-quote" ng-click="captureText()"></button>
@@ -53,11 +53,11 @@
   </ion-content>
   
   <ion-content ng-show="(contentStep==3)" class="padding">
-  	{{deck.deckTitle}}
+  	{{currentDeck.deckTitle}}
   	<br/>
-  	{{deck.deckDescription}}
+  	{{currentDeck.deckDescription}}
   	<br/>  	
-  	<div ng-repeat="card in deck.deckCards" class="card-preview-small card-preview-gallery">
+  	<div ng-repeat="card in currentDeck.deckCards" class="card-preview-small card-preview-gallery">
     	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
 		<h4 class="card-preview">{{card.cardText}}</h2>
 		<button class="button button-block icon ion-play" ng-click="playAudio(card.cardAudio)"></button>		
