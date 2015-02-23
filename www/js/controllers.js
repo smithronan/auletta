@@ -162,7 +162,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
@@ -284,17 +284,24 @@ angular.module('auletta.controllers', [])
 	$scope.saveDeck = function()
 	{
 		$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
-		Decks.add($scope.currentDeck);
-		Decks.persist();
-		
-		console.log(Decks.all());
-		
-		$ionicHistory.nextViewOptions(
-				{
-					disableBack: true
-				}
-		);
-		$state.go('tab.decks');		
+		if($scope.helpers.isLoggedIn())
+			{
+				Decks.add($scope.currentDeck);
+				Decks.persist();
+				
+				console.log(Decks.all());
+				
+				$ionicHistory.nextViewOptions(
+						{
+							disableBack: true
+						}
+				);
+				$state.go('tab.decks');
+			}
+		else
+			{
+				$scope.aulettaShowLoginModal();
+			}
 	}
 	
 	$scope.playAudio = function(_audioFile)
