@@ -19,6 +19,22 @@ AulettaGlobal.helpers =
 		        return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
 		    }
 		    return _p8() + _p8(true) + _p8(true) + _p8();
+		},
+		isLoggedIn: function()
+		{
+			var currentUser = Parse.User.current();
+			if(currentUser)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		},
+		logoutUser: function()
+		{
+			Parse.User.logOut();
 		}
 };
 
@@ -38,6 +54,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
   });
 })
 

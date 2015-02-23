@@ -1,5 +1,115 @@
 angular.module('auletta.controllers', [])
 
+.run(function($rootScope) {
+    $rootScope.$on('handleEmit', function(event, args) {
+        $rootScope.$broadcast('handleBroadcast', args);
+    });
+})
+
+.controller('AulettaCtrl', 
+		function($scope, $ionicModal)
+		{
+			$scope.helpers = AulettaGlobal.helpers;
+			
+			$scope.user = {};
+	
+			var accountModalPageTitles = ["Login to your account", "Signup for an account"];
+			
+			$scope.accountModalPageMode = 0;
+			$scope.accountModalPageTitle = accountModalPageTitles[$scope.accountModalPageMode];
+			
+			
+			$ionicModal.fromTemplateUrl('templates/account-modal.html', 
+					{
+						scope: $scope,
+						animation: 'slide-in-up',
+						focusFirstInput: true,
+						backdropClickToClose: false
+					}
+			).then(
+					function(modal) {
+						$scope.loginModal = modal;
+					}
+			);
+			
+			$scope.toggleLoginSignup = function()
+			{
+				$scope.accountModalPageMode = ($scope.accountModalPageMode==0) ? 1 : 0;
+				$scope.accountModalPageTitle = accountModalPageTitles[$scope.accountModalPageMode];
+			}
+			
+			$scope.$on('handleBroadcast', function(event, args) {
+		        $scope.helpers.logoutUser();
+		        localStorage.removeItem("auletta_parse_id");
+			    localStorage.removeItem("auletta_parse_st");
+				args.childScope.isLoggedIn = $scope.helpers.isLoggedIn();		        
+		    });     
+			
+			
+			$scope.doLogin = function()
+			{	
+				Parse.User.logIn($scope.user.email, $scope.user.password, {
+					  success: function(user) {
+					    localStorage.setItem("auletta_parse_id", user.id);
+					    localStorage.setItem("auletta_parse_st", user._sessionToken);
+					    
+					    $scope.loginModal.hide();
+					    
+					  },
+					  error: function(user, error) {					    
+					    alert("Sorry, but your login failed.");
+					  }
+					});
+			}
+			
+			$scope.doSignup = function()
+			{
+				var user = new Parse.User();
+				user.set("username", $scope.user.email);
+				user.set("password", $scope.user.password);
+				user.set("email", $scope.user.email);
+				  
+				// other fields can be set just like with Parse.Object
+				user.set("fullname", $scope.user.name);
+				  
+				user.signUp(null, {
+				  success: function(user) {
+				    alert("You are now signed up as " + $scope.user.email);
+				  },
+				  error: function(user, error) {
+				    // Show the error message somewhere and let the user try again.
+				    alert("Error: " + error.code + " " + error.message);
+				  }
+				});
+			}
+			
+			$scope.aulettaShowLoginModal = function()
+			{
+				  $scope.loginModal.show();
+			}
+			
+			$scope.aulettaHideLoginModal = function()
+			{
+				  $scope.loginModal.hide();
+			}
+			
+			$scope.$on('$destroy', 
+					function() {
+			    		$scope.loginModal.remove();
+			  		}
+			);
+		}
+)
+
+.controller('AccountCtrl', 
+		function($scope)
+		{
+			
+		}
+)
+
+		
+
 .controller('DecksCtrl', 
 		function($scope, Decks, $ionicActionSheet) 
 		{
@@ -322,11 +432,34 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet) {
+	$scope.helpers = AulettaGlobal.helpers;
+	
+	$scope.isLoggedIn = $scope.helpers.isLoggedIn();	
+	
+	$scope.broadcastLogout = function()
+							{
+		 						
+								var hideSheet = $ionicActionSheet.show(
+										{
+											destructiveText: 'Logout',
+											titleText: 'Are you sure you want to logout?',
+											cancelText: 'Cancel',
+											cancel: function() 
+											{
+												
+											},
+											buttonClicked: function(index) {
+												return true;
+											},
+											destructiveButtonClicked: function() {
+												$scope.$emit('handleEmit', {childScope: $scope});
+												return true;
+											}	
+										}
+								);
+							}
+	
 })
 
 .controller('AccountCtrl', function($scope) {

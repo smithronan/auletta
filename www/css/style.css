@@ -1,4 +1,11 @@
 /* Empty. Add your own CSS if you like */
+div.centered
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
 div.deck-card
 {
 	width: 110%;
