@@ -35,6 +35,10 @@ AulettaGlobal.helpers =
 		logoutUser: function()
 		{
 			Parse.User.logOut();
+		},
+		trackEvent: function(_eventType, _eventData)
+		{
+			Parse.Analytics.track(_eventType, _eventData);
 		}
 };
 
