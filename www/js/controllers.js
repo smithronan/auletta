@@ -111,11 +111,25 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, $ionicActionSheet) 
+		function($scope, Decks, $ionicActionSheet, $ionicModal) 
 		{
+			
 			$scope.decks = Decks.all();
-			console.log("Printing Decks");
-			console.log($scope.decks);
+			
+			$scope.preventCloseTimout = '';
+			
+			$ionicModal.fromTemplateUrl('templates/player-modal.html', 
+					{
+						scope: $scope,
+						animation: 'slide-in-up',
+						backdropClickToClose: false
+					}
+			).then(
+					function(modal) {
+						$scope.playerModal = modal;
+					}
+			);			
+			
 			
 			$scope.toggleReorder = function()
 			{
@@ -133,6 +147,51 @@ angular.module('auletta.controllers', [])
 				Decks.reorder(_deck.deckId, _from, _to);
 				Decks.persist();
 			}
+			
+			$scope.showPlayerModal = function(_deckId)
+			{
+				$scope.playingDeck = Decks.get(_deckId);
+				$scope.currentCardIndex = -1;
+				$scope.nextCard();				
+								
+				$scope.playerModal.show();
+			}
+			
+			$scope.nextCard = function()
+			{
+				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : $scope.playingDeck.deckCards.length-1;
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
+			}
+			
+			$scope.prevCard = function()
+			{
+				$scope.currentCardIndex = ($scope.currentCardIndex > 0) ? $scope.currentCardIndex - 1 : 0;
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
+			}
+			
+			$scope.hidePlayerModal = function()
+			{
+				$scope.closePlayerCount++;
+				
+				if($scope.closePlayerCount >= 5)
+				{
+					$scope.playerModal.hide();
+					$scope.closePlayerCount = 0;
+					clearTimeout($scope.preventCloseTimeout);
+				}
+				else
+				{
+					$scope.preventCloseTimeout = $scope.preventCloseTimeout || setTimeout(function(){$scope.closePlayerCount = 0}, 2000);
+				}
+			}
+			
+			
+			$scope.$on('$destroy', 
+					function() {
+			    		$scope.playerModal.remove();
+			  		}
+			);
+			
 			
 			$scope.trashDeck = function(_deck)
 			{	

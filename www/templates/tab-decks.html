@@ -11,12 +11,12 @@
   		<ion-item ng-repeat="deck in decks track by $index" class="item">
 		    <div class="list card deck-card">
 		    	<div class="item item-divider"><h2>{{deck.deckTitle}} ({{deck.deckCards.length}})</h2></div>
-		    	<a class="item item-thumbnail-left item-text-wrap" href="#">
+		    	<a class="item item-thumbnail-left item-text-wrap" ng-click="showPlayerModal(deck.deckId)">
 		    		<img ng-src="{{deck.deckThumb}}">    				
     				<p>{{deck.deckDescription}}</p>
     			</a>
     			<div class="item">
-					<button class="button button-block icon ion-play "></button>															
+					<button class="button button-block icon ion-play " ng-click="showPlayerModal(deck.deckId)"></button>															
 				</div>
     			<ion-option-button class="button-positive" ng-click="share(deck)">Share</ion-option-button>
     			<ion-option-button class="button-info" ng-click="edit(deck)">Edit</ion-option-button>

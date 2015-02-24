@@ -44,7 +44,7 @@ angular.module('auletta.services', [])
 		},
 		get: function(deckId) {
 			for (var i = 0; i < decks.length; i++) {
-				if (decks[i].id === parseInt(deckId)) {
+				if (decks[i].deckId === deckId) {
 					return decks[i];
 				}
 			}
