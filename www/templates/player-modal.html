@@ -3,7 +3,7 @@
       <h1 class="title">{{playingDeck.deckTitle}}</h1>
     </ion-header-bar>    
     <ion-content>
-      <img class="padding card-preview" ng-src="{{currentPlayingCard.cardImage}}" />
+      <img class="padding card-preview card-player" ng-src="{{currentPlayingCard.cardImage}}" />
 	    <h2 class="card-preview" ng-click="captureText()">{{currentPlayingCard.cardText}}</h2>
 	    <button class="button button-block icon ion-play" ng-click="playAudio(currentPlayingCard.cardAudio)"></button>
       

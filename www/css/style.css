@@ -59,3 +59,7 @@ div.add-card-count
 }
 
 
+img.card-player
+{
+	-webkit-clip-path: polygon(0px 75%,100% 75%,100% 0px,0px 0px);
+}
