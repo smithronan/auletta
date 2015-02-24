@@ -9,6 +9,7 @@ div.centered
 div.deck-card
 {
 	width: 110%;
+	border-radius: 5px;
 }
 
 div.card-add-controls
@@ -58,8 +59,41 @@ div.add-card-count
 	margin-bottom: 5px;	
 }
 
+div.card-player-image
+{
+	width: 100vw;
+	height: 50vh;	
+	overflow: hidden;
+}
 
 img.card-player
 {
-	-webkit-clip-path: polygon(0px 75%,100% 75%,100% 0px,0px 0px);
+	width: 100vw;
+	height: 50vh;
 }
+
+
+/* Overridden ionic framework classes */
+ion-content
+{
+	/*background-image: url(/img/noisy.png);*/
+}
+
+.deck-list
+{
+	
+}
+
+
+.deck-list ion-item.deck-list-item
+{
+	border-style: none;
+}
+
+.deck-list .item-complex .item-content
+{
+	padding: 0px 45px 0px 15px;
+}
+
+
+

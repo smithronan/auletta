@@ -1,15 +1,27 @@
 angular.module('auletta.controllers', [])
 
 .run(function($rootScope) {
-    $rootScope.$on('handleEmit', function(event, args) {
-        $rootScope.$broadcast('handleBroadcast', args);
+    $rootScope.$on('handleLogout', function(event, args) {
+        $rootScope.$broadcast('logoutBroadcast', args);
+    });
+    
+    $rootScope.$on('handleLogin', function(event, args) {
+        console.log("RootScope: handleLogin");
+    	$rootScope.$broadcast('loginBroadcast', args);
+    });
+    
+    $rootScope.$on('handleSignup', function(event, args) {
+        console.log("RootScope: handleSignup");
+    	$rootScope.$broadcast('signupBroadcast', args);
     });
 })
 
 .controller('AulettaCtrl', 
-		function($scope, $ionicModal)
+		function($scope, $ionicModal, $rootScope, $ionicHistory, $state)
 		{
 			$scope.helpers = AulettaGlobal.helpers;
+			
+			console.log($rootScope.loggedInStatus);
 			
 			$scope.user = {};
 	
@@ -38,11 +50,11 @@ angular.module('auletta.controllers', [])
 				$scope.accountModalPageTitle = accountModalPageTitles[$scope.accountModalPageMode];
 			}
 			
-			$scope.$on('handleBroadcast', function(event, args) {
+			$scope.$on('logoutBroadcast', function(event, args) {
 		        $scope.helpers.logoutUser();
 		        localStorage.removeItem("auletta_parse_id");
-			    localStorage.removeItem("auletta_parse_st");
-				args.childScope.isLoggedIn = $scope.helpers.isLoggedIn();		        
+			    localStorage.removeItem("auletta_parse_st");			    
+				args.childScope.isLoggedIn = $scope.helpers.isLoggedIn();
 		    });     
 			
 			
@@ -53,8 +65,9 @@ angular.module('auletta.controllers', [])
 					    localStorage.setItem("auletta_parse_id", user.id);
 					    localStorage.setItem("auletta_parse_st", user._sessionToken);
 					    
-					    $scope.loginModal.hide();
+					    $scope.$emit('handleLogin', {childScope: $scope});
 					    
+					    $scope.loginModal.hide();
 					  },
 					  error: function(user, error) {					    
 					    alert("Sorry, but your login failed.");
@@ -74,7 +87,9 @@ angular.module('auletta.controllers', [])
 				  
 				user.signUp(null, {
 				  success: function(user) {
-				    alert("You are now signed up as " + $scope.user.email);
+				    //alert("You are now signed up as " + $scope.user.email);
+				    $scope.$emit('handleSignup', {childScope: $scope});
+				    $scope.loginModal.hide();
 				  },
 				  error: function(user, error) {
 				    // Show the error message somewhere and let the user try again.
@@ -98,6 +113,9 @@ angular.module('auletta.controllers', [])
 			    		$scope.loginModal.remove();
 			  		}
 			);
+			
+			$scope.loginStatus = $scope.helpers.isLoggedIn();
+			
 		}
 )
 
@@ -171,18 +189,18 @@ angular.module('auletta.controllers', [])
 			
 			$scope.hidePlayerModal = function()
 			{
-				$scope.closePlayerCount++;
+				//$scope.closePlayerCount++;
 				
-				if($scope.closePlayerCount >= 5)
-				{
+				//if($scope.closePlayerCount >= 5)
+				//{
 					$scope.playerModal.hide();
-					$scope.closePlayerCount = 0;
-					clearTimeout($scope.preventCloseTimeout);
-				}
-				else
-				{
-					$scope.preventCloseTimeout = $scope.preventCloseTimeout || setTimeout(function(){$scope.closePlayerCount = 0}, 2000);
-				}
+				//	$scope.closePlayerCount = 0;
+				//	clearTimeout($scope.preventCloseTimeout);
+				//}
+				//else
+				//{
+				//	$scope.preventCloseTimeout = $scope.preventCloseTimeout || setTimeout(function(){$scope.closePlayerCount = 0}, 2000);
+				//}
 			}
 			
 			
@@ -490,7 +508,7 @@ angular.module('auletta.controllers', [])
 	{
 		$scope.currentCard = 
 		{
-			cardImage: "http://placehold.it/1024X768",
+			cardImage: "http://placehold.it/2048X1536",
 			cardText: "[add your text here]",
 			cardAudio: ""
 		}
@@ -501,7 +519,17 @@ angular.module('auletta.controllers', [])
 .controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet) {
 	$scope.helpers = AulettaGlobal.helpers;
 	
-	$scope.isLoggedIn = $scope.helpers.isLoggedIn();	
+	$scope.isLoggedIn = $scope.helpers.isLoggedIn();
+		
+	$scope.$on('loginBroadcast', function(event, args) {
+        console.log("LoginBroadcast");
+		$scope.isLoggedIn = true;
+    });  
+	
+	$scope.$on('signupBroadcast', function(event, args) {
+        console.log("SignupBroadcast");
+		$scope.isLoggedIn = true;
+    });  
 	
 	$scope.broadcastLogout = function()
 							{
@@ -519,7 +547,7 @@ angular.module('auletta.controllers', [])
 												return true;
 											},
 											destructiveButtonClicked: function() {
-												$scope.$emit('handleEmit', {childScope: $scope});
+												$scope.$emit('handleLogout', {childScope: $scope});
 												return true;
 											}	
 										}
