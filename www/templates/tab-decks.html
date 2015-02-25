@@ -15,9 +15,7 @@
 		    		<img ng-src="{{deck.deckThumb}}">    				
     				<p>{{deck.deckDescription}}</p>
     			</a>
-    			<div class="item">
-					<button class="button button-block icon ion-play " ng-click="showPlayerModal(deck.deckId)"></button>															
-				</div>
+    			
     			<ion-option-button class="button-positive" ng-click="share(deck)">Share</ion-option-button>
     			<ion-option-button class="button-info" ng-click="edit(deck)">Edit</ion-option-button>
     			<ion-delete-button class="ion-minus-circled" ng-click="trashDeck(deck)"></ion-delete-button>

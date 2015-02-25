@@ -508,7 +508,7 @@ angular.module('auletta.controllers', [])
 	{
 		$scope.currentCard = 
 		{
-			cardImage: "http://placehold.it/2048X1536",
+			cardImage: "http://lorempixel.com/640/960/animals/" + Math.floor((Math.random() * 10) + 1),
 			cardText: "[add your text here]",
 			cardAudio: ""
 		}
