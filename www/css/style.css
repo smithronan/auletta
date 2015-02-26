@@ -1,3 +1,8 @@
+html, body
+{
+	font-family: 'Short Stack', cursive;
+}
+
 /* Empty. Add your own CSS if you like */
 div.centered
 {
@@ -15,18 +20,18 @@ div.deck-card
 div.card-add-controls
 {
 	float: left;
-	width: 10%;
+	width: 20%;
 }
 
 div.card-preview-small
 {
-	width: 47%;
+	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
 	border: solid 1px #ccc;
 	border-radius: 10px;
 	padding: 5px;
-	margin-top: 10px;	
+	float: left;	
 }
 
 div.card-preview-gallery
@@ -40,6 +45,7 @@ div.card-preview-gallery
 img.card-preview
 {
 	width: 100%;
+	max-height: 35vh;
 }
 
 h2.card-preview, h3.card-preview, h4.card-preview
@@ -74,26 +80,83 @@ img.card-player
 
 
 /* Overridden ionic framework classes */
-ion-content
+.deck-search
 {
-	/*background-image: url(/img/noisy.png);*/
+	font-family: 'Short Stack', cursive;
 }
 
-.deck-list
+.card-preview-small h4
 {
+	font-family: 'Short Stack', cursive;
+}
+
+button
+{
+	font-family: 'Short Stack', cursive;
 	
 }
 
+.title
+{
+	font-family: 'Short Stack', cursive;
+}
+
+h2.card-preview
+{
+	font-family: 'Short Stack', cursive;
+}
+
+ion-content
+{
+	background: #fefcea;
+	background: -moz-linear-gradient(top, #fefcea 0%, #f1da36 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefcea), color-stop(100%,#f1da36));
+	background: -webkit-linear-gradient(top, #fefcea 0%,#f1da36 100%);
+	background: -o-linear-gradient(top, #fefcea 0%,#f1da36 100%);	
+	background: -ms-linear-gradient(top, #fefcea 0%,#f1da36 100%);
+	background: linear-gradient(to bottom, #fefcea 0%,#f1da36 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );	
+}
+
+.deck-list-item div.item-content
+{
+	background-color:rgba(0,0,0,0);
+}
+
+.deck-list .item-divider
+{
+	background-color: #A3E0FF
+}
+
+.deck-card .item-divider h2
+{
+	color: #FFF;
+	font-weight: bold;
+	font-family: 'Short Stack', cursive;
+}
+
+.add-deck .item
+{
+	border: none;	
+}
+
+.add-deck input
+{
+	padding-left: 10px;
+	font-family: 'Short Stack', cursive;
+}
 
 .deck-list ion-item.deck-list-item
 {
 	border-style: none;
+	background-color:rgba(0,0,0,0);
 }
 
 .deck-list .item-complex .item-content
 {
 	padding: 0px 45px 0px 15px;
 }
+
 
 
 

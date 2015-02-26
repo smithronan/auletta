@@ -136,6 +136,10 @@ angular.module('auletta.controllers', [])
 			
 			$scope.preventCloseTimout = '';
 			
+			$scope.showSearch = false;
+			
+			$scope.deckFilter = '';
+			
 			$ionicModal.fromTemplateUrl('templates/player-modal.html', 
 					{
 						scope: $scope,
@@ -148,6 +152,10 @@ angular.module('auletta.controllers', [])
 					}
 			);			
 			
+			$scope.toggleSearch = function()
+			{
+				$scope.showSearch = !$scope.showSearch;
+			}
 			
 			$scope.toggleReorder = function()
 			{
@@ -177,13 +185,13 @@ angular.module('auletta.controllers', [])
 			
 			$scope.nextCard = function()
 			{
-				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : $scope.playingDeck.deckCards.length-1;
+				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : 0;
 				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
 			}
 			
 			$scope.prevCard = function()
 			{
-				$scope.currentCardIndex = ($scope.currentCardIndex > 0) ? $scope.currentCardIndex - 1 : 0;
+				$scope.currentCardIndex = ($scope.currentCardIndex > 0) ? $scope.currentCardIndex - 1 : $scope.playingDeck.deckCards.length-1;
 				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
 			}
 			
