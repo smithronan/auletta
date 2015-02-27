@@ -247,7 +247,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
@@ -503,6 +503,9 @@ angular.module('auletta.controllers', [])
 	    $cordovaCapture.captureAudio(options).then(
 	    		function(audioData) {
 	    			// Success! Audio data is here
+	    			
+	    			alert(audioData[0].fullPath);
+	    				    			
 	    			$scope.currentCard.cardAudio = audioData[0].fullPath;
 	    		}, 
 	    		function(err) {
