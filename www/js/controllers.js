@@ -504,9 +504,7 @@ angular.module('auletta.controllers', [])
 	    		function(audioData) {
 	    			// Success! Audio data is here
 	    			
-	    			alert(audioData[0].fullPath);
-	    			
-	    			var _path = audioData[0].fullPath.substring(0, str.lastIndexOf("/"));
+	    			var _path = audioData[0].fullPath.substring(0, audioData[0].fullPath.lastIndexOf("/"));
 	    			var _file = audioData[0].name;	    			
 	    			var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
 	    			
