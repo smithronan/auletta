@@ -505,8 +505,20 @@ angular.module('auletta.controllers', [])
 	    			// Success! Audio data is here
 	    			
 	    			alert(audioData[0].fullPath);
-	    				    			
-	    			$scope.currentCard.cardAudio = audioData[0].fullPath;
+	    			
+	    			var _path = audioData[0].fullPath.substring(0, str.lastIndexOf("/"));
+	    			var _file = audioData[0].name;	    			
+	    			var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
+	    			
+	    			alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
+	    			
+	    			 $cordovaFile.copyFile(_path, _file, _dest)
+	    		      .then(function (success) {
+	    		    	  $scope.currentCard.cardAudio = _dest + _file;
+	    		    	  alert("File moved: " + _path + _file + " --> " + _dest);
+	    		      }, function (error) {
+	    		        alert("Unable to move audio file: " + _path + _file + " --> " + _dest);
+	    		      });
 	    		}, 
 	    		function(err) {
 	    			// An error occurred. Show a message to the user
