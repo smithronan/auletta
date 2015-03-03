@@ -526,13 +526,29 @@ angular.module('auletta.controllers', [])
 	    			
 	    			alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
 	    			
-	    			 $cordovaFile.copyFile(_path, _file, _dest)
+	    			window.resolveLocalFileSystemURL
+	    			(
+	    					cordova.file.dataDirectory, 
+	    				      function(appFiles) {
+	    				        	fileEntry.copyTo(
+	    				        			appFiles, 
+	    				        			"file3.jpg", 
+	    				        			function(result){ alert("Success: " + result); }, 
+	    				        			function(result){ alert("Error: " + result); }
+	    				        	);
+	    				      }, 
+	    				      function(result){ alert("Error Out: " + result); }
+	    				    );
+	    			
+	    			/* 
+	    			$cordovaFile.copyFile(_path, _file, _dest)
 	    		      .then(function (success) {
 	    		    	  $scope.currentCard.cardAudio = _dest + _file;
 	    		    	  alert("File moved: " + _path + _file + " --> " + _dest);
 	    		      }, function (error) {
 	    		        alert("Unable to move audio file: " + _path + _file + " --> " + _dest);
 	    		      });
+	    		    */
 	    		}, 
 	    		function(err) {
 	    			// An error occurred. Show a message to the user
