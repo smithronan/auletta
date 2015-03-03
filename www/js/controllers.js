@@ -500,6 +500,7 @@ angular.module('auletta.controllers', [])
 	{
 		var options = { limit: 1, duration: 10 };
 		
+		/*
 		var _path = $scope.helpers.getPhoneGapPath() + "sound_files/";
 		var _file = "sample.mp3";
 		var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
@@ -513,8 +514,8 @@ angular.module('auletta.controllers', [])
 	      }, function (error) {
 	        alert("Unable to move audio file: " + _path + _file + " --> " + _dest);
 	      });
-		
-	    /*
+		*/
+	    
 		$cordovaCapture.captureAudio(options).then(
 	    		function(audioData) {
 	    			// Success! Audio data is here
@@ -538,7 +539,7 @@ angular.module('auletta.controllers', [])
 	    			alert(err);
 	    		}
 	    );
-	    */
+	    
 	}
 	
 	function blankCard()
