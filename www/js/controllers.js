@@ -129,7 +129,7 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, $ionicActionSheet, $ionicModal) 
+		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout) 
 		{
 			
 			$scope.decks = Decks.all();
@@ -139,6 +139,8 @@ angular.module('auletta.controllers', [])
 			$scope.showSearch = false;
 			
 			$scope.deckFilter = '';
+			
+			$scope.canClosePlayer = false;
 			
 			$ionicModal.fromTemplateUrl('templates/player-modal.html', 
 					{
@@ -195,20 +197,21 @@ angular.module('auletta.controllers', [])
 				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
 			}
 			
+			
+			$scope.toggleCanClosePlayer = function()
+			{
+				$scope.canClosePlayer = !$scope.canClosePlayer;
+			}
+			
+			$scope.activatePlayerClose = function()
+			{
+				$scope.toggleCanClosePlayer();
+				$timeout($scope.toggleCanClosePlayer, 2000);
+			}
+			
 			$scope.hidePlayerModal = function()
 			{
-				//$scope.closePlayerCount++;
-				
-				//if($scope.closePlayerCount >= 5)
-				//{
-					$scope.playerModal.hide();
-				//	$scope.closePlayerCount = 0;
-				//	clearTimeout($scope.preventCloseTimeout);
-				//}
-				//else
-				//{
-				//	$scope.preventCloseTimeout = $scope.preventCloseTimeout || setTimeout(function(){$scope.closePlayerCount = 0}, 2000);
-				//}
+				$scope.playerModal.hide();				
 			}
 			
 			
@@ -331,6 +334,7 @@ angular.module('auletta.controllers', [])
 		}	
 		else if(_stepId == 3)
 		{
+			$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
 			$scope.viewTitle = "Review &amp; Save";
 		}
 		else if(_stepId == 0)
@@ -368,8 +372,7 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveDeck = function()
 	{
-		$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
-		if($scope.helpers.isLoggedIn())
+		if($scope.helpers.isLoggedIn() || true)
 			{
 				Decks.add($scope.currentDeck);
 				Decks.persist();
@@ -472,28 +475,37 @@ angular.module('auletta.controllers', [])
 		);
 	}
 	
-	$scope.captureText = function()
+	$scope.toggleCardTextEntry = function()
 	{
+		$scope.enteringCardText = !$scope.enteringCardText;
+		
 		if($scope.currentCard.cardText == '[add your text here]')
 		{
 			$scope.currentCard.cardText = '';
 		}
-		
-		var myPopup = $ionicPopup.show({
-		    template: '<input type="text" ng-model="currentCard.cardText">',
-		    title: 'Enter the text for this card',
-		    scope: $scope,
-		    buttons: [
-		      { text: 'Cancel' },
-		      {
-		        text: '<b>Ok</b>',
-		        type: 'button-positive',
-		        onTap: function(e) {		          
-		            return $scope.currentCard.cardText;		          
-		        }
-		      }
-		    ]
-		  });
+		else if($scope.currentCard.cardText == '')
+		{
+			$scope.currentCard.cardText = '[add your text here]';
+		}
+	}
+	
+	$scope.captureText = function()
+	{	
+		//var myPopup = $ionicPopup.show({
+		//    template: '<input type="text" ng-model="currentCard.cardText">',
+		//    title: 'Enter the text for this card',
+		//    scope: $scope,
+		//    buttons: [
+		//      { text: 'Cancel' },
+		//      {
+		//        text: '<b>Ok</b>',
+		//        type: 'button-positive',
+		//        onTap: function(e) {		          
+		//            return $scope.currentCard.cardText;		          
+		//        }
+		//      }
+		//    ]
+		//  });
 	}
 	
 	$scope.captureAudio = function()

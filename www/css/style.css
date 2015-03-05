@@ -17,6 +17,11 @@ div.deck-card
 	border-radius: 5px;
 }
 
+div.deck-card-preview
+{
+	width: 97%;
+}
+
 div.card-add-controls
 {
 	float: left;
@@ -31,7 +36,8 @@ div.card-preview-small
 	border: solid 1px #ccc;
 	border-radius: 10px;
 	padding: 5px;
-	float: left;	
+	float: left;
+	background: #FFF;	
 }
 
 div.card-preview-gallery
@@ -39,6 +45,7 @@ div.card-preview-gallery
 	float: left;
 	margin-right: 3%;
 	margin-bottom: 20px;
+	width: 47%;		
 }
 
 
@@ -90,6 +97,20 @@ img.card-player
 	font-family: 'Short Stack', cursive;
 }
 
+.card-preview-small input
+{
+	padding-left: 10px;
+	font-family: 'Short Stack', cursive;
+}
+
+.capture-text
+{
+	width: 80%;
+	float: left;
+	margin-right: 10px;
+	margin-left: 3%;
+}
+
 button
 {
 	font-family: 'Short Stack', cursive;
@@ -123,7 +144,8 @@ ion-content
 	background-color:rgba(0,0,0,0);
 }
 
-.deck-list .item-divider
+
+.deck-list .item-divider, .deck-card-preview .item-divider
 {
 	background-color: #A3E0FF
 }
@@ -140,7 +162,7 @@ ion-content
 	border: none;	
 }
 
-.add-deck input
+.add-deck input, .add-deck textarea
 {
 	padding-left: 10px;
 	font-family: 'Short Stack', cursive;
