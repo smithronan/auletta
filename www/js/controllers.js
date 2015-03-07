@@ -119,10 +119,20 @@ angular.module('auletta.controllers', [])
 		}
 )
 
-.controller('AccountCtrl', 
-		function($scope)
+.controller('HomeCtrl', 
+		function($scope, $state, $ionicHistory)
 		{
 			
+			$scope.homeNavigate = function(_destination)
+			{
+				$ionicHistory.nextViewOptions(
+						{
+							disableBack: true
+						}
+				);
+				$state.go(_destination);
+			}
+	
 		}
 )
 

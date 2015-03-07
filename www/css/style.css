@@ -127,8 +127,54 @@ h2.card-preview
 	font-family: 'Short Stack', cursive;
 }
 
-ion-content
+div.home-footer
 {
+	position: fixed;
+    bottom: -10px;
+}
+
+div.deck-list-header
+{
+	width: 100%;
+	text-align: right;
+}
+
+div.deck-title-header
+{
+	float: left;
+}
+
+div.deck-title-img
+{
+	float: left;
+	
+}
+
+div.home-button
+{
+	background-image: url(/img/home-button.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 45vw;
+	height: 17vh;
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+img.home-top, img.home-bottom
+{
+	width: 105vw;
+	margin-left: -4vw;
+}
+
+ion-content.plain
+{
+	background-color: #B3E0F6;	
+}
+
+ion-content.striped
+{
+	/*
 	background: #fefcea;
 	background: -moz-linear-gradient(top, #fefcea 0%, #f1da36 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefcea), color-stop(100%,#f1da36));
@@ -136,7 +182,9 @@ ion-content
 	background: -o-linear-gradient(top, #fefcea 0%,#f1da36 100%);	
 	background: -ms-linear-gradient(top, #fefcea 0%,#f1da36 100%);
 	background: linear-gradient(to bottom, #fefcea 0%,#f1da36 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );	
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
+	*/
+	background-image: url(/img/blue-stripe.png);	
 }
 
 .deck-list-item div.item-content
@@ -147,7 +195,7 @@ ion-content
 
 .deck-list .item-divider, .deck-card-preview .item-divider
 {
-	background-color: #A3E0FF
+	background-color: #64E86F;
 }
 
 .deck-card .item-divider h2

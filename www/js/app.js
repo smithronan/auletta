@@ -79,6 +79,16 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   // Each tab has its own nav history stack:
 
+  .state('tab.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/tab-home.html',
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+  
   .state('tab.decks', {
     url: '/decks',
     views: {
@@ -121,6 +131,6 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/decks');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });

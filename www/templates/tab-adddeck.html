@@ -5,7 +5,7 @@
   <ion-nav-buttons side="secondary">
   	<button class="button icon ion-help" href="#/tab/decks"></button>  	  	
   </ion-nav-buttons>
-  <ion-content ng-show="(contentStep==1)" class="padding">
+  <ion-content ng-show="(contentStep==1)" class="padding plain">
   	<div class="list add-deck">
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Deck Title</span>
@@ -19,7 +19,7 @@
   	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(2)">Next</button>
   </ion-content>
   
-  <ion-content ng-show="(contentStep==2)" class="padding">
+  <ion-content ng-show="(contentStep==2)" class="padding plain">
     <div class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
     <div class="card-add-controls">
     	<button class="button icon ion-camera" ng-click="captureImage()"></button><br/>
@@ -55,7 +55,7 @@
     <p></p>   
   </ion-content>
   
-  <ion-content ng-show="(contentStep==3)" class="padding">
+  <ion-content ng-show="(contentStep==3)" class="padding striped">
   	<div class="list card deck-card deck-card-preview">
    		<div class="item item-divider"><h2>{{currentDeck.deckTitle}} ({{currentDeck.deckCards.length}})</h2></div>
    			<a class="item item-thumbnail-left item-text-wrap">
@@ -75,7 +75,7 @@
 	</div>  		  	
   </ion-content>
   
-  <ion-content ng-show="showPreview" class="padding">
+  <ion-content ng-show="showPreview" class="padding plain">
 	  <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
 	    <h2 class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h2>
 	    <button class="button button-block icon ion-play" ng-click="playAudio(currentCard.cardAudio)"></button>

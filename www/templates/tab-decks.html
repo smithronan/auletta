@@ -7,15 +7,17 @@
   	<button class="button icon ion-arrow-move" ng-click="toggleReorder()"></button>
   	<button class="button icon ion-trash-a" ng-click="toggleEdit()"></button>  	
   </ion-nav-buttons>
-  <ion-content class="padding">
+  <ion-content class="padding striped">
   	<label class="item item-input" ng-show="showSearch">
   		<i class="icon ion-search placeholder-icon"></i>
   		<input ng-model="deckFilter" type="search" placeholder="Search for..." class="deck-search">
-	</label>
+	</label>		
     <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe" class="deck-list">
   		<ion-item ng-repeat="deck in decks  | filter:deckFilter track by $index" class="item deck-list-item">
 		    <div class="list card deck-card">
-		    	<div class="item item-divider"><h2>{{deck.deckTitle}} ({{deck.deckCards.length}})</h2></div>
+		    	<div class="item item-divider">
+		    		<div class="deck-title-header"><h2>{{deck.deckTitle}} ({{deck.deckCards.length}})</h2></div>		    	
+		    	</div>
 		    	<a class="item item-thumbnail-left item-text-wrap" ng-click="showPlayerModal(deck.deckId)">
 		    		<img ng-src="{{deck.deckThumb}}">    				
     				<p>{{deck.deckDescription}}</p>
