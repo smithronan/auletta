@@ -152,7 +152,7 @@ div.deck-title-img
 
 div.home-button
 {
-	background-image: url(img/home-button.png);
+	background-image: url(../img/home-button.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	width: 45vw;
@@ -184,7 +184,7 @@ ion-content.striped
 	background: linear-gradient(to bottom, #fefcea 0%,#f1da36 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
 	*/
-	background-image: url(img/blue-stripe.png);	
+	background-image: url(../img/blue-stripe.png);	
 }
 
 .deck-list-item div.item-content
