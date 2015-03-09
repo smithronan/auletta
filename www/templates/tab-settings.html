@@ -2,7 +2,7 @@
   <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
-  <ion-content class="striped">
+  <ion-content class="plain">
     <ion-list>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn">
       Login / Signup
@@ -15,4 +15,7 @@
       </ion-item>      
     </ion-list>
   </ion-content>
+  <div class="home-footer">
+  	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />
+  </div>
 </ion-view>

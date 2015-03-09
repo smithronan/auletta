@@ -139,7 +139,7 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading) 
+		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval) 
 		{
 			
 			$scope.decks = Decks.all();
@@ -151,6 +151,16 @@ angular.module('auletta.controllers', [])
 			$scope.deckFilter = '';
 			
 			$scope.canClosePlayer = false;
+			
+			$scope.imageRandomNumber = 1;
+			
+			
+			birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
+			$scope.$on('$destroy', 
+					function() {		          
+		          		$interval.cancel(birdInterval);
+		        	}
+			);
 			
 			$ionicModal.fromTemplateUrl('templates/player-modal.html', 
 					{
@@ -216,7 +226,7 @@ angular.module('auletta.controllers', [])
 							$scope.playingDeckReady = true;
 							$scope.playerModal.show();
 						}, 
-						3000);
+						1500);
 			}
 			
 			$scope.nextCard = function()
@@ -284,11 +294,20 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
 	$scope.viewTitle = "Add New Deck";
+	
+	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
+	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
+	$scope.$on('$destroy', 
+			function() {		          
+          		$interval.cancel(birdInterval);
+        	}
+	);
+	
 	
 	$scope.success = "";
 	$scope.src = "";
@@ -354,7 +373,47 @@ angular.module('auletta.controllers', [])
 			}
 	);
 	
-		
+	
+	$scope.cancelAddDeck = function()
+	{	
+		var hideSheet = $ionicActionSheet.show(
+				{
+					destructiveText: 'Exit',
+					titleText: 'Are you sure you want to exit?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{
+						
+					},
+					buttonClicked: function(index) {
+						return true;
+					},
+					destructiveButtonClicked: function() {
+						$scope.currentDeck = 
+						{
+						 	deckId: $scope.helpers.generateGUID(),
+							deckTitle: "",
+						 	deckDescription: "",
+						 	deckThumb: "",
+						 	deckCards: []
+						};	
+						
+						$scope.gotoStep(1);
+						
+						$ionicHistory.nextViewOptions(
+								{
+									disableBack: true
+								}
+						);
+						
+						$state.go('tab.decks');
+						
+						return true;
+					}	
+				}
+		);
+	}
+	
 	//Process flow functions
 	$scope.gotoStep = function(_stepId)
 	{
@@ -525,21 +584,35 @@ angular.module('auletta.controllers', [])
 	
 	$scope.captureText = function()
 	{	
-		//var myPopup = $ionicPopup.show({
-		//    template: '<input type="text" ng-model="currentCard.cardText">',
-		//    title: 'Enter the text for this card',
-		//    scope: $scope,
-		//    buttons: [
-		//      { text: 'Cancel' },
-		//      {
-		//        text: '<b>Ok</b>',
-		//        type: 'button-positive',
-		//        onTap: function(e) {		          
-		//            return $scope.currentCard.cardText;		          
-		//        }
-		//      }
-		//    ]
-		//  });
+		if($scope.currentCard.cardText == '[add your text here]')
+		{
+			$scope.currentCard.cardText = '';
+		}
+		
+		var myPopup = $ionicPopup.show({
+		    template: '<input type="text" ng-model="currentCard.cardText">',
+		    title: 'Enter the text for this card',
+		    scope: $scope,
+		    buttons: [
+		      { 
+		    	  text: 'Cancel',
+		    	  onTap: function(e) {		          
+		    		  if($scope.currentCard.cardText == '')
+		    		  {
+		    			  $scope.currentCard.cardText = '[add your text here]';
+		    		  }  
+		    		  return $scope.currentCard.cardText;		          
+			      }
+		      },
+		      {
+		        text: '<b>Ok</b>',
+		        type: 'button-positive',
+		        onTap: function(e) {		          
+		            return $scope.currentCard.cardText;		          
+		        }
+		      }
+		    ]
+		  });
 	}
 	
 	$scope.captureAudio = function()
@@ -602,8 +675,17 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet) {
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval) {
 	$scope.helpers = AulettaGlobal.helpers;
+	
+	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
+	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
+	$scope.$on('$destroy', 
+			function() {		          
+          		$interval.cancel(birdInterval);
+        	}
+	);
+	
 	
 	$scope.isLoggedIn = $scope.helpers.isLoggedIn();
 		

@@ -11,7 +11,7 @@
   		<input ng-model="deckFilter" type="search" placeholder="Search for..." class="deck-search">
 	</label>		
     
-    <div class="card" ng-repeat="deck in decks  | filter:deckFilter track by $index">
+    <div class="list list-inset" ng-repeat="deck in decks  | filter:deckFilter track by $index">
   		<div class="item item-divider deck-list-item-header">
 			<div class="deck-title-header"><h2>{{deck.deckTitle}}</h2></div>		    	
 		</div>
@@ -29,7 +29,9 @@
     		</div>
   		</div>
 	</div>
-    
-    
+	<br/><br/><br/>
   </ion-content>
+  <div class="home-footer">
+  	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />
+  </div>
 </ion-view>

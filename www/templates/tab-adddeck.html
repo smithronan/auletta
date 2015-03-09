@@ -3,7 +3,7 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="secondary">
-  	<button class="button icon ion-help" href="#/tab/decks"></button>  	  	
+  	<button class="button icon ion-close" ng-click="cancelAddDeck()"></button>  	  	
   </ion-nav-buttons>
   <ion-content ng-show="(contentStep==1)" class="padding plain">
   	<div class="list add-deck">
@@ -23,7 +23,7 @@
     <div class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
     <div class="card-add-controls">
     	<button class="button icon ion-camera" ng-click="captureImage()"></button><br/>
-    	<button class="button icon ion-quote" ng-click="toggleCardTextEntry()"></button><br/>
+    	<button class="button icon ion-quote" ng-click="captureText()"></button><br/>
     	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button><br/><br/><br/>
     	<button class="button icon ion-monitor" ng-click="togglePreview()"></button><br/><br/><br/>
     	<button class="button icon ion-refresh" ng-click="resetToBlankCard()"></button>    	
@@ -31,7 +31,7 @@
     
     <div class="card-preview-small">
     <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-	<h4 ng-show="!enteringCardText" class="card-preview" ng-click="toggleCardTextEntry()">{{currentCard.cardText}}</h4>
+	<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>
 	<div ng-show="enteringCardText">
 		<input type="text" ng-model="currentCard.cardText" class="capture-text">
 		<button class="button button-small button-balanced icon ion-checkmark" ng-click="toggleCardTextEntry()"></button>
@@ -55,19 +55,32 @@
     <p></p>   
   </ion-content>
   
-  <ion-content ng-show="(contentStep==3)" class="padding plain">
-  	<div class="list card deck-card deck-card-preview">
-   		<div class="item item-divider"><h2>{{currentDeck.deckTitle}} ({{currentDeck.deckCards.length}})</h2></div>
-   			<a class="item item-thumbnail-left item-text-wrap">
-   					<img ng-src="{{currentDeck.deckThumb}}">    				
- 					<p>{{currentDeck.deckDescription}}</p>
- 			</a>   			
- 		</div>
- 	</div>
-  	<div ng-repeat="card in currentDeck.deckCards" class="card-preview-small card-preview-gallery">
-    	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
-		<h4 class="card-preview">{{card.cardText}}</h2>				
-    </div>
+  <ion-content ng-show="(contentStep==3)" class="padding plain" scroll="false">
+  	<ion-scroll class="review-save-scroll" zooming="false" direction="y">
+  		<div class="card deck-preview-card" >
+  			<div class="item item-divider deck-list-item-header">
+				<div class="deck-title-header"><h2>{{currentDeck.deckTitle}}</h2></div>		    	
+			</div>
+			<a class="item item-thumbnail-left item-text-wrap" ng-click="showPlayerModal(deck.deckId)">
+				<img ng-src="{{currentDeck.deckThumb}}">    				
+	    		<p>{{currentDeck.deckDescription}}</p>
+	    	</a>
+	    	<div class="item item-divider deck-list-item-footer">    		
+	    		<div class="deck-card-footer">
+	    			Cards: {{currentDeck.deckCards.length}}
+	    		</div>
+	    		<div class="deck-card-footer-actions">
+	    			<button class="button button-small button-clear icon ion-edit" ng-click=""></button>
+	    			<button class="button button-small button-clear icon ion-trash-a" ></button>
+	    		</div>
+	  		</div>
+		</div>
+  		<div ng-repeat="card in currentDeck.deckCards" class="card-preview-small card-preview-gallery">
+	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
+			<h4 class="card-preview">{{card.cardText}}</h2>				
+	    </div>
+ 	</ion-scroll>
+  	<br/>
     
   	<div class="button-bar">  		
   		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(2)">Back</a>
@@ -87,5 +100,7 @@
 	</div>
 	<p></p>    	    
   </ion-content>
-  
+  <div class="home-footer" ng-show="(contentStep==1)">
+  	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />
+  </div>
 </ion-view>
