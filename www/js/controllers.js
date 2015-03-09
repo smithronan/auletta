@@ -139,7 +139,7 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout) 
+		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading) 
 		{
 			
 			$scope.decks = Decks.all();
@@ -191,8 +191,32 @@ angular.module('auletta.controllers', [])
 				$scope.playingDeck = Decks.get(_deckId);
 				$scope.currentCardIndex = -1;
 				$scope.nextCard();				
-								
-				$scope.playerModal.show();
+				
+				$ionicLoading.show(
+						{
+							template: 'Loading ' + $scope.playingDeck.deckTitle + '...<br/><br/><i class="icon ion-loading-c"></i>',							
+						    animation: 'fade-in',
+						    showDelay: 0
+						}
+				);
+				
+				
+				
+				$timeout( 
+						function() 
+						{
+							$ionicSlideBoxDelegate.update();
+						}, 
+						50);
+				
+				$timeout( 
+						function() 
+						{
+							$ionicLoading.hide();
+							$scope.playingDeckReady = true;
+							$scope.playerModal.show();
+						}, 
+						3000);
 			}
 			
 			$scope.nextCard = function()

@@ -75,14 +75,14 @@ div.add-card-count
 div.card-player-image
 {
 	width: 100vw;
-	height: 50vh;	
+	height: 70vh;	
 	overflow: hidden;
 }
 
 img.card-player
 {
-	width: 100vw;
-	height: 50vh;
+	width: 100%;
+	height: 100%;
 }
 
 
@@ -144,10 +144,45 @@ div.deck-title-header
 	float: left;
 }
 
+div.deck-title-header h2
+{
+	font-family: 'Short Stack', cursive;	
+}
+
 div.deck-title-img
 {
 	float: left;
 	
+}
+
+ion-item.menu-list-item
+{
+	background-color: #FBC1C5;
+}
+
+div.deck-list-item-header
+{
+	background-color: #FFF7C4;		
+}
+
+div.deck-list-item-footer
+{
+	background-color: #FFFADD;
+}
+
+div.deck-card-footer-actions
+{
+	width: 50%;
+	float: left;
+	text-align: right;
+}
+
+div.deck-card-footer
+{
+	width: 50%;
+	float: left;
+	padding-top: 0.5em;
+	font-size: 0.75em;
 }
 
 div.home-button
@@ -167,10 +202,16 @@ img.home-top, img.home-bottom
 	margin-left: -4vw;
 }
 
-ion-content.plain
+ion-content.plain, ion-modal-view.plain
 {
 	background-color: #B3E0F6;	
 }
+
+h1.player-title, ion-header-bar.player-title
+{
+	background-color: #FFF7C4;
+}
+
 
 ion-content.striped
 {

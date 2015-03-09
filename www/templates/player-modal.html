@@ -1,19 +1,20 @@
-<ion-modal-view>
-    <ion-header-bar>
-      <h1 class="title">{{playingDeck.deckTitle}}</h1>
+<ion-modal-view class="plain">
+    <ion-header-bar ng-show="playingDeckReady" class="player-title">
+      <h1 class="title player-title" ng-click="activatePlayerClose()" ng-show="!canClosePlayer">{{playingDeck.deckTitle}}</h1>
+      <h1 class="title player-title" ng-click="hidePlayerModal()" ng-show="canClosePlayer">Click again to close...</h1>
     </ion-header-bar>    
-    <ion-content>
-	      <div class="card-player-image">
-	      	<img class="padding card-player" ng-src="{{currentPlayingCard.cardImage}}" />
-	      </div>
-		  <h2 class="card-preview" ng-click="captureText()">{{currentPlayingCard.cardText}}</h2>
-		  <button class="button button-block icon ion-volume-high" ng-click="playAudio(currentPlayingCard.cardAudio)"></button>
+    
+    <ion-slide-box show-pager="false" auto-play="false" does-continue="true" ng-show="playingDeckReady">
+  		<ion-slide ng-repeat="currentPlayingCard in playingDeck.deckCards">
+    		<div class="card-player-image">
+	      		<img class="padding card-player" ng-src="{{currentPlayingCard.cardImage}}" />
+	      	</div>		  	
+		  	<h2 class="card-preview">{{currentPlayingCard.cardText}}</h2>
+		  	<button class="button button-block icon ion-volume-high" ng-click="playAudio(currentPlayingCard.cardAudio)"></button>
       
-      <div class="button-bar">  		
-  		<a class="button icon-left ion-chevron-left button-calm button-large" ng-click="prevCard()" ></a>
-  		<a class="button icon-right ion-chevron-right button-calm button-large" ng-click="nextCard()" ></a>  		
-	</div>  
-      <button class="button icon ion-log-out" ng-click="activatePlayerClose()" ng-show="!canClosePlayer"></button>
-      <button class="button icon ion-close-circled" ng-show="canClosePlayer" ng-click="hidePlayerModal()"></button>
-	</ion-content>
+  		</ion-slide>
+	</ion-slide-box>
+	
 </ion-modal-view>
+
+ 
