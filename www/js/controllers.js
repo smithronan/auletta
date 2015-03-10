@@ -17,7 +17,7 @@ angular.module('auletta.controllers', [])
 })
 
 .controller('AulettaCtrl', 
-		function($scope, $ionicModal, $rootScope, $ionicHistory, $state)
+		function($scope, $ionicModal, $rootScope, $ionicHistory, $state, $ionicLoading)
 		{
 			$scope.helpers = AulettaGlobal.helpers;
 			
@@ -60,6 +60,14 @@ angular.module('auletta.controllers', [])
 			
 			$scope.doLogin = function()
 			{	
+				$ionicLoading.show(
+						{
+							template: 'Logging you in...<br/><br/><i class="icon ion-loading-c"></i>',							
+						    animation: 'fade-in',
+						    showDelay: 0
+						}
+				);
+				
 				Parse.User.logIn($scope.user.email, $scope.user.password, {
 					  success: function(user) {
 					    localStorage.setItem("auletta_parse_id", user.id);
@@ -68,6 +76,8 @@ angular.module('auletta.controllers', [])
 					    $scope.$emit('handleLogin', {childScope: $scope});
 					    
 					    $scope.loginModal.hide();
+					    
+					    $ionicLoading.hide();
 					  },
 					  error: function(user, error) {					    
 					    alert("Sorry, but your login failed.");
@@ -528,6 +538,10 @@ angular.module('auletta.controllers', [])
 							{
 									destinationType: Camera.DestinationType.DATA_URL,
 								    sourceType: Camera.PictureSourceType.CAMERA,
+								    allowEdit: true,
+								    encodingType: Camera.EncodingType.JPEG,
+								    targetWidth: 640,
+								    targetHeight: 960
 							};
 
 							$cordovaCamera.getPicture(options).then(
