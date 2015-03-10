@@ -304,11 +304,13 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards) {
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
 	$scope.viewTitle = "Add New Deck";
+	
+	$scope.saveToGallery = false;
 	
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
@@ -451,7 +453,17 @@ angular.module('auletta.controllers', [])
 	$scope.saveCard = function()
 	{
 		$scope.currentDeck.deckCards.push($scope.currentCard);
+		if($scope.saveToGallery)
+		{
+			Cards.add($scope.currentCard);
+			Cards.persist();			
+		}
 		blankCard();
+	}
+	
+	$scope.toggleSaveToGallery = function()
+	{
+		$scope.saveToGallery = !$scope.saveToGallery;		
 	}
 	
 	$scope.resetToBlankCard = function()
@@ -586,19 +598,19 @@ angular.module('auletta.controllers', [])
 	{
 		$scope.enteringCardText = !$scope.enteringCardText;
 		
-		if($scope.currentCard.cardText == '[add your text here]')
+		if($scope.currentCard.cardText == '[click to add text]')
 		{
 			$scope.currentCard.cardText = '';
 		}
 		else if($scope.currentCard.cardText == '')
 		{
-			$scope.currentCard.cardText = '[add your text here]';
+			$scope.currentCard.cardText = '[click to add text]';
 		}
 	}
 	
 	$scope.captureText = function()
 	{	
-		if($scope.currentCard.cardText == '[add your text here]')
+		if($scope.currentCard.cardText == '[click to add text]')
 		{
 			$scope.currentCard.cardText = '';
 		}
@@ -613,7 +625,7 @@ angular.module('auletta.controllers', [])
 		    	  onTap: function(e) {		          
 		    		  if($scope.currentCard.cardText == '')
 		    		  {
-		    			  $scope.currentCard.cardText = '[add your text here]';
+		    			  $scope.currentCard.cardText = '[click to add text]';
 		    		  }  
 		    		  return $scope.currentCard.cardText;		          
 			      }
@@ -681,8 +693,9 @@ angular.module('auletta.controllers', [])
 	{
 		$scope.currentCard = 
 		{
-			cardImage: "http://lorempixel.com/640/960/animals/" + Math.floor((Math.random() * 10) + 1),
-			cardText: "[add your text here]",
+			cardId: $scope.helpers.generateGUID(),
+			cardImage: "img/add-image.png",
+			cardText: "[click to add text]",
 			cardAudio: ""
 		}
 	}

@@ -23,28 +23,22 @@
     <div class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
     <div class="card-add-controls">
     	<button class="button icon ion-camera" ng-click="captureImage()"></button><br/>
-    	<button class="button icon ion-quote" ng-click="captureText()"></button><br/>
+    	<button class="button icon ion-compose" ng-click="captureText()"></button><br/>
     	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button><br/><br/><br/>
-    	<button class="button icon ion-monitor" ng-click="togglePreview()"></button><br/><br/><br/>
+    	<button class="button icon ion-grid" ng-click="togglePreview()"></button><br/><br/><br/>
     	<button class="button icon ion-refresh" ng-click="resetToBlankCard()"></button>    	
     </div>
     
     <div class="card-preview-small">
-    <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-	<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>
-	<div ng-show="enteringCardText">
-		<input type="text" ng-model="currentCard.cardText" class="capture-text">
-		<button class="button button-small button-balanced icon ion-checkmark" ng-click="toggleCardTextEntry()"></button>
-	</div>
-	<button class="button button-block icon ion-play" ng-click="playAudio(currentCard.cardAudio)"></button>	
+    <img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+	<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>		
+    <ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Add to Gallery</ion-toggle>
     </div>
     
-        
-    <div class="">&nbsp;</div>
     <div class="button-bar">
   		<button class="button" ng-click="saveCard()">
-  			<i class="icon ion-checkmark"></i> Save Card  			
-  		</button>  		
+  			<i class="icon ion-checkmark"></i> Save Card 			
+  		</button>	  		
 	</div>
 	<p></p>    
         
@@ -89,8 +83,8 @@
   </ion-content>
   
   <ion-content ng-show="showPreview" class="padding plain">
-	  <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-	    <h2 class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h2>
+	  <img class="padding card-preview" ng-src="{{currentCard.cardImage}}" />
+	    <h2 class="card-preview">{{currentCard.cardText}}</h2>
 	    <button class="button button-block icon ion-play" ng-click="playAudio(currentCard.cardAudio)"></button>
 	    	    
 	    <div class="button-bar">

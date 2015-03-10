@@ -37,7 +37,8 @@ div.card-preview-small
 	border-radius: 10px;
 	padding: 5px;
 	float: left;
-	background: #FFF;	
+	background: #FFF;
+	margin-bottom: 3px;	
 }
 
 div.card-preview-gallery
@@ -48,11 +49,16 @@ div.card-preview-gallery
 	width: 47%;			
 }
 
+img.card-preview-add
+{
+	width: 100%;
+	max-height: 47vh;
+}
 
 img.card-preview
 {
 	width: 100%;
-	max-height: 35vh;
+	max-height: 59vh;
 }
 
 h2.card-preview, h3.card-preview, h4.card-preview
@@ -68,7 +74,7 @@ div.add-card-count
 	width: 100%;
 	text-align: center;
 	border-bottom: solid 1px #ccc;
-	padding-bottom: 10px;
+	padding-bottom: 3px;
 	margin-bottom: 5px;	
 }
 
@@ -280,6 +286,32 @@ ion-content.striped
 	padding: 0px 45px 0px 15px;
 }
 
+div.add-deck
+{
+	margin-left: -2.5vh;
+}
+
+div.gallery-toggle
+{
+	background-color: transparent;
+	border: 0px;
+	border-top: solid 1px #ccc;
+	font-size: 0.95em;
+}
+
+.toggle .track
+{
+	width: 40px;
+	height: 20px;
+	margin-top: 7px;
+}
+
+.toggle .handle
+{
+	width: 16px;
+	height: 16px;
+	margin-top: 7px;	
+}
 
 
 

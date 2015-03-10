@@ -61,6 +61,37 @@ angular.module('auletta.services', [])
 	}
 })
 
+
+.factory('Cards', function() {
+	var ls_cards = JSON.parse(localStorage.getItem("auletta_cards"));
+	
+	var cards = (ls_cards !== null) ? ls_cards : [];	
+
+	return {
+		all: function() {
+			return cards;
+		},		
+		get: function(cardId) {
+			for (var i = 0; i < cards.length; i++) {
+				if (cards[i].cardId === cardId) {
+					return cards[i];
+				}
+			}
+			return null;
+		},
+		add: function(card)
+		{
+			cards.unshift(card);
+		},
+		persist: function()
+		{
+			localStorage.setItem("auletta_cards", JSON.stringify(cards));
+		}
+	}
+})
+
+
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 
