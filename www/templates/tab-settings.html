@@ -4,12 +4,18 @@
   </ion-nav-buttons>
   <ion-content class="plain">
     <ion-list>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
+      	Turn On Child Mode
+      </ion-item>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="childModeEnabled">
+      	Turn Off Child Mode
+      </ion-item>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn">
       Login / Signup
       </ion-item>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn">
       Logout
-      </ion-item>
+      </ion-item>      
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" >
       Backup Decks
       </ion-item>      

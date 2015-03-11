@@ -24,21 +24,31 @@ div.deck-card-preview
 
 div.card-add-controls
 {
+	width: 100vw;
+}
+
+button.add-card-control
+{
 	float: left;
-	width: 20%;
 }
 
 div.card-preview-small
 {
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	border: solid 1px #ccc;
-	border-radius: 10px;
-	padding: 5px;
-	float: left;
-	background: #FFF;
-	margin-bottom: 3px;	
+		
+}
+
+div.card-add-save
+{
+		
+}
+
+div.card-add-save-items
+{
+}
+
+div.card-add-reset
+{
+	margin-bottom: 30px;
 }
 
 div.card-preview-gallery
@@ -51,8 +61,9 @@ div.card-preview-gallery
 
 img.card-preview-add
 {
-	width: 100%;
-	max-height: 47vh;
+	width: 70vw;
+	max-height: 55vh;
+	margin-left: 15vw;
 }
 
 img.card-preview
@@ -65,17 +76,22 @@ h2.card-preview, h3.card-preview, h4.card-preview
 {
 	width: 100%;
 	text-align: center;
-	margin-top: 0px;
-	margin-bottom: 20px;
+	margin-top: 0px;	
 }
 
 div.add-card-count
 {
+	clear: both;
 	width: 100%;
-	text-align: center;
-	border-bottom: solid 1px #ccc;
+	text-align: center;	
 	padding-bottom: 3px;
-	margin-bottom: 5px;	
+	margin-bottom: 12vh;
+	margin-top: 3vh;	
+}
+
+div.how-to-add-buttons
+{
+	margin-bottom: 15vh;
 }
 
 div.card-player-image
@@ -295,7 +311,6 @@ div.gallery-toggle
 {
 	background-color: transparent;
 	border: 0px;
-	border-top: solid 1px #ccc;
 	font-size: 0.95em;
 }
 

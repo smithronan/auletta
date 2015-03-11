@@ -435,7 +435,7 @@ angular.module('auletta.controllers', [])
 		}
 		else if(_stepId == 2)
 		{
-			$scope.viewTitle = "Add Cards";
+			$scope.viewTitle = "Build a Card";
 		}	
 		else if(_stepId == 3)
 		{
@@ -445,6 +445,10 @@ angular.module('auletta.controllers', [])
 		else if(_stepId == 0)
 		{
 			$scope.viewTitle = "Preview Card";
+		}
+		else if(_stepId == 4)
+		{
+			$scope.viewTitle = "Add Cards";
 		}
 		
 		$scope.contentStep = _stepId;
@@ -459,6 +463,13 @@ angular.module('auletta.controllers', [])
 			Cards.persist();			
 		}
 		blankCard();
+		$scope.gotoStep(4);
+	}
+	
+	$scope.cancelBuildCard = function()
+	{
+		blankCard();
+		$scope.gotoStep(4);
 	}
 	
 	$scope.toggleSaveToGallery = function()
@@ -702,8 +713,11 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval) {
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval, $ionicLoading) {
 	$scope.helpers = AulettaGlobal.helpers;
+	
+	//Needs to be globalized
+	$scope.childModeEnabled = false;
 	
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
@@ -725,6 +739,21 @@ angular.module('auletta.controllers', [])
         console.log("SignupBroadcast");
 		$scope.isLoggedIn = true;
     });  
+	
+	$scope.toggleChildMode = function()
+	{
+		var _message = $scope.childModeEnabled ? 'Turning Off Child Mode...<br/><br/><i class="icon ion-loading-c"></i>' : 'Turning On Child Mode...<br/><br/><i class="icon ion-loading-c"></i>' 
+		
+		$ionicLoading.show(
+				{
+					template: _message,							
+				    animation: 'fade-in',
+				    showDelay: 0,
+				    duration: 1500
+				}
+		);
+		$scope.childModeEnabled = !$scope.childModeEnabled;
+	}
 	
 	$scope.broadcastLogout = function()
 							{

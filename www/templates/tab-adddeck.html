@@ -16,38 +16,55 @@
 	    <textarea rows="10" ng-model="currentDeck.deckDescription"></textarea>
 	  </label>	  
 	</div>
-  	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(2)">Next</button>
+  	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(4)">Next</button>
   </ion-content>
   
-  <ion-content ng-show="(contentStep==2)" class="padding plain">
-    <div class="add-card-count">You have added {{currentDeck.deckCards.length}} cards</div>
-    <div class="card-add-controls">
-    	<button class="button icon ion-camera" ng-click="captureImage()"></button><br/>
-    	<button class="button icon ion-compose" ng-click="captureText()"></button><br/>
-    	<button class="button icon ion-mic-a" ng-click="captureAudio()"></button><br/><br/><br/>
-    	<button class="button icon ion-grid" ng-click="togglePreview()"></button><br/><br/><br/>
-    	<button class="button icon ion-refresh" ng-click="resetToBlankCard()"></button>    	
+  <ion-content ng-show="(contentStep==2)" class="plain">    
+    <div class="card-add-controls button-bar" ng-show="0==1">
+    	<button class="button icon ion-camera add-card-control" ng-click="captureImage()"></button>
+    	<button class="button icon ion-compose add-card-control" ng-click="captureText()"></button>    
+    	<button class="button icon ion-grid add-card-control" ng-click="togglePreview()"></button>
+    	<button class="button icon ion-refresh add-card-control" ng-click="resetToBlankCard()"></button>    	    	
     </div>
     
     <div class="card-preview-small">
-    <img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-	<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>		
-    <ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Add to Gallery</ion-toggle>
+    	<img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+		<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>   
+		<button class="button icon ion-mic-a add-card-control button-block" ng-click="captureAudio()"></button>
     </div>
     
+    <ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Add to My Cards?</ion-toggle>
+    
     <div class="button-bar">
-  		<button class="button" ng-click="saveCard()">
-  			<i class="icon ion-checkmark"></i> Save Card 			
-  		</button>	  		
-	</div>
-	<p></p>    
-        
-	<div class="button-bar">
-  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(1)">Back</a>
-  		<a class="button icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)">Next</a>  		
-	</div>	   
-    <p></p>   
+	  	<button class="button button-balanced" ng-click="saveCard()">
+	  		<i class="icon ion-checkmark"></i> Save Card  			
+	  	</button>
+	  	<button class="button button-light" ng-click="cancelBuildCard()">
+	  		<i class="icon ion-close"></i> Cancel 			
+	  	</button>
+  	</div>
+       
   </ion-content>
+  
+  <ion-content ng-show="(contentStep==4)" class="plain">    
+    
+    <div class="add-card-count" ng-show="currentDeck.deckCards.length>0">Nice Job!! <br/><br/> You've got {{currentDeck.deckCards.length}} cards in your deck.</div>
+    <div class="add-card-count" ng-show="currentDeck.deckCards.length==0">No cards yet!  <br/> <br/> Start by adding some below :-)</div>
+        
+    <div class="how-to-add-buttons">    
+	    <button class="button button-balanced button-block" ng-click="gotoStep(2)">
+	  				<i class="icon ion-star"></i> Build a Card  			
+	  	</button>
+	  	<button class="button button-balanced button-block" ng-click="gotoStep(2)">
+	  				<i class="icon ion-grid"></i> Choose from Gallery  			
+	  	</button>    
+    </div>
+    <div class="button-bar">
+  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(1)">Back</a>  			
+  		<a class="button icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)">Next</a>  		
+	</div>   
+  </ion-content>
+  
   
   <ion-content ng-show="(contentStep==3)" class="padding plain" scroll="false">
   	<ion-scroll class="review-save-scroll" zooming="false" direction="y">
@@ -77,7 +94,7 @@
   	<br/>
     
   	<div class="button-bar">  		
-  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(2)">Back</a>
+  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(4)">Back</a>
   		<a class="button icon-right ion-checkmark button-balanced" ng-click="saveDeck()">Save Deck</a>  		
 	</div>  		  	
   </ion-content>
@@ -94,7 +111,7 @@
 	</div>
 	<p></p>    	    
   </ion-content>
-  <div class="home-footer" ng-show="(contentStep==1)">
+  <div class="home-footer" ng-show="(contentStep==1 || contentStep==4)">
   	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />
   </div>
 </ion-view>
