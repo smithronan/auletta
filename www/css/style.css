@@ -189,6 +189,22 @@ ion-scroll.review-save-scroll
 	height: 75vh;	
 }
 
+ion-scroll.card-gallery-scroll
+{
+	width: 103vw;
+	height: 75vh;	
+}
+
+input.card-gallery-select
+{
+	position: relative; 
+	top: 30px; 
+	left: 85%;
+	transform: scale(1.5);
+  	-webkit-transform: scale(1.5);
+}
+
+
 ion-item.menu-list-item
 {
 	background-color: #FBC1C5;

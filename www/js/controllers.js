@@ -312,6 +312,8 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveToGallery = false;
 	
+	$scope.savedCards = Cards.all();
+	
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
 	$scope.$on('$destroy', 
@@ -320,6 +322,7 @@ angular.module('auletta.controllers', [])
         	}
 	);
 	
+	$scope.selectedFromGallery = [];
 	
 	$scope.success = "";
 	$scope.src = "";
@@ -339,6 +342,37 @@ angular.module('auletta.controllers', [])
 			$scope.viewTitle = "Add Cards";
 		}
 	}
+	
+	$scope.cardSelectionToggle = function(_cardId)
+	{
+		var _existsAt = $scope.selectedFromGallery.indexOf(_cardId);
+		
+		if(_existsAt < 0)
+		{
+			$scope.selectedFromGallery.push(_cardId);
+		}
+		else
+		{
+			$scope.selectedFromGallery.splice(_existsAt, 1);
+		}
+		
+		console.log($scope.selectedFromGallery);
+	}
+	
+	$scope.addCardsFromGallery = function()
+	{
+		if($scope.selectedFromGallery.length > 0)
+		{
+			for(var i = 0; i <= $scope.selectedFromGallery.length-1; i++) 
+			{
+				$scope.currentDeck.deckCards.push(Cards.get($scope.selectedFromGallery[i]));			    
+			}
+		}
+		
+		$scope.selectedFromGallery = [];
+		$scope.gotoStep(4);
+	}
+	
 	
 	$scope.currentDeck = 
 		{
@@ -449,6 +483,10 @@ angular.module('auletta.controllers', [])
 		else if(_stepId == 4)
 		{
 			$scope.viewTitle = "Add Cards";
+		}
+		else if(_stepId == 5)
+		{
+			
 		}
 		
 		$scope.contentStep = _stepId;

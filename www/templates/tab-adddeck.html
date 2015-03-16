@@ -55,7 +55,7 @@
 	    <button class="button button-balanced button-block" ng-click="gotoStep(2)">
 	  				<i class="icon ion-star"></i> Build a Card  			
 	  	</button>
-	  	<button class="button button-balanced button-block" ng-click="gotoStep(2)">
+	  	<button class="button button-balanced button-block" ng-click="gotoStep(5)">
 	  				<i class="icon ion-grid"></i> Choose from Gallery  			
 	  	</button>    
     </div>
@@ -64,6 +64,30 @@
   		<a class="button icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)">Next</a>  		
 	</div>   
   </ion-content>
+  
+  <ion-content ng-show="(contentStep==5)" class="plain">    
+    <label class="item item-input">
+  		<i class="icon ion-search placeholder-icon"></i>
+  		<input ng-model="galleryCardFilter" type="search" placeholder="Search for..." class="deck-search">
+	</label>	
+    <ion-scroll class="card-gallery-scroll" zooming="false" direction="y">
+  		<div ng-repeat="card in savedCards | filter:galleryCardFilter track by $index" class="card-preview-small card-preview-gallery">
+	    	<input class="card-gallery-select" ng-model="selectedCards" type="checkbox" ng-change="cardSelectionToggle(card.cardId)" />
+	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
+			<h4 class="card-preview">{{card.cardText}}</h2>				
+	    </div>
+ 	</ion-scroll>
+    
+    <div class="button-bar">
+	  	<button class="button button-balanced" ng-click="addCardsFromGallery()">
+	  		<i class="icon ion-checkmark"></i> Add  			
+	  	</button>
+	  	<button class="button button-light" ng-click="cancelBuildCard()">
+	  		<i class="icon ion-close"></i> Cancel 			
+	  	</button>
+  	</div>       
+  </ion-content>
+  
   
   
   <ion-content ng-show="(contentStep==3)" class="padding plain" scroll="false">
