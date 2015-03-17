@@ -838,6 +838,25 @@ angular.module('auletta.controllers', [])
 	    			    			
 	    			var fileEntry = audioData[0].fullPath;
 	    			
+	    			//_audioFile = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
+	    			_audioFile = _path + _file;
+	    			
+	    			$scope.media = new Media
+	    			(
+	    						_audioFile, 
+	    						function()
+	    						{
+	    							console.log("playAudio():Audio Success");
+	    						}, 
+	    						function(error)
+	    						{
+	    							alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+	    						}
+	    			);
+	    			
+	    			$scope.media.play();
+	    			
+	    			
 	    			//window.resolveLocalFileSystemURL
 	    			//(
 	    			//		cordova.file.dataDirectory, 
