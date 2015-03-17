@@ -830,13 +830,13 @@ angular.module('auletta.controllers', [])
 	    		function(audioData) {
 	    			// Success! Audio data is here
 	    			
-	    			//var _path = audioData[0].fullPath.substring(0, audioData[0].fullPath.lastIndexOf("/")+1);
-	    			//var _file = audioData[0].name;	    			
-	    			//var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
+	    			var _path = audioData[0].fullPath.substring(0, audioData[0].fullPath.lastIndexOf("/")+1);
+	    			var _file = audioData[0].name;	    			
+	    			var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
 	    			
-	    			//alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
+	    			alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
 	    			    			
-	    			//var fileEntry = audioData[0].fullPath;
+	    			var fileEntry = audioData[0].fullPath;
 	    			
 	    			//window.resolveLocalFileSystemURL
 	    			//(
