@@ -866,9 +866,28 @@ angular.module('auletta.controllers', [])
 	    			var _file = audioData[0].name;	    			
 	    			var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
 	    			
-	    			alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
+	    			//alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
 	    			
-	    			moveFile(_path + _file);
+	    			window.resolveLocalFileSystemURI(audioData[0].fullPath,
+	    				    function (fileEntry) {
+	    				        
+	    						// convert to Base64 string
+	    				        function win(file) {
+	    				            var reader = new FileReader();
+	    				            reader.onloadend = function (evt) {
+	    				                var obj = evt.target.result; // this is your Base64 string
+	    				                alert(obj);
+	    				            };
+	    				            
+	    				            reader.readAsDataURL(file);
+	    				        };
+	    				        
+	    				        var fail = function (evt) { };
+	    				        
+	    				        fileEntry.file(win, fail);
+	    				    },	    				    
+	    				    function () { }
+	    				);
 	    		    
 	    		}, 
 	    		function(err) {
