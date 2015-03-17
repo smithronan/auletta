@@ -822,6 +822,38 @@ angular.module('auletta.controllers', [])
 		  });
 	}
 	
+	function successCallback(entry) {
+	    console.log("New Path: " + entry.fullPath);
+	    alert("Success. New Path: " + entry.fullPath);
+	}
+
+	function errorCallback(error) {
+	    console.log("Error:" + error.code)
+	    alert(error.code);
+	}
+	
+	function moveFile(fileUri) 
+	{
+	    window.resolveLocalFileSystemURL(
+	          fileUri,
+	          function(fileEntry){
+	                newFileUri  = cordova.file.dataDirectory + "sounds/";
+	                oldFileUri  = fileUri;
+	                fileExt     = "." + oldFileUri.split('.').pop();
+
+	                newFileName = guid("car") + fileExt;
+	                
+	                window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+	                        function(dirEntry) {
+	                            // move the file to a new directory and rename it
+	                            fileEntry.moveTo(dirEntry, newFileName, successCallback, errorCallback);
+	                        },
+	                        errorCallback);
+	          },
+	          errorCallback);
+	}
+	
+		
 	$scope.captureAudio = function()
 	{
 		var options = { limit: 1, duration: 10 };
@@ -835,50 +867,8 @@ angular.module('auletta.controllers', [])
 	    			var _dest = $scope.helpers.getPhoneGapPath() + "sound_files/";
 	    			
 	    			alert("Attempting to move audio file: " + _path + _file + " --> " + _dest);
-	    			    			
-	    			var fileEntry = audioData[0].fullPath;
 	    			
-	    			//_audioFile = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
-	    			_audioFile = _path + _file;
-	    			
-	    			$scope.media = new Media
-	    			(
-	    						_audioFile, 
-	    						function()
-	    						{
-	    							console.log("playAudio():Audio Success");
-	    						}, 
-	    						function(error)
-	    						{
-	    							alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
-	    						}
-	    			);
-	    			
-	    			$scope.media.play();
-	    			
-	    			
-	    			//window.resolveLocalFileSystemURL
-	    			//(
-	    			//		cordova.file.dataDirectory, 
-	    			//	      function(appFiles) {
-	    			//	        	fileEntry.copyTo(
-	    			//	        			appFiles, 
-	    			//	        			"file3.jpg", 
-	    			//	        			function(result){ alert("Success: " + result); }, 
-	    			//	        			function(result){ alert("Error: " + result); }
-	    			//	        	);
-	    			//	      }, 
-	    			//	      function(result){ alert("Error Out: " + result); }
-	    			//	    );
-	    			
-	    			 
-	    			$cordovaFile.copyFile(_path, _file, _dest)
-	    		      .then(function (success) {
-	    		    	  $scope.currentCard.cardAudio = _dest + _file;
-	    		    	  alert("File moved: " + _path + _file + " --> " + _dest);
-	    		      }, function (error) {
-	    		        alert("Unable to move audio file: " + _path + _file + " --> " + _dest);
-	    		      });
+	    			moveFile(_path + _file);
 	    		    
 	    		}, 
 	    		function(err) {
