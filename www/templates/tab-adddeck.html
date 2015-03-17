@@ -111,8 +111,15 @@
 	  		</div>
 		</div>
   		<div ng-repeat="card in currentDeck.deckCards" class="card-preview-small card-preview-gallery">
-	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
-			<h4 class="card-preview">{{card.cardText}}</h2>				
+	    	<div class="card-review-container">
+	    	<div class="card-review-action" ng-show="cardOptionsReveal == card.cardId">
+	    		<button class="button button-block button-assertive" ng-click="editCard(card.cardId)">Edit Card</button>
+	    		<br/>
+	    		<button class="button button-block button-assertive" ng-click="deleteCard(card.cardId)">Delete Card</button>
+	    	</div>
+	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" ng-click="cardOptions(card.cardId)"/>
+			<h4 class="card-preview">{{card.cardText}}</h2>
+			</div>				
 	    </div>
  	</ion-scroll>
   	<br/>

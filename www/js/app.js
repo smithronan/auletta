@@ -117,7 +117,17 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
           controller: 'AddDeckCtrl'
         }
       }
-   })  
+   })
+   
+   .state('tab.editDeck', {
+        url: "/editDeck/:deckId",
+        views: {
+            'menuContent': {
+              templateUrl: 'templates/tab-adddeck.html',
+              controller: 'AddDeckCtrl'
+            }
+          }
+    })
     
 
   .state('tab.account', {

@@ -149,8 +149,9 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval) 
+		function($scope, Decks, Global, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state) 
 		{
+			
 			
 			$scope.decks = Decks.all();
 			
@@ -204,6 +205,13 @@ angular.module('auletta.controllers', [])
 				console.log("Move " + _deck.deckId + " from " + _from + " to " + _to);
 				Decks.reorder(_deck.deckId, _from, _to);
 				Decks.persist();
+			}
+			
+			
+			$scope.editDeck = function(_deckId)
+			{
+				$ionicHistory.nextViewOptions({disableBack: true});
+				$state.go('tab.editDeck', {deckId: _deckId});
 			}
 			
 			$scope.showPlayerModal = function(_deckId)
@@ -304,7 +312,9 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards, $stateParams) {
+	
+	
 	
 	$scope.helpers = AulettaGlobal.helpers;
 	
@@ -374,22 +384,31 @@ angular.module('auletta.controllers', [])
 	}
 	
 	
-	$scope.currentDeck = 
+	console.log($stateParams.deckId);
+	if($stateParams.deckId)
+	{
+		$scope.currentDeck = Decks.get($stateParams.deckId);
+		$scope.editingDeck = true;
+	}
+	else
+	{
+		$scope.editingDeck = false;
+		$scope.currentDeck = 
 		{
 		 	deckId: $scope.helpers.generateGUID(),
 			deckTitle: "",
 		 	deckDescription: "",
 		 	deckThumb: "",
 		 	deckCards: []
-		};	
-	
+		};
+	}
 	
 	//Object to model a blank card
-	blankCard();	
+	blankCard();
 	
 	//Controls for displaying the right content based on step
 	$scope.contentStep = 1;
-	
+	$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Add New Deck";
 
 	
 	$ionicPlatform.ready(
@@ -435,14 +454,22 @@ angular.module('auletta.controllers', [])
 						return true;
 					},
 					destructiveButtonClicked: function() {
-						$scope.currentDeck = 
+						
+						if($scope.editingDeck)
 						{
-						 	deckId: $scope.helpers.generateGUID(),
-							deckTitle: "",
-						 	deckDescription: "",
-						 	deckThumb: "",
-						 	deckCards: []
-						};	
+							$scope.currentDeck = Decks.get($scope.currentDeck.deckId);
+						}
+						else
+						{
+							$scope.currentDeck = 
+							{
+							 	deckId: $scope.helpers.generateGUID(),
+								deckTitle: "",
+							 	deckDescription: "",
+							 	deckThumb: "",
+							 	deckCards: []
+							};
+						}
 						
 						$scope.gotoStep(1);
 						
@@ -465,7 +492,7 @@ angular.module('auletta.controllers', [])
 	{
 		if(_stepId == 1)
 		{
-			$scope.viewTitle = "Add New Deck";
+			$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Add New Deck";
 		}
 		else if(_stepId == 2)
 		{
@@ -492,22 +519,117 @@ angular.module('auletta.controllers', [])
 		$scope.contentStep = _stepId;
 	}
 	
+	$scope.cardOptionsReveal = '';
+	$scope.cardOptions = function(_cardId)
+	{
+		if(_cardId == $scope.cardOptionsReveal)
+		{
+			$scope.cardOptionsReveal = '';
+		}
+		else
+		{
+			$scope.cardOptionsReveal = _cardId;
+		}
+		
+		
+		console.log($scope.cardOptionsReveal);
+	}
+	
+	$scope.deleteCard = function(_cardId)
+	{
+		var spliceAt = -1;
+		
+		for (var i = 0; i < $scope.currentDeck.deckCards.length; i++) 
+		{
+			if ($scope.currentDeck.deckCards[i].cardId === _cardId) {
+				spliceAt = i;
+			}
+		}
+		
+		if(spliceAt > -1)
+		{
+			$scope.currentDeck.deckCards.splice(spliceAt, 1);
+		}
+	}
+	
+	$scope.editCard = function(_cardId)
+	{
+		var cardIndex = -1;
+		
+		console.log("Edit Card: " + _cardId);
+		
+		for (var i = 0; i < $scope.currentDeck.deckCards.length; i++) 
+		{
+			console.log($scope.currentDeck.deckCards[i].cardId);
+			if ($scope.currentDeck.deckCards[i].cardId === _cardId) {
+				cardIndex = i;
+			}
+		}
+		
+		$scope.currentCard = $scope.currentDeck.deckCards[cardIndex];		
+		$scope.editingCard = true;
+		$scope.gotoStep(2);
+	}
+	
+	
+	
 	$scope.saveCard = function()
 	{
-		$scope.currentDeck.deckCards.push($scope.currentCard);
-		if($scope.saveToGallery)
+		if($scope.editingCard)
 		{
-			Cards.add($scope.currentCard);
-			Cards.persist();			
+			
+			var spliceAt = -1;
+			
+			for (var i = 0; i < $scope.currentDeck.deckCards.length; i++) 
+			{
+				if ($scope.currentDeck.deckCards[i].cardId === $scope.currentCard.cardId) {
+					spliceAt = i;
+				}
+			}
+			
+			if(spliceAt > -1)
+			{
+				$scope.currentDeck.deckCards.splice(spliceAt, 1, $scope.currentCard);
+			}
+			
+			
+			if($scope.saveToGallery)
+			{
+				Cards.add($scope.currentCard);
+				Cards.persist();			
+			}
+			
+			$scope.editingCard = false;
+			
+			blankCard();
+			$scope.gotoStep(3);
 		}
-		blankCard();
-		$scope.gotoStep(4);
+		else
+		{
+			$scope.currentDeck.deckCards.push($scope.currentCard);
+			if($scope.saveToGallery)
+			{
+				Cards.add($scope.currentCard);
+				Cards.persist();			
+			}
+			blankCard();
+			$scope.gotoStep(4);
+		}
 	}
 	
 	$scope.cancelBuildCard = function()
 	{
 		blankCard();
-		$scope.gotoStep(4);
+		if($scope.editingCard)
+		{
+			//TODO: Reset card in case edits where in progress
+			$scope.editingCard = false;
+			$scope.gotoStep(3);
+		}
+		else
+		{			
+			$scope.gotoStep(4);
+		}		
 	}
 	
 	$scope.toggleSaveToGallery = function()
@@ -538,6 +660,12 @@ angular.module('auletta.controllers', [])
 	{
 		if($scope.helpers.isLoggedIn() || true)
 			{
+				
+				if($scope.editingDeck)
+				{
+					Decks.remove($scope.currentDeck.deckId);
+				}
+				
 				Decks.add($scope.currentDeck);
 				Decks.persist();
 				
@@ -554,6 +682,10 @@ angular.module('auletta.controllers', [])
 			{
 				$scope.aulettaShowLoginModal();
 			}
+		
+		
+		$scope.gotoStep(1);
+		
 	}
 	
 	$scope.playAudio = function(_audioFile)
@@ -751,12 +883,14 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval, $ionicLoading) {
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup) {
 	$scope.helpers = AulettaGlobal.helpers;
 	
-	//Needs to be globalized
-	$scope.childModeEnabled = false;
+	$scope.childModePin = { value: "" };
 	
+	//Needs to be globalized
+	$scope.childModeEnabled = $rootScope.childModeEnabled;
+		
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
 	$scope.$on('$destroy', 
@@ -782,15 +916,61 @@ angular.module('auletta.controllers', [])
 	{
 		var _message = $scope.childModeEnabled ? 'Turning Off Child Mode...<br/><br/><i class="icon ion-loading-c"></i>' : 'Turning On Child Mode...<br/><br/><i class="icon ion-loading-c"></i>' 
 		
-		$ionicLoading.show(
-				{
-					template: _message,							
-				    animation: 'fade-in',
-				    showDelay: 0,
-				    duration: 1500
-				}
-		);
-		$scope.childModeEnabled = !$scope.childModeEnabled;
+		if($scope.childModeEnabled)
+		{
+			
+			var myPopup = $ionicPopup.show({
+			    template: '<input type="password" ng-model="childModePin.value">',
+			    title: 'Enter the PIN to exit Child Mode',
+			    scope: $scope,
+			    buttons: [
+			      { 
+			    	  text: 'Cancel',
+			    	  onTap: function(e) {
+			    		  return;		          
+				      }
+			      },
+			      {
+			        text: '<b>Ok</b>',
+			        type: 'button-positive',
+			        onTap: function(e) {		          
+			            console.log($scope.childModePin.value);
+			        	
+			        	if($scope.childModePin.value == "8888")
+			            {
+			            	$ionicLoading.show(
+			        				{
+			        					template: _message,							
+			        				    animation: 'fade-in',
+			        				    showDelay: 0,
+			        				    duration: 1500
+			        				}
+			        		);
+			            	
+			            	$rootScope.childModeEnabled = false;
+			            	$scope.childModeEnabled = false;
+			            }	          
+			        }
+			      }
+			    ]
+			  });
+			
+			
+		}
+		else
+		{
+			$ionicLoading.show(
+					{
+						template: _message,							
+					    animation: 'fade-in',
+					    showDelay: 0,
+					    duration: 1500
+					}
+			);
+			$rootScope.childModeEnabled = true;
+			$scope.childModeEnabled = true;
+		}		
+		
 	}
 	
 	$scope.broadcastLogout = function()

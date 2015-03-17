@@ -204,6 +204,18 @@ input.card-gallery-select
   	-webkit-transform: scale(1.5);
 }
 
+.card-review-action 
+{
+  position: relative;
+  top: 59px;
+  transform: scale(0.6);
+  background-color: #FFF;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: right;
+  height: 0px;
+}
+
 
 ion-item.menu-list-item
 {

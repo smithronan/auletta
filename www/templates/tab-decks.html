@@ -24,8 +24,8 @@
     			Cards: {{deck.deckCards.length}}
     		</div>
     		<div class="deck-card-footer-actions">
-    			<button class="button button-small button-clear icon ion-edit" ng-click=""></button>
-    			<button class="button button-small button-clear icon ion-trash-a" ng-click="trashDeck(deck)"></button>
+    			<button class="button button-small button-clear icon ion-edit" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)"></button>
+    			<button class="button button-small button-clear icon ion-trash-a" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck)"></button>
     		</div>
   		</div>
 	</div>

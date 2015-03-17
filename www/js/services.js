@@ -1,5 +1,31 @@
 angular.module('auletta.services', [])
 
+
+.factory('Global', function($rootScope){
+
+	var childModeEnabled = childModeEnabled || true;
+	
+	return {
+		
+		enableChildMode: function()
+			{
+				childModeEnabled = true;				
+				return childModeEnabled;
+			},
+		disableChildMode: function()
+			{
+				childModeEnabled = false;				
+				return childModeEnabled;
+			},
+		childModeStatus: function()
+			{	
+				return childModeEnabled;		
+			}
+	}
+	
+}
+)
+
 .factory('Decks', function() {
 	// Some fake testing data
 	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));

@@ -10,13 +10,13 @@
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="childModeEnabled">
       	Turn Off Child Mode
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn && !childModeEnabled">
       Login / Signup
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
       Logout
       </ion-item>      
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" >
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-show="!childModeEnabled">
       Backup Decks
       </ion-item>      
     </ion-list>
