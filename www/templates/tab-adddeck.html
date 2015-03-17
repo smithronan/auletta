@@ -30,7 +30,7 @@
     <div class="card-preview-small">
     	<img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
 		<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>   
-		<button class="button icon ion-mic-a add-card-control button-block" ng-click="captureAudio()"></button>
+		<button class="button icon ion-mic-a add-card-control button-block" ng-click="recordAudio()"></button>
     </div>
     
     <ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Add to My Cards?</ion-toggle>
