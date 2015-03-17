@@ -822,36 +822,6 @@ angular.module('auletta.controllers', [])
 		  });
 	}
 	
-	function successCallback(entry) {
-	    console.log("New Path: " + entry.fullPath);
-	    alert("Success. New Path: " + entry.fullPath);
-	}
-
-	function errorCallback(error) {
-	    console.log("Error:" + error.code)
-	    alert(error.code);
-	}
-	
-	function moveFile(fileUri) 
-	{
-	    window.resolveLocalFileSystemURL(
-	          fileUri,
-	          function(fileEntry){
-	                newFileUri  = cordova.file.dataDirectory + "sounds/";
-	                oldFileUri  = fileUri;
-	                fileExt     = "." + oldFileUri.split('.').pop();
-
-	                newFileName = guid("car") + fileExt;
-	                
-	                window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
-	                        function(dirEntry) {
-	                            // move the file to a new directory and rename it
-	                            fileEntry.moveTo(dirEntry, newFileName, successCallback, errorCallback);
-	                        },
-	                        errorCallback);
-	          },
-	          errorCallback);
-	}
 	
 		
 	$scope.captureAudio = function()
@@ -876,7 +846,7 @@ angular.module('auletta.controllers', [])
 	    				            var reader = new FileReader();
 	    				            reader.onloadend = function (evt) {
 	    				                var obj = evt.target.result; // this is your Base64 string
-	    				                alert(obj);
+	    				                $scope.currentCard.cardAudio = obj;
 	    				            };
 	    				            
 	    				            reader.readAsDataURL(file);
