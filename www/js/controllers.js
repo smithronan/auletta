@@ -690,7 +690,7 @@ angular.module('auletta.controllers', [])
 	
 	$scope.playAudio = function(_audioFile)
 	{
-		_audioFile = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
+		//_audioFile = $scope.helpers.getPhoneGapPath() + "sound_files/sample.mp3";
 		
 		$scope.media = new Media
 		(
@@ -859,7 +859,7 @@ angular.module('auletta.controllers', [])
 	    				        fileEntry.file(getAudioAsBase64, failedToGetAudioFile);
 	    				        
 	    				        $scope.currentCard.cardAudio = fileEntry.toURL();
-	    				        alert($scope.currentCard.cardAudio);
+	    				        $scope.playAudio($scope.currentCard.cardAudio);
 	    				        
 	    				    },	    				    
 	    				    function () { }
