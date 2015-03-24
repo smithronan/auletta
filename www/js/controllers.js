@@ -841,20 +841,26 @@ angular.module('auletta.controllers', [])
 	    			window.resolveLocalFileSystemURI(audioData[0].fullPath,
 	    				    function (fileEntry) {
 	    				        
-	    						// convert to Base64 string
-	    				        function win(file) {
+	    						function getAudioAsBase64(file) 
+	    						{
 	    				            var reader = new FileReader();
-	    				            reader.onloadend = function (evt) {
-	    				                var obj = evt.target.result; // this is your Base64 string
-	    				                $scope.currentCard.cardAudio = obj;
-	    				            };
+	    				            
+	    				            reader.onloadend = 	function (evt) 
+	    				            					{
+	    				                					var obj = evt.target.result;
+	    				                					//TODO: Do something here with the Base64 data of the audio recording!
+	    				            					};
 	    				            
 	    				            reader.readAsDataURL(file);
 	    				        };
 	    				        
-	    				        var fail = function (evt) { };
+	    				        var failedToGetAudioFile = function (evt) { };
 	    				        
-	    				        fileEntry.file(win, fail);
+	    				        fileEntry.file(getAudioAsBase64, failedToGetAudioFile);
+	    				        
+	    				        $scope.currentCard.cardAudio = fileEntry.toURL();
+	    				        alert($scope.currentCard.cardAudio);
+	    				        
 	    				    },	    				    
 	    				    function () { }
 	    				);
