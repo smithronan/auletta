@@ -262,12 +262,22 @@ angular.module('auletta.controllers', [])
 							$ionicLoading.hide();
 							$scope.playingDeckReady = true;
 							$scope.playerModal.show();
+							$scope.currentPlayingCard = $scope.playingDeck.deckCards[0];
+							$timeout( 
+									function() 
+									{
+										$scope.playAudio($scope.currentPlayingCard.cardAudio);
+									}, 
+									1000);
+							
 						}, 
 						1500);
 			}
 			
 			$scope.playerSlideChanged = function(_index)
 			{
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[_index];
+				
 				$timeout( 
 						function() 
 						{
