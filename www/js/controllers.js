@@ -266,17 +266,22 @@ angular.module('auletta.controllers', [])
 						1500);
 			}
 			
-			$scope.nextCard = function()
+			$scope.playerSlideChanged = function(_index)
 			{
-				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : 0;
-				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];
-				
 				$timeout( 
 						function() 
 						{
 							$scope.playAudio($scope.currentPlayingCard.cardAudio);
 						}, 
 						1000);
+			}
+			
+			$scope.nextCard = function()
+			{
+				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : 0;
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];
+				
+				
 			}
 			
 			$scope.prevCard = function()
