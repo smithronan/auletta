@@ -149,7 +149,7 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, Global, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state) 
+		function($scope, Decks, Global, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state, $cordovaMedia) 
 		{
 			
 			
@@ -184,6 +184,25 @@ angular.module('auletta.controllers', [])
 						$scope.playerModal = modal;
 					}
 			);			
+			
+			$scope.playAudio = function(_audioFile)
+			{
+				
+				$scope.media = new Media
+				(
+							_audioFile, 
+							function()
+							{
+								console.log("playAudio():Audio Success");
+							}, 
+							function(error)
+							{
+								alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+							}
+				);
+				$scope.media.play();
+			}
+			
 			
 			$scope.toggleSearch = function()
 			{
@@ -250,13 +269,26 @@ angular.module('auletta.controllers', [])
 			$scope.nextCard = function()
 			{
 				$scope.currentCardIndex = ($scope.currentCardIndex < $scope.playingDeck.deckCards.length-1) ? $scope.currentCardIndex + 1 : 0;
-				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];
+				
+				$timeout( 
+						function() 
+						{
+							$scope.playAudio($scope.currentPlayingCard.cardAudio);
+						}, 
+						1000);
 			}
 			
 			$scope.prevCard = function()
 			{
 				$scope.currentCardIndex = ($scope.currentCardIndex > 0) ? $scope.currentCardIndex - 1 : $scope.playingDeck.deckCards.length-1;
-				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];				
+				$scope.currentPlayingCard = $scope.playingDeck.deckCards[$scope.currentCardIndex];
+				$timeout( 
+						function() 
+						{
+							$scope.playAudio($scope.currentPlayingCard.cardAudio);
+						}, 
+						1000);
 			}
 			
 			
@@ -384,7 +416,7 @@ angular.module('auletta.controllers', [])
 	}
 	
 	
-	console.log($stateParams.deckId);
+	
 	if($stateParams.deckId)
 	{
 		$scope.currentDeck = Decks.get($stateParams.deckId);
@@ -859,8 +891,6 @@ angular.module('auletta.controllers', [])
 	    				        fileEntry.file(getAudioAsBase64, failedToGetAudioFile);
 	    				        
 	    				        $scope.currentCard.cardAudio = fileEntry.toURL();
-	    				        $scope.playAudio($scope.currentCard.cardAudio);
-	    				        
 	    				    },	    				    
 	    				    function () { }
 	    				);
