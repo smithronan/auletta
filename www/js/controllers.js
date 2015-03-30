@@ -13,7 +13,8 @@ angular.module('auletta.controllers', [])
     $rootScope.$on('handleSignup', function(event, args) {
         console.log("RootScope: handleSignup");
     	$rootScope.$broadcast('signupBroadcast', args);
-    });
+    });    
+    
 })
 
 .controller('AulettaCtrl', 
@@ -165,7 +166,7 @@ angular.module('auletta.controllers', [])
 			
 			$scope.imageRandomNumber = 1;
 			
-			
+						
 			birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
 			$scope.$on('$destroy', 
 					function() {		          
@@ -898,7 +899,7 @@ angular.module('auletta.controllers', [])
 	    				                					//TODO: Do something here with the Base64 data of the audio recording!
 	    				            					};
 	    				            
-	    				            reader.readAsDataURL(file);
+	    				            //reader.readAsDataURL(file);
 	    				        };
 	    				        
 	    				        var failedToGetAudioFile = function (evt) { };

@@ -34,7 +34,7 @@ button.add-card-control
 
 div.card-preview-small
 {
-		
+	text-align: center;		
 }
 
 div.card-add-save
@@ -56,20 +56,17 @@ div.card-preview-gallery
 	float: left;
 	margin-right: 3%;
 	margin-bottom: 20px;
-	width: 47%;			
+	max-width: 47%;			
 }
 
 img.card-preview-add
 {
-	width: 70vw;
-	max-height: 55vh;
-	margin-left: 15vw;
+	width: 160px;	
 }
 
 img.card-preview
 {
-	width: 100%;
-	max-height: 59vh;
+	width: 130px;	
 }
 
 h2.card-preview, h3.card-preview, h4.card-preview
@@ -100,12 +97,23 @@ div.card-player-image
 	height: 70vh;	
 	overflow: hidden;
 	margin-top: 8vh;
+	text-align: center;
 }
 
 img.card-player
 {
-	width: 100%;
-	height: 100%;
+	width: 640px;	
+	max-width: 100vw;
+}
+
+.item-thumbnail-left > img:first-child
+{
+	min-height: 120px;
+}
+
+.item-thumbnail-left
+{
+	min-height: 145px;
 }
 
 
@@ -198,10 +206,10 @@ ion-scroll.card-gallery-scroll
 input.card-gallery-select
 {
 	position: relative; 
-	top: 30px; 
-	left: 85%;
-	transform: scale(1.5);
-  	-webkit-transform: scale(1.5);
+	top: -165px; 
+	left: 130px;
+	transform: scale(2);
+  	-webkit-transform: scale(2);
 }
 
 .card-review-action 
@@ -247,6 +255,26 @@ div.deck-card-footer
 	font-size: 0.75em;
 }
 
+div.home-buttons
+{
+	max-width: 480px;
+}
+
+ion-content.home-content div
+{
+	max-width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.home-footer
+{
+	margin-left: auto;
+	margin-right: auto;	
+	width: 100vw;
+	text-align: center;
+}
+
 div.home-button
 {
 	background-image: url(../img/home-button.png);
@@ -262,6 +290,7 @@ img.home-top, img.home-bottom
 {
 	width: 105vw;
 	margin-left: -4vw;
+	max-width: 480px;
 }
 
 ion-content.plain, ion-modal-view.plain
@@ -354,6 +383,47 @@ div.gallery-toggle
 	width: 16px;
 	height: 16px;
 	margin-top: 7px;	
+}
+
+.modal
+{
+  top: 0 ;
+  bottom: 0 ; 
+  left: 0 ;
+  right: 0 ;
+  width: 100% ;
+}
+
+@media (max-height: 480px) and (orientation: landscape) 
+{
+	img.home-top 
+	{
+  		display:none;
+	}
+	
+	img.home-bottom 
+	{
+  		display: none;
+	}	
+}
+
+/*Card player media queries to maintain aspect ratios*/
+@media (min-device-height: 480px) and (max-device-height: 959px) 
+{
+	img.card-player 
+	{
+  		width: 320px;
+	}	
+	
+}
+
+@media (min-device-height: 320px) and (max-device-height: 479px) 
+{
+	img.card-player 
+	{
+  		width: 160px;
+	}	
+	
 }
 
 
