@@ -3,14 +3,30 @@
   	<button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
   <ion-content class="padding striped home-content">  	
-	<img src="img/sun-clouds.png" class="home-top" />
+	<!-- <img src="img/sun-clouds.png" class="home-top" /> -->
 	<div class="home-buttons">
+		<div class="home-button-container">
+			<img class="home-button" src="img/home-my-decks.png" ng-click="homeNavigate('tab.decks')" />
+		</div>
+		<div class="home-button-container">
+			<img class="home-button" src="img/home-add-deck.png" ng-click="homeNavigate('tab.addDeck')" ng-show="!$parent.childModeEnabled" />
+		</div>
+		<div class="home-button-container">
+			<img class="home-button" src="img/home-settings.png" ng-click="homeNavigate('tab.settings')" ng-show="!$parent.childModeEnabled" />
+		</div>
+		<div class="home-button-container">
+			<img class="home-button" src="img/home-child-mode.png" ng-show="!$parent.childModeEnabled" />
+		</div>
+		<!-- 
 		<button class="button button-block button-stable" ng-click="homeNavigate('tab.decks')">My Decks</button>
 		<button class="button button-block button-stable" ng-click="homeNavigate('tab.addDeck')" ng-show="!$parent.childModeEnabled">Add Deck</button>
-		<button class="button button-block button-stable" ng-click="homeNavigate('tab.settings')" ng-show="!$parent.childModeEnabled">Settings</button>				
+		<button class="button button-block button-stable" ng-click="homeNavigate('tab.settings')" ng-show="!$parent.childModeEnabled">Settings</button>
+		-->				
 	</div>	   
   </ion-content>
+  <!-- 
   <div class="home-footer">
   	<img src="img/grass-birds.png" class="home-bottom" />
-	</div> 
+  </div>
+  -->   
 </ion-view>

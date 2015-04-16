@@ -1,4 +1,4 @@
-<ion-modal-view class="plain">
+<ion-modal-view class="paper">
     <ion-header-bar ng-show="playingDeckReady" class="player-title">
       <h1 class="title player-title" ng-click="activatePlayerClose()" ng-show="!canClosePlayer">{{playingDeck.deckTitle}}</h1>
       <h1 class="title player-title" ng-click="hidePlayerModal()" ng-show="canClosePlayer">Click again to close...</h1>
@@ -10,8 +10,10 @@
 	      		<img class="padding card-player" ng-src="{{currentPlayingCard.cardImage}}" />
 	      	</div>		  	
 		  	<h2 class="card-preview">{{currentPlayingCard.cardText}}</h2>
-		  	<button class="button button-block icon ion-play" ng-click="playAudio(currentPlayingCard.cardAudio)"></button>
-      
+		  	<!-- <button class="button button-block icon ion-play" ng-click="playAudio(currentPlayingCard.cardAudio)"></button> -->
+      		<div class="deck-play-sound-ctrl">
+      			<img src="img/deck-play-sound.png" class="deck-play-sound" ng-click="playAudio(currentPlayingCard.cardAudio)" />
+      		</div>
   		</ion-slide>
 	</ion-slide-box>
 	

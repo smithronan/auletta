@@ -1,6 +1,30 @@
 html, body
 {
 	font-family: 'Short Stack', cursive;
+	color: #fff;
+}
+
+.bar.bar-stable
+{
+	background-color: #2BB5C4 !important;	
+}
+
+.bar.bar-stable .title
+{
+	color: #FFF;
+}
+
+div.home-button-container
+{
+	width: 50%;
+	text-align: center;
+	float: left;
+	margin-bottom: 3vh;
+}
+
+img.home-button
+{
+	width: 90%;
 }
 
 /* Empty. Add your own CSS if you like */
@@ -59,6 +83,23 @@ div.card-preview-gallery
 	max-width: 47%;			
 }
 
+img.deck-play-sound
+{
+	width: 25%;
+	margin-top: 4px;
+}
+
+div.deck-play-sound-ctrl
+{
+	text-align: center;
+  	background: #fff;
+  	border-radius: 10px;
+  	border: solid 1px #CCC;
+  	width: 220px;
+  	margin-left: auto;
+  	margin-right: auto;
+}
+
 img.card-preview-add
 {
 	width: 160px;	
@@ -98,12 +139,16 @@ div.card-player-image
 	overflow: hidden;
 	margin-top: 8vh;
 	text-align: center;
+	-webkit-filter: drop-shadow(5px 5px 5px #222);
+  	filter: drop-shadow(5px 5px 5px #222);
 }
 
 img.card-player
 {
 	width: 640px;	
 	max-width: 100vw;
+	-webkit-filter: drop-shadow(2px 2px 2px #ccc);
+  	filter: drop-shadow(2px 2px 2px #ccc);
 }
 
 .item-thumbnail-left > img:first-child
@@ -257,6 +302,7 @@ div.deck-card-footer
 
 div.home-buttons
 {
+	padding-top: 10vh;
 	max-width: 480px;
 }
 
@@ -295,7 +341,14 @@ img.home-top, img.home-bottom
 
 ion-content.plain, ion-modal-view.plain
 {
-	background-color: #B3E0F6;	
+	/*background-color: #B3E0F6;*/
+	background-image: url(../img/player-background-bw-dark.png); 	
+}
+
+ion-content.paper, ion-modal-view.paper
+{
+	/*background-color: #B3E0F6;*/
+	background-image: url(../img/paper_3.png); 	
 }
 
 h1.player-title, ion-header-bar.player-title
@@ -303,6 +356,10 @@ h1.player-title, ion-header-bar.player-title
 	background-color: #FFF7C4;
 }
 
+.input-label
+{
+	color: #FFF;
+}
 
 ion-content.striped
 {
@@ -316,7 +373,8 @@ ion-content.striped
 	background: linear-gradient(to bottom, #fefcea 0%,#f1da36 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
 	*/
-	background-image: url(../img/blue-stripe.png);	
+	/*background-image: url(../img/blue-stripe.png);*/
+	background-image: url(../img/bg-lighter-toys.png);	
 }
 
 .deck-list-item div.item-content
