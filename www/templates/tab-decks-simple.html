@@ -11,12 +11,25 @@
   		<input ng-model="deckFilter" type="search" placeholder="Search for..." class="deck-search">
 	</label>		
     
+    <ion-list>
+  		<ion-item ng-repeat="deck in decks  | filter:deckFilter track by $index" class="item-thumbnail-left item-text-wrap deck-listing" ng-click="showPlayerModal(deck.deckId)" on-hold="onHold()">
+    		<img width="100%" ng-src="{{deck.deckThumb}}">
+    		<h2>{{deck.deckTitle}}</h2>    		
+    		<p>{{deck.deckDescription}}</p>
+    		<div class="deck-card-footer-actions">
+    			<button class="button button-small button-clear icon ion-edit" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)"></button>
+    			<button class="button button-small button-clear icon ion-trash-a" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck)"></button>
+    		</div>    		    		    		
+  		</ion-item>
+	</ion-list>
+    
+    <!-- 
     <div class="list list-inset" ng-repeat="deck in decks  | filter:deckFilter track by $index">
   		<div class="item item-divider deck-list-item-header">
-			<div class="deck-title-header"><h2>{{deck.deckTitle}}</h2></div>		    	
+			<div class="deck-title-header"><h2></h2></div>		    	
 		</div>
-		<a class="item item-thumbnail-left item-text-wrap" on-hold="showPlayerModal(deck.deckId)">
-			<img ng-src="{{deck.deckThumb}}">    				
+		<a class="item item-thumbnail-left item-text-wrap" ng-click="showPlayerModal(deck.deckId)">
+			    				
     		<p>{{deck.deckDescription}}</p>
     	</a>
     	<div class="item item-divider deck-list-item-footer">    		
@@ -30,6 +43,7 @@
   		</div>
 	</div>
 	<br/><br/><br/>
+	 -->
   </ion-content>
   <div class="home-footer">
   	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />

@@ -14,9 +14,16 @@ html, body
 	color: #FFF;
 }
 
-div.home-button-container
+div.home-button-primary
 {
 	width: 50%;
+	text-align: center;	
+	margin-bottom: 25vh;
+}
+
+div.home-button-container
+{
+	width: 33%;
 	text-align: center;
 	float: left;
 	margin-bottom: 3vh;
@@ -127,6 +134,25 @@ div.add-card-count
 	margin-top: 3vh;	
 }
 
+div.add-deck-commentary
+{
+	clear: both;
+	width: 100%;
+	text-align: center;	
+	padding-bottom: 3px;
+	margin-bottom: 2vh;
+	margin-top: 3vh;
+}
+
+div.add-deck-commentary-sub
+{
+	clear: both;
+	width: 100%;
+	text-align: center;	
+	padding-bottom: 3px;
+	font-size: 0.75em;	
+}
+
 div.how-to-add-buttons
 {
 	margin-bottom: 15vh;
@@ -138,9 +164,7 @@ div.card-player-image
 	height: 70vh;	
 	overflow: hidden;
 	margin-top: 8vh;
-	text-align: center;
-	-webkit-filter: drop-shadow(5px 5px 5px #222);
-  	filter: drop-shadow(5px 5px 5px #222);
+	text-align: center;	
 }
 
 img.card-player
@@ -208,6 +232,18 @@ h2.card-preview
 	font-family: 'Short Stack', cursive;
 }
 
+ion-item h2
+{
+	font-family: 'Short Stack', cursive;
+}
+
+ion-item.deck-listing
+{
+	border: none;
+  	margin-bottom: 8px;
+  	background-color: #F3E188;  	
+}
+
 div.home-footer
 {
 	position: fixed;
@@ -248,11 +284,18 @@ ion-scroll.card-gallery-scroll
 	height: 75vh;	
 }
 
+h2.card-gallery-select
+{
+	font-family: 'Short Stack', cursive;
+}
+
+div.card-gallery-select 
+{
+	text-align: right;	
+}
+
 input.card-gallery-select
 {
-	position: relative; 
-	top: -165px; 
-	left: 130px;
 	transform: scale(2);
   	-webkit-transform: scale(2);
 }
@@ -290,6 +333,13 @@ div.deck-card-footer-actions
 	width: 50%;
 	float: left;
 	text-align: right;
+}
+
+div.deck-add-footer-actions
+{
+	width: 100%;
+	float: left;
+	text-align: center;
 }
 
 div.deck-card-footer
@@ -342,7 +392,8 @@ img.home-top, img.home-bottom
 ion-content.plain, ion-modal-view.plain
 {
 	/*background-color: #B3E0F6;*/
-	background-image: url(../img/player-background-bw-dark.png); 	
+	background-image: url(../img/player-background-bw-dark.png);
+	/*background-image: url(../img/notice-board.jpg);*/ 	
 }
 
 ion-content.paper, ion-modal-view.paper
@@ -374,7 +425,8 @@ ion-content.striped
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 );
 	*/
 	/*background-image: url(../img/blue-stripe.png);*/
-	background-image: url(../img/bg-lighter-toys.png);	
+	/*background-image: url(../img/notice-board.jpg);*/
+	background-image: url(../img/player-background-bw-dark.png);	
 }
 
 .deck-list-item div.item-content

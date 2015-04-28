@@ -90,7 +90,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   })
   
   .state('tab.decks', {
-    url: '/decks',
+    url: '/decks',    
     views: {
       'menuContent': {
         templateUrl: 'templates/tab-decks.html',
@@ -111,6 +111,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
     
   .state('tab.addDeck', {
       url: '/addDeck',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/tab-adddeck.html',

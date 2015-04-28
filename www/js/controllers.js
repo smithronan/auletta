@@ -166,13 +166,17 @@ angular.module('auletta.controllers', [])
 			
 			$scope.imageRandomNumber = 1;
 			
+			$scope.onHold = function()
+			{
+				alert('Hold');
+			}
 						
-			birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
-			$scope.$on('$destroy', 
-					function() {		          
-		          		$interval.cancel(birdInterval);
-		        	}
-			);
+			//birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
+			//$scope.$on('$destroy', 
+			//		function() {		          
+		    //      		$interval.cancel(birdInterval);
+		    //    	}
+			//);
 			
 			$ionicModal.fromTemplateUrl('templates/player-modal.html', 
 					{
@@ -360,7 +364,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards, $stateParams) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards, $stateParams, $ionicListDelegate) {
 	
 	
 	
@@ -371,6 +375,8 @@ angular.module('auletta.controllers', [])
 	$scope.saveToGallery = false;
 	
 	$scope.savedCards = Cards.all();
+	
+	$scope.areReordering = false;
 	
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
@@ -431,7 +437,10 @@ angular.module('auletta.controllers', [])
 		$scope.gotoStep(4);
 	}
 	
-	
+	$scope.toggleReviewSaveReorder = function()
+	{
+		$scope.areReordering = !$scope.areReordering;
+	}
 	
 	if($stateParams.deckId)
 	{
@@ -455,7 +464,7 @@ angular.module('auletta.controllers', [])
 	blankCard();
 	
 	//Controls for displaying the right content based on step
-	$scope.contentStep = 1;
+	$scope.contentStep = -1;
 	$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Add New Deck";
 
 	
@@ -519,7 +528,7 @@ angular.module('auletta.controllers', [])
 							};
 						}
 						
-						$scope.gotoStep(1);
+						$scope.gotoStep(-1);
 						
 						$ionicHistory.nextViewOptions(
 								{
@@ -527,7 +536,7 @@ angular.module('auletta.controllers', [])
 								}
 						);
 						
-						$state.go('tab.decks');
+						//$state.go('tab.decks');
 						
 						return true;
 					}	
@@ -540,7 +549,7 @@ angular.module('auletta.controllers', [])
 	{
 		if(_stepId == 1)
 		{
-			$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Add New Deck";
+			$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Create Deck";
 		}
 		else if(_stepId == 2)
 		{
@@ -549,7 +558,7 @@ angular.module('auletta.controllers', [])
 		else if(_stepId == 3)
 		{
 			$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
-			$scope.viewTitle = "Review &amp; Save";
+			$scope.viewTitle = "Save Deck";
 		}
 		else if(_stepId == 0)
 		{
@@ -585,19 +594,42 @@ angular.module('auletta.controllers', [])
 	
 	$scope.deleteCard = function(_cardId)
 	{
-		var spliceAt = -1;
 		
-		for (var i = 0; i < $scope.currentDeck.deckCards.length; i++) 
-		{
-			if ($scope.currentDeck.deckCards[i].cardId === _cardId) {
-				spliceAt = i;
-			}
-		}
-		
-		if(spliceAt > -1)
-		{
-			$scope.currentDeck.deckCards.splice(spliceAt, 1);
-		}
+		var hideSheet = $ionicActionSheet.show(
+				{
+					destructiveText: 'Delete',
+					titleText: 'Are you sure you want to delete this card?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{
+						
+					},
+					buttonClicked: function(index) {
+						return true;
+					},
+					destructiveButtonClicked: function() {
+						
+						var spliceAt = -1;
+						
+						for (var i = 0; i < $scope.currentDeck.deckCards.length; i++) 
+						{
+							if ($scope.currentDeck.deckCards[i].cardId === _cardId) {
+								spliceAt = i;
+							}
+						}
+						
+						if(spliceAt > -1)
+						{
+							$scope.currentDeck.deckCards.splice(spliceAt, 1);
+						}
+						
+						$ionicListDelegate.closeOptionButtons();
+						
+						return true;
+					}	
+				}
+		);
+				
 	}
 	
 	$scope.editCard = function(_cardId)
@@ -614,11 +646,20 @@ angular.module('auletta.controllers', [])
 			}
 		}
 		
+		$ionicListDelegate.closeOptionButtons();
+		
 		$scope.currentCard = $scope.currentDeck.deckCards[cardIndex];		
 		$scope.editingCard = true;
 		$scope.gotoStep(2);
 	}
 	
+	
+	$scope.reorderCards = function(_card, _from, _to)
+	{
+		var cardToMove = $scope.currentDeck.deckCards[_from];
+		$scope.currentDeck.deckCards.splice(_from, 1);
+		$scope.currentDeck.deckCards.splice(_to, 0, cardToMove);
+	}
 	
 	
 	$scope.saveCard = function()

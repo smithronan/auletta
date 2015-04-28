@@ -2,9 +2,39 @@
   <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
-  <ion-nav-buttons side="secondary">
-  	<button class="button icon ion-close" ng-click="cancelAddDeck()"></button>  	  	
+  <ion-nav-buttons side="secondary">  	
+  	<button class="button icon ion-close" ng-click="cancelAddDeck()" ng-show="(contentStep>-1 && contentStep!=3)"></button>  	  	  	
   </ion-nav-buttons>
+  
+  <ion-content ng-show="(contentStep==-1)" class="padding plain">
+  	<div class="list list-inset">  		
+		<div class="item item-divider deck-list-item-header">
+			<div class="deck-title-header"><h2>Create your own Deck</h2></div>		    	
+		</div>
+		<a class="item item-text-wrap" on-hold="showPlayerModal(deck.deckId)">			    				
+	   		<p>Using your camera or the photos in your gallery and your phone's voice recorder you can create your very own personalised deck</p>
+	   	</a>
+	   	<div class="item item-divider deck-list-item-footer">
+		   	<div class="deck-add-footer-actions">
+		   		<button class="button button-small icon ion-wand" ng-show="!$parent.childModeEnabled" ng-click="gotoStep(1)"> Create Deck</button>    			
+		   	</div>
+		</div>    	      	
+	</div>
+	<div class="list list-inset">
+		<div class="item item-divider deck-list-item-header">
+			<div class="deck-title-header"><h2>Browse our Deck Gallery</h2></div>		    	
+		</div>
+		<a class="item item-text-wrap" on-hold="showPlayerModal(deck.deckId)">
+			<p>Don't want to create your own from scratch? Don't worry, you can browse and download from our pre-built gallery of decks</p>
+    	</a>
+    	<div class="item item-divider deck-list-item-footer">
+	    	<div class="deck-add-footer-actions">
+	    		<button class="button button-small icon ion-images" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck)"> Browse Gallery</button>
+	    	</div>
+	    </div>
+    </div>
+  </ion-content>
+  
   <ion-content ng-show="(contentStep==1)" class="padding plain">
   	<div class="list add-deck">
 	  <label class="item item-input item-stacked-label">
@@ -73,14 +103,13 @@
   		<i class="icon ion-search placeholder-icon"></i>
   		<input ng-model="galleryCardFilter" type="search" placeholder="Search for..." class="deck-search">
 	</label>	
-    <ion-scroll class="card-gallery-scroll" zooming="false" direction="y">
-  		<div ng-repeat="card in savedCards | filter:galleryCardFilter track by $index" class="card-preview-small card-preview-gallery">
-	    	<input class="card-gallery-select" ng-model="selectedCards" type="checkbox" ng-change="cardSelectionToggle(card.cardId)" />
-	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" />
-			<h4 class="card-preview">{{card.cardText}}</h2>				
-	    </div>
- 	</ion-scroll>
-    
+    <div class="list">
+        <div ng-repeat="card in savedCards | filter:galleryCardFilter track by $index" class="item item-thumbnail-left">
+          <img ng-src="{{ card.cardImage }}">
+          <div class="card-gallery-select"><input class="card-gallery-select" ng-model="selectedCards" type="checkbox" ng-change="cardSelectionToggle(card.cardId)" /></div>
+          <h2 class="card-gallery-select">{{ card.cardText }}</h2>                    
+        </div>
+    </div>
     <div class="button-bar">
 	  	<button class="button button-balanced" ng-click="addCardsFromGallery()">
 	  		<i class="icon ion-checkmark"></i> Add  			
@@ -93,9 +122,9 @@
   
   
   
-  <ion-content ng-show="(contentStep==3)" class="padding plain" scroll="false">
-  	<ion-scroll class="review-save-scroll" zooming="false" direction="y">
-  		<div class="card deck-preview-card" >
+  <ion-content ng-show="(contentStep==3)" class="plain" >  	
+  	<div class="add-deck-commentary">Here is how your deck will look in the list...</div>
+ 	 	<div class="deck-review" >
   			<div class="item item-divider deck-list-item-header">
 				<div class="deck-title-header"><h2>{{currentDeck.deckTitle}}</h2></div>		    	
 			</div>
@@ -113,24 +142,23 @@
 	    		</div>
 	  		</div>
 		</div>
-  		<div ng-repeat="card in currentDeck.deckCards" class="card-preview-small card-preview-gallery">
-	    	<div class="card-review-container">
-	    	<div class="card-review-action" ng-show="cardOptionsReveal == card.cardId">
-	    		<button class="button button-block button-assertive" ng-click="editCard(card.cardId)">Edit Card</button>
-	    		<br/>
-	    		<button class="button button-block button-assertive" ng-click="deleteCard(card.cardId)">Delete Card</button>
-	    	</div>
-	    	<img class="padding card-preview" ng-src="{{card.cardImage}}" ng-click="cardOptions(card.cardId)"/>
-			<h4 class="card-preview">{{card.cardText}}</h2>
-			</div>				
-	    </div>
- 	</ion-scroll>
-  	<br/>
-    
-  	<div class="button-bar">  		
+  	<div class="add-deck-commentary">...and here are your cards...</div>
+  	<div class="add-deck-commentary-sub">(swipe a card left to edit or remove, long press to rearrange!)</div>  		
+	<ion-list show-delete="shouldShowDelete" show-reorder="areReordering" can-swipe="true">
+  	  <ion-item ng-repeat="card in currentDeck.deckCards track by $index" class="item item-thumbnail-left item-text-wrap" on-hold="toggleReviewSaveReorder()">
+		  <img ng-src="{{card.cardImage}}">
+		  <h2>{{card.cardText}}</h2>		  
+		  <ion-option-button class="button icon ion-edit" ng-click="editCard(card.cardId)"></ion-option-button>
+		  <ion-option-button class="button icon ion-trash-a" ng-click="deleteCard(card.cardId)"></ion-option-button>		  
+		  <ion-reorder-button class="ion-navicon" on-reorder="reorderCards(item, $fromIndex, $toIndex)"></ion-reorder-button>
+	  </ion-item>
+	</ion-list>
+	<div class="add-deck-commentary">...when you are happy click below to save your new deck!</div>
+	<div class="add-deck-commentary-sub">(or click Back to add more cards!)</div>
+	<div class="button-bar">  		
   		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(4)">Back</a>
   		<a class="button icon-right ion-checkmark button-balanced" ng-click="saveDeck()">Save Deck</a>  		
-	</div>  		  	
+	</div>
   </ion-content>
   
   <ion-content ng-show="showPreview" class="padding plain">
