@@ -26,6 +26,7 @@ angular.module('auletta.services', [])
 }
 )
 
+
 .factory('Decks', function() {
 	// Some fake testing data
 	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));

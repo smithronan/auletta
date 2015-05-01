@@ -6,6 +6,14 @@
   	<button class="button icon ion-close" ng-click="cancelAddDeck()" ng-show="(contentStep>-1 && contentStep!=3)"></button>  	  	  	
   </ion-nav-buttons>
   
+  <div class="bar bar-subheader" ng-show="(contentStep==6)">
+  	<div class="button-bar">
+		<button class="button" ng-click="showDecks(0)">All</button>
+		<button class="button" ng-click="showDecks(1)">Free</button>
+		<button class="button" ng-click="showDecks(2)">Premium</button>
+	</div>			
+  </div>
+  
   <ion-content ng-show="(contentStep==-1)" class="padding plain">
   	<div class="list list-inset">  		
 		<div class="item item-divider deck-list-item-header">
@@ -29,11 +37,25 @@
     	</a>
     	<div class="item item-divider deck-list-item-footer">
 	    	<div class="deck-add-footer-actions">
-	    		<button class="button button-small icon ion-images" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck)"> Browse Gallery</button>
+	    		<button class="button button-small icon ion-images" ng-show="!$parent.childModeEnabled" ng-click="gotoStep(6)"> Browse Gallery</button>
 	    	</div>
 	    </div>
     </div>
   </ion-content>
+  
+  <ion-content ng-show="(contentStep==6)" class="padding plain has-subheader">
+  	<ion-list>
+  	  <ion-item ng-repeat="deck in deckGallery track by $index" class="item item-thumbnail-left item-text-wrap">
+		  <img ng-src="{{deck.attributes.DeckImage}}">
+		  <h2>{{deck.attributes.DeckName}}</h2>
+		  <p>{{deck.attributes.DeckDescription}}</p>		  
+	  </ion-item>
+	</ion-list>
+  </ion-content>
+  
+  
+  
+  
   
   <ion-content ng-show="(contentStep==1)" class="padding plain">
   	<div class="list add-deck">

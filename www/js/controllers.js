@@ -364,7 +364,7 @@ angular.module('auletta.controllers', [])
 )
 
 
-.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards, $stateParams, $ionicListDelegate) {
+.controller('AddDeckCtrl', function($scope, $rootScope, $ionicPlatform, $ionicLoading, $cordovaMedia, $cordovaCapture, $ionicActionSheet, $ionicPopup, Decks, $cordovaCamera, $state, $ionicHistory, $cordovaFile, $interval, Cards, $stateParams, $ionicListDelegate) {
 	
 	
 	
@@ -572,9 +572,47 @@ angular.module('auletta.controllers', [])
 		{
 			
 		}
+		else if(_stepId == 6)
+		{
+			$scope.viewTitle = "Deck Gallery";
+			
+			$scope.deckGallery = [];
+			
+			$scope.showDecks(0);
+		}
+		
 		
 		$scope.contentStep = _stepId;
 	}
+	
+	
+	$scope.showDecks = function(_type)
+	{
+		var _message = 'Loading Deck Gallery...<br/><br/><i class="icon ion-loading-c"></i>'
+		
+		$ionicLoading.show(
+    		{
+    			template: _message,							
+    			animation: 'fade-in',
+    			showDelay: 0,
+    			duration: 1500
+    		}
+		);
+		
+		Parse.Cloud.run('getBrowsableDecks', {"type": _type}, {
+			  success: function(result) 
+			  {
+				  $scope.deckGallery = result;
+				  $ionicLoading.hide();
+			  },
+			  error: function(error) 
+			  {
+				  $ionicLoading.hide();
+			  }
+			});			
+	}
+		
+	
 	
 	$scope.cardOptionsReveal = '';
 	$scope.cardOptions = function(_cardId)
