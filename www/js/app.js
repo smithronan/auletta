@@ -81,6 +81,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   .state('tab.home', {
     url: '/home',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/tab-home.html',
@@ -90,7 +91,8 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
   })
   
   .state('tab.decks', {
-    url: '/decks',    
+    url: '/decks',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/tab-decks.html',
@@ -101,6 +103,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   .state('tab.settings', {
       url: '/settings',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/tab-settings.html',
@@ -133,6 +136,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   .state('tab.account', {
     url: '/account',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/tab-account.html',

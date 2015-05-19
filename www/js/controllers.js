@@ -134,6 +134,12 @@ angular.module('auletta.controllers', [])
 		function($scope, $state, $ionicHistory)
 		{
 			
+			$scope.helpers = AulettaGlobal.helpers;
+			
+			var _pEventDimensions = { screen: 'home' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
+	
 			$scope.homeNavigate = function(_destination)
 			{
 				$ionicHistory.nextViewOptions(
@@ -153,7 +159,11 @@ angular.module('auletta.controllers', [])
 		function($scope, Decks, Global, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state, $cordovaMedia) 
 		{
 			
+			$scope.helpers = AulettaGlobal.helpers;
 			
+			var _pEventDimensions = { screen: 'My Decks' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+	
 			$scope.decks = Decks.all();
 			
 			$scope.preventCloseTimout = '';
@@ -240,6 +250,12 @@ angular.module('auletta.controllers', [])
 			
 			$scope.showPlayerModal = function(_deckId)
 			{
+				var _pEventDimensions = { screen: 'Player' };			
+				$scope.helpers.trackEvent('screenview', _pEventDimensions);
+				
+				var _pEventDimensions = { deckId: _deckId };			
+				$scope.helpers.trackEvent('play-deck', _pEventDimensions);
+				
 				$scope.playingDeck = Decks.get(_deckId);
 				$scope.currentCardIndex = -1;
 				$scope.nextCard();				
@@ -273,7 +289,7 @@ angular.module('auletta.controllers', [])
 									{
 										$scope.playAudio($scope.currentPlayingCard.cardAudio);
 									}, 
-									1000);
+									500);
 							
 						}, 
 						1500);
@@ -288,7 +304,10 @@ angular.module('auletta.controllers', [])
 						{
 							$scope.playAudio($scope.currentPlayingCard.cardAudio);
 						}, 
-						1000);
+						500);
+				
+				var _pEventDimensions = { };			
+				$scope.helpers.trackEvent('deck-scroll', _pEventDimensions);
 			}
 			
 			$scope.nextCard = function()
@@ -321,11 +340,17 @@ angular.module('auletta.controllers', [])
 			{
 				$scope.toggleCanClosePlayer();
 				$timeout($scope.toggleCanClosePlayer, 2000);
+				
+				var _pEventDimensions = { };			
+				$scope.helpers.trackEvent('player-close-intent', _pEventDimensions);
 			}
 			
 			$scope.hidePlayerModal = function()
 			{
-				$scope.playerModal.hide();				
+				$scope.playerModal.hide();
+				
+				var _pEventDimensions = {  };			
+				$scope.helpers.trackEvent('player-close', _pEventDimensions);
 			}
 			
 			
@@ -338,6 +363,9 @@ angular.module('auletta.controllers', [])
 			
 			$scope.trashDeck = function(_deck)
 			{	
+				var _pEventDimensions = { };			
+				$scope.helpers.trackEvent('deck-delete-intent', _pEventDimensions);
+				
 				var hideSheet = $ionicActionSheet.show(
 						{
 							destructiveText: 'Delete',
@@ -346,6 +374,8 @@ angular.module('auletta.controllers', [])
 							cancel: function() 
 							{
 								$scope.toggleEdit();
+								var _pEventDimensions = { };			
+								$scope.helpers.trackEvent('deck-delete-cancel', _pEventDimensions);
 							},
 							buttonClicked: function(index) {
 								return true;
@@ -354,6 +384,8 @@ angular.module('auletta.controllers', [])
 								$scope.decks = Decks.remove(_deck.deckId);
 								Decks.persist();
 								$scope.toggleEdit();
+								var _pEventDimensions = { };			
+								$scope.helpers.trackEvent('deck-delete-confirm', _pEventDimensions);
 								return true;
 							}	
 						}
@@ -369,6 +401,9 @@ angular.module('auletta.controllers', [])
 	
 	
 	$scope.helpers = AulettaGlobal.helpers;
+	
+	var _pEventDimensions = { screen: 'Add Deck Home' };			
+	$scope.helpers.trackEvent('screenview', _pEventDimensions);
 	
 	$scope.viewTitle = "Add New Deck";
 	
@@ -549,31 +584,50 @@ angular.module('auletta.controllers', [])
 	{
 		if(_stepId == 1)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Intro' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Create Deck";
 		}
 		else if(_stepId == 2)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Build Card' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.viewTitle = "Build a Card";
 		}	
 		else if(_stepId == 3)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Save and Review' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.currentDeck.deckThumb = $scope.currentDeck.deckCards[0].cardImage;
 			$scope.viewTitle = "Save Deck";
 		}
 		else if(_stepId == 0)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Preview Card' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.viewTitle = "Preview Card";
 		}
 		else if(_stepId == 4)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Add Cards' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.viewTitle = "Add Cards";
 		}
 		else if(_stepId == 5)
 		{
-			
+			var _pEventDimensions = { screen: 'Add Deck Choose Saved Card' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
 		}
 		else if(_stepId == 6)
 		{
+			var _pEventDimensions = { screen: 'Add Deck Browse Gallery' };			
+			$scope.helpers.trackEvent('screenview', _pEventDimensions);
+			
 			$scope.viewTitle = "Deck Gallery";
 			
 			$scope.deckGallery = [];
@@ -749,12 +803,17 @@ angular.module('auletta.controllers', [])
 		blankCard();
 		if($scope.editingCard)
 		{
+			var _pEventDimensions = { };			
+			$scope.helpers.trackEvent('cancel-edit-card', _pEventDimensions);
+			
 			//TODO: Reset card in case edits where in progress
 			$scope.editingCard = false;
 			$scope.gotoStep(3);
 		}
 		else
-		{			
+		{
+			var _pEventDimensions = { };			
+			$scope.helpers.trackEvent('cancel-build-card', _pEventDimensions);
 			$scope.gotoStep(4);
 		}		
 	}
@@ -785,7 +844,10 @@ angular.module('auletta.controllers', [])
 	
 	$scope.saveDeck = function()
 	{
-		if($scope.helpers.isLoggedIn() || true)
+		var _pEventDimensions = { };			
+		$scope.helpers.trackEvent('save-deck-intent', _pEventDimensions);
+		
+		if($scope.helpers.isLoggedIn())
 			{
 				
 				if($scope.editingDeck)
@@ -795,6 +857,8 @@ angular.module('auletta.controllers', [])
 				
 				Decks.add($scope.currentDeck);
 				Decks.persist();
+				
+				$scope.helpers.trackEvent('save-deck', _pEventDimensions);
 				
 				console.log(Decks.all());
 				
@@ -807,6 +871,7 @@ angular.module('auletta.controllers', [])
 			}
 		else
 			{
+				$scope.helpers.trackEvent('save-deck-login-prompt', _pEventDimensions);
 				$scope.aulettaShowLoginModal();
 			}
 		
@@ -836,6 +901,8 @@ angular.module('auletta.controllers', [])
 	
 	$scope.captureImage = function()
 	{
+		var _pEventDimensions = { };			
+		$scope.helpers.trackEvent('capture-image-intent', _pEventDimensions);
 		
 		var actionSheet = $ionicActionSheet.show(
 				{
@@ -867,11 +934,15 @@ angular.module('auletta.controllers', [])
 							$cordovaCamera.getPicture(options).then(
 									function(imageData) 
 									{
+										var _pEventDimensions = { type: 'Take Photo'};			
+										$scope.helpers.trackEvent('capture-image-success', _pEventDimensions);
+										
 										$scope.currentCard.cardImage = "data:image/png;base64,"+imageData;								
 									}, 
 									function(err) 
 									{
-										// error
+										var _pEventDimensions = { type: 'Take Photo'};			
+										$scope.helpers.trackEvent('capture-image-error', _pEventDimensions);
 									}
 							);
 						}
@@ -887,11 +958,15 @@ angular.module('auletta.controllers', [])
 							$cordovaCamera.getPicture(options).then(
 									function(imageData) 
 									{
+										var _pEventDimensions = { type: 'Choose Existing'};			
+										$scope.helpers.trackEvent('capture-image-success', _pEventDimensions);
+										
 										$scope.currentCard.cardImage = "data:image/png;base64,"+imageData;								
 									}, 
 									function(err) 
 									{
-										// error
+										var _pEventDimensions = { type: 'Choose Existing'};			
+										$scope.helpers.trackEvent('capture-image-error', _pEventDimensions);
 									}
 							);
 						}
@@ -981,19 +1056,27 @@ angular.module('auletta.controllers', [])
 	    				            //reader.readAsDataURL(file);
 	    				        };
 	    				        
-	    				        var failedToGetAudioFile = function (evt) { };
+	    				        var failedToGetAudioFile = function (evt) 
+	    				        {
+	    				        	
+	    				        };
 	    				        
 	    				        fileEntry.file(getAudioAsBase64, failedToGetAudioFile);
 	    				        
 	    				        $scope.currentCard.cardAudio = fileEntry.toURL();
+	    				        
+	    				        var _pEventDimensions = { };			
+								$scope.helpers.trackEvent('capture-audio-success', _pEventDimensions);
 	    				    },	    				    
 	    				    function () { }
 	    				);
 	    		    
 	    		}, 
-	    		function(err) {
+	    		function(err) 
+	    		{
 	    			// An error occurred. Show a message to the user
-	    			alert(err);
+	    			var _pEventDimensions = { error: err};			
+					$scope.helpers.trackEvent('capture-audio-error', _pEventDimensions);	    			
 	    		}
 	    );
 	    
@@ -1015,19 +1098,15 @@ angular.module('auletta.controllers', [])
 .controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup) {
 	$scope.helpers = AulettaGlobal.helpers;
 	
+	var _pEventDimensions = { screen: 'settings' };			
+	$scope.helpers.trackEvent('screenview', _pEventDimensions);
+
+	
 	$scope.childModePin = { value: "" };
 	
 	//Needs to be globalized
 	$scope.childModeEnabled = $rootScope.childModeEnabled;
 		
-	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
-	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
-	$scope.$on('$destroy', 
-			function() {		          
-          		$interval.cancel(birdInterval);
-        	}
-	);
-	
 	
 	$scope.isLoggedIn = $scope.helpers.isLoggedIn();
 		
@@ -1078,6 +1157,9 @@ angular.module('auletta.controllers', [])
 			            	
 			            	$rootScope.childModeEnabled = false;
 			            	$scope.childModeEnabled = false;
+			            	
+			            	var _pEventDimensions = { };			
+							$scope.helpers.trackEvent('child-mode-disabled', _pEventDimensions);
 			            }	          
 			        }
 			      }
@@ -1098,6 +1180,9 @@ angular.module('auletta.controllers', [])
 			);
 			$rootScope.childModeEnabled = true;
 			$scope.childModeEnabled = true;
+			
+			var _pEventDimensions = { };			
+			$scope.helpers.trackEvent('child-mode-enabled', _pEventDimensions);
 		}		
 		
 	}

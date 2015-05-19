@@ -57,7 +57,7 @@
   
   
   
-  <ion-content ng-show="(contentStep==1)" class="padding plain">
+  <ion-content ng-show="(contentStep==1)" class="padding plain add-deck">
   	<div class="list add-deck">
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Deck Title</span>
@@ -71,7 +71,7 @@
   	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(4)">Next</button>
   </ion-content>
   
-  <ion-content ng-show="(contentStep==2)" class="plain">    
+  <ion-content ng-show="(contentStep==2)" class="plain add-deck">    
     <div class="card-add-controls button-bar" ng-show="0==1">
     	<button class="button icon ion-camera add-card-control" ng-click="captureImage()"></button>
     	<button class="button icon ion-compose add-card-control" ng-click="captureText()"></button>    
@@ -101,7 +101,7 @@
        
   </ion-content>
   
-  <ion-content ng-show="(contentStep==4)" class="plain">    
+  <ion-content ng-show="(contentStep==4)" class="plain add-deck">    
     
     <div class="add-card-count" ng-show="currentDeck.deckCards.length>0">Nice Job!! <br/><br/> You've got {{currentDeck.deckCards.length}} cards in your deck.</div>
     <div class="add-card-count" ng-show="currentDeck.deckCards.length==0">No cards yet!  <br/> <br/> Start by adding some below :-)</div>
@@ -120,7 +120,7 @@
 	</div>   
   </ion-content>
   
-  <ion-content ng-show="(contentStep==5)" class="plain">    
+  <ion-content ng-show="(contentStep==5)" class="plain add-deck">    
     <label class="item item-input">
   		<i class="icon ion-search placeholder-icon"></i>
   		<input ng-model="galleryCardFilter" type="search" placeholder="Search for..." class="deck-search">
@@ -144,7 +144,7 @@
   
   
   
-  <ion-content ng-show="(contentStep==3)" class="plain" >  	
+  <ion-content ng-show="(contentStep==3)" class="plain add-deck" >  	
   	<div class="add-deck-commentary">Here is how your deck will look in the list...</div>
  	 	<div class="deck-review" >
   			<div class="item item-divider deck-list-item-header">
@@ -194,8 +194,5 @@
   		</button>
 	</div>
 	<p></p>    	    
-  </ion-content>
-  <div class="home-footer" ng-show="(contentStep==1 || contentStep==4)">
-  	<img ng-src="img/grass-birds-no-butterfly-{{imageRandomNumber}}.png" class="home-bottom" />
-  </div>
+  </ion-content>  
 </ion-view>

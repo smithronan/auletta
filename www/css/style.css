@@ -6,12 +6,23 @@ html, body
 
 .bar.bar-stable
 {
-	background-color: #2BB5C4 !important;	
+	/*background-color: #2BB5C4 !important;*/
+	background-color: #FFF;	
 }
 
 .bar.bar-stable .title
 {
-	color: #FFF;
+	color: #444;
+}
+
+a.item-content
+{
+	color: #000;
+}
+
+.item-complex .item-content
+{
+	background-color: #FFF7C4;
 }
 
 div.home-button-primary
@@ -263,7 +274,8 @@ div.deck-title-header
 
 div.deck-title-header h2
 {
-	font-family: 'Short Stack', cursive;	
+	font-family: 'Short Stack', cursive;
+	font-weight: bold;	
 }
 
 div.deck-title-img
@@ -320,12 +332,12 @@ ion-item.menu-list-item
 
 div.deck-list-item-header
 {
-	background-color: #FFF7C4;		
+	background-color: lightblue;		
 }
 
 div.deck-list-item-footer
 {
-	background-color: #FFFADD;
+	background-color: seashell;
 }
 
 div.deck-card-footer-actions
@@ -348,6 +360,7 @@ div.deck-card-footer
 	float: left;
 	padding-top: 0.5em;
 	font-size: 0.75em;
+	font-weight: bold;
 }
 
 div.home-buttons
@@ -391,9 +404,14 @@ img.home-top, img.home-bottom
 
 ion-content.plain, ion-modal-view.plain
 {
-	/*background-color: #B3E0F6;*/
+	/*background-color: #B3E0F6;*/	
+	/*background-image: url(../img/notice-board.jpg);*/ 
+	background-image: url(../img/bg-lighter-toys.png);	
+}
+
+ion-content.add-deck
+{
 	background-image: url(../img/player-background-bw-dark.png);
-	/*background-image: url(../img/notice-board.jpg);*/ 	
 }
 
 ion-content.paper, ion-modal-view.paper
@@ -426,7 +444,8 @@ ion-content.striped
 	*/
 	/*background-image: url(../img/blue-stripe.png);*/
 	/*background-image: url(../img/notice-board.jpg);*/
-	background-image: url(../img/player-background-bw-dark.png);	
+	/*background-image: url(../img/player-background-bw-dark.png);*/
+	background-image: url(../img/bg-lighter-toys.png);	
 }
 
 .deck-list-item div.item-content
