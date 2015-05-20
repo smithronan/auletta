@@ -163,7 +163,21 @@ angular.module('auletta.controllers', [])
 			
 			var _pEventDimensions = { screen: 'My Decks' };			
 			$scope.helpers.trackEvent('screenview', _pEventDimensions);
-	
+			
+			$scope.showEditCardArray = [];
+			$scope.toggleEditCardArray = function(_index)
+			{
+				if($scope.showEditCardArray[_index] == true)
+				{
+					$scope.showEditCardArray = [];					
+				}
+				else
+				{
+					$scope.showEditCardArray = [];
+					$scope.showEditCardArray[_index] = true;
+				}
+			}
+						
 			$scope.decks = Decks.all();
 			
 			$scope.preventCloseTimout = '';

@@ -5,18 +5,26 @@
   <ion-content class="padding striped home-content">  	
 	<!-- <img src="img/sun-clouds.png" class="home-top" /> -->
 	<div class="home-buttons">
-		<div class="home-button-primary">
-			<img class="home-button" src="img/home-my-decks.png" ng-click="homeNavigate('tab.decks')" />
-		</div>		
-		<div class="home-button-container">
-			<img class="home-button" src="img/home-add-deck.png" ng-click="homeNavigate('tab.addDeck')" ng-show="!$parent.childModeEnabled" />
+		<div class="material-btn" ng-click="homeNavigate('tab.decks')">
+			<div class="home-button-icon"><img class="home-button" src="img/my-decks.png" /></div>
+			<div class="home-button-text">My Decks</div>
 		</div>
-		<div class="home-button-container">
-			<img class="home-button" src="img/home-settings.png" ng-click="homeNavigate('tab.settings')" ng-show="!$parent.childModeEnabled" />
+		
+		<div class="material-btn" ng-click="homeNavigate('tab.addDeck')">
+			<div class="home-button-icon"><img class="home-button" src="img/add-deck.png" /></div>
+			<div class="home-button-text">Add New Deck</div>
+		</div>	
+		
+		<div class="material-btn">
+			<div class="home-button-icon"><img class="home-button" src="img/child-mode.png" /></div>
+			<div class="home-button-text">Child Mode</div>
 		</div>
-		<div class="home-button-container">
-			<img class="home-button" src="img/home-child-mode.png" ng-show="!$parent.childModeEnabled" />
-		</div>
+		
+		<div class="material-btn" ng-click="homeNavigate('tab.settings')">
+			<div class="home-button-icon"><img class="home-button" src="img/settings.png" /></div>
+			<div class="home-button-text">Settings</div>
+		</div>	
+		
 		<!-- 
 		<button class="button button-block button-stable" ng-click="homeNavigate('tab.decks')">My Decks</button>
 		<button class="button button-block button-stable" ng-click="homeNavigate('tab.addDeck')" ng-show="!$parent.childModeEnabled">Add Deck</button>

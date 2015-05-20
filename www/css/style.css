@@ -22,14 +22,30 @@ a.item-content
 
 .item-complex .item-content
 {
-	background-color: #FFF7C4;
+	/*background-color: #FFF7C4;*/
 }
 
 div.home-button-primary
 {
-	width: 50%;
+	width: 80%;
 	text-align: center;	
 	margin-bottom: 25vh;
+}
+
+div.home-button-icon
+{
+	width: 20%;
+	float: left;
+}
+
+div.home-button-text
+{
+  width: 65vw;
+  float: left;
+  padding-top: 2.4vh;
+  font-size: 1.4em;
+  padding-left: 1vw;
+  text-align: left;
 }
 
 div.home-button-container
@@ -83,6 +99,17 @@ div.card-add-save
 {
 		
 }
+
+img.deck-list-action-button-play
+{
+	width: 10vw;	
+}
+
+img.deck-list-action-button
+{
+	width: 8vw;	
+}
+
 
 div.card-add-save-items
 {
@@ -193,7 +220,17 @@ img.card-player
 
 .item-thumbnail-left
 {
-	min-height: 145px;
+	min-height: 145px;	
+}
+
+p.deck-list-deck-title
+{
+	font-weight: bold;	
+}
+
+p.deck-list-deck-desc
+{
+	font-size: 0.75em;
 }
 
 
@@ -269,7 +306,7 @@ div.deck-list-header
 
 div.deck-title-header
 {
-	float: left;
+	text-align: center;
 }
 
 div.deck-title-header h2
@@ -337,10 +374,17 @@ div.deck-list-item-header
 
 div.deck-list-item-footer
 {
-	background-color: seashell;
+	background-color: lightgreen;
 }
 
 div.deck-card-footer-actions
+{
+	width: 50%;
+	float: left;
+	text-align: right;
+}
+
+div.deck-card-header-actions
 {
 	width: 50%;
 	float: left;
@@ -365,7 +409,6 @@ div.deck-card-footer
 
 div.home-buttons
 {
-	padding-top: 10vh;
 	max-width: 480px;
 }
 
@@ -406,12 +449,13 @@ ion-content.plain, ion-modal-view.plain
 {
 	/*background-color: #B3E0F6;*/	
 	/*background-image: url(../img/notice-board.jpg);*/ 
-	background-image: url(../img/bg-lighter-toys.png);	
+	background-image: url(../img/bg-lighter-toys-bw-darker.png);	
 }
 
 ion-content.add-deck
 {
 	background-image: url(../img/player-background-bw-dark.png);
+	background-image: url(../img/bg-lighter-toys-bw-darker.png);
 }
 
 ion-content.paper, ion-modal-view.paper
@@ -554,6 +598,73 @@ div.gallery-toggle
 	}	
 	
 }
+
+
+/* Material Buttons */
+.material-btn {
+  position: relative;
+  display: block;
+  margin: 30px auto;
+  padding: 3vw;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  background-color: lightgreen;
+  color: #FFF;
+  transition: background-color .3s;
+  border-radius: 10px;
+}
+
+.material-btn > * {
+  position: relative;
+}
+
+.material-btn span {
+  display: block;
+  padding: 12px 24px;
+}
+
+.material-btn:before {
+  content: "";
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  display: block;
+  width: 0;
+  padding-top: 0;
+    
+  border-radius: 100%;
+  
+  background-color: rgba(236, 240, 241, .3);
+  
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.material-btn:active:before {
+  width: 120%;
+  padding-top: 120%;
+  
+  transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+.material-btn.orange {
+  background-color: #e67e22;
+}
+
+.material-btn.red {
+  background-color: #e74c3c;
+}
+
+
+
 
 
 

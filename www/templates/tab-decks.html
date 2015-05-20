@@ -12,20 +12,24 @@
 	</label>		
     
     <div class="list list-inset" ng-repeat="deck in decks  | filter:deckFilter track by $index">
-  		<div class="item item-divider deck-list-item-header">
-			<div class="deck-title-header"><h2>{{deck.deckTitle}}</h2></div>		    	
+  		<div class="item item-divider deck-list-item-header" ng-show="showEditCardArray[$index]">
+			<div class="deck-title-header"></div>
+			<div class="deck-card-header-actions">
+    			<img class="deck-list-action-button" src="img/edit.png" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)" />
+    			<img class="deck-list-action-button" src="img/delete.png" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck.deckId)" />
+    		</div>		    	
 		</div>
-		<a class="item item-thumbnail-left item-text-wrap" on-hold="showPlayerModal(deck.deckId)">
+		<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)">
 			<img ng-src="{{deck.deckThumb}}">    				
-    		<p>{{deck.deckDescription}}</p>
+    		<p class="deck-list-deck-title">{{deck.deckTitle}}</p>
+    		<p class="deck-list-deck-desc">{{deck.deckDescription}}</p>
     	</a>
     	<div class="item item-divider deck-list-item-footer">    		
     		<div class="deck-card-footer">
-    			Cards: {{deck.deckCards.length}}
+    			{{deck.deckCards.length}} cards
     		</div>
     		<div class="deck-card-footer-actions">
-    			<button class="button button-small icon ion-edit" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)"></button>
-    			<button class="button button-small icon ion-trash-a" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck)"></button>
+    			<img class="deck-list-action-button-play" src="img/movie.png" ng-click="showPlayerModal(deck.deckId)" />    			
     		</div>
   		</div>
 	</div>
