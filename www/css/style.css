@@ -44,7 +44,7 @@ div.home-button-text
   float: left;
   padding-top: 2.4vh;
   font-size: 1.4em;
-  padding-left: 1vw;
+  padding-left: 7vw;
   text-align: left;
 }
 
@@ -66,6 +66,7 @@ div.centered
 {
 	margin-left: auto;
 	margin-right: auto;
+	width: 90vw;
 	text-align: center;
 }
 
@@ -147,7 +148,7 @@ div.deck-play-sound-ctrl
 
 img.card-preview-add
 {
-	width: 160px;	
+	width: 160px;		
 }
 
 img.card-preview
@@ -162,14 +163,75 @@ h2.card-preview, h3.card-preview, h4.card-preview
 	margin-top: 0px;	
 }
 
+div.build-card-capture-image
+{
+	background-color: #FFF;
+	border: solid 1px #333;
+	box-shadow: 0px 5px 5px #444;
+	width: 160px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 1.2vh;
+	margin-bottom: 2vh;
+	margin-top: 1vh;
+}
+
+div.build-card-capture-text
+{
+	background-color: #FFF;
+	width: 80vw;
+	height: 7vh;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 1.2vh;
+	margin-bottom: 2vh;
+	border-radius: 5px;
+	border: solid 1px #333;
+	box-shadow: 0px 5px 5px #444;
+}
+
+div.add-card-count-container
+{
+	background-color: lightblue;
+	width: 90vw;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	opacity: 0.9;
+	padding: 1%;
+	margin-top: 1vh;
+	color: #444;
+}
+
+
+div.add-card-count-digit
+{
+	font-size: 10em;
+	clear: both;
+	width: 100%;
+	text-align: center;
+	margin-top: 12vh;
+	margin-bottom: 11.5vh;
+	opacity: 1.0;
+}
+
 div.add-card-count
 {
 	clear: both;
 	width: 100%;
 	text-align: center;	
 	padding-bottom: 3px;
-	margin-bottom: 12vh;
+	margin-bottom: 9vh;
 	margin-top: 3vh;	
+	font-size: 3em;
+}
+
+div.add-card-count-message
+{
+	clear: both;
+	width: 100%;
+	text-align: center;	
+	padding-bottom: 3px;
 }
 
 div.add-deck-commentary
@@ -367,6 +429,11 @@ ion-item.menu-list-item
 	background-color: #FBC1C5;
 }
 
+div.add-list-item-header
+{
+	background-color: #FFF;
+}
+
 div.deck-list-item-header
 {
 	background-color: lightblue;		
@@ -374,7 +441,7 @@ div.deck-list-item-header
 
 div.deck-list-item-footer
 {
-	background-color: lightgreen;
+	background-color: lightblue;
 }
 
 div.deck-card-footer-actions
@@ -539,9 +606,11 @@ div.add-deck
 
 div.gallery-toggle
 {
-	background-color: transparent;
-	border: 0px;
+	background-color: lightblue;
+	color: #444;	
 	font-size: 0.95em;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
 }
 
 .toggle .track
@@ -663,8 +732,32 @@ div.gallery-toggle
   background-color: #e74c3c;
 }
 
+.mat-shadow
+{
+	box-shadow: 0px 5px 5px #444;
+}
 
+button.button-block
+{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 12px;	
+}
 
+button.flat
+{
+	border-radius: 0px !important;
+}
 
+.scroll
+{
+	min-height: 80vh;
+}
 
+.nail-to-floor
+{
+	position: fixed;
+	bottom: 0;
+}
 

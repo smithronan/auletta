@@ -16,7 +16,7 @@
   
   <ion-content ng-show="(contentStep==-1)" class="padding plain">
   	<div class="list list-inset">  		
-		<div class="item item-divider deck-list-item-header">
+		<div class="item item-divider add-list-item-header">
 			<div class="deck-title-header"><h2>Create your own Deck</h2></div>		    	
 		</div>
 		<a class="item item-text-wrap" on-hold="showPlayerModal(deck.deckId)">			    				
@@ -29,7 +29,7 @@
 		</div>    	      	
 	</div>
 	<div class="list list-inset">
-		<div class="item item-divider deck-list-item-header">
+		<div class="item item-divider add-list-item-header">
 			<div class="deck-title-header"><h2>Browse our Deck Gallery</h2></div>		    	
 		</div>
 		<a class="item item-text-wrap" on-hold="showPlayerModal(deck.deckId)">
@@ -68,7 +68,7 @@
 	    <textarea rows="10" ng-model="currentDeck.deckDescription"></textarea>
 	  </label>	  
 	</div>
-  	<button class="button icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(4)">Next</button>
+  	<button class="button mat-shadow flat icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(4)">Next</button>
   </ion-content>
   
   <ion-content ng-show="(contentStep==2)" class="plain add-deck">    
@@ -80,43 +80,55 @@
     </div>
     
     <div class="card-preview-small">
-    	<img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
-		<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>   
+    	<div class="build-card-capture-image">
+			<img class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+		</div>
+		<div class="build-card-capture-text">
+			<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>   
+		</div>
 		<div class="button-bar">
 			<button class="button icon ion-mic-a add-card-control" ng-click="captureAudio()"></button>
 			<button class="button icon ion-play" ng-click="playAudio(currentCard.cardAudio)" ng-disabled="currentCard.cardAudio.length == 0 "></button>
 		</div>
     </div>
     
-    <ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Add to My Cards?</ion-toggle>
+	<ion-toggle class="gallery-toggle" ng-model="saveToGallery" ng-change="toggleSaveToGallery()" toggle-class="toggle-calm">Save Card in Gallery?</ion-toggle>
+	
     
     <div class="button-bar">
-	  	<button class="button button-balanced" ng-click="saveCard()">
-	  		<i class="icon ion-checkmark"></i> Save Card  			
-	  	</button>
-	  	<button class="button button-light" ng-click="cancelBuildCard()">
+		<button class="button mat-shadow button-light" ng-click="cancelBuildCard()">
 	  		<i class="icon ion-close"></i> Cancel 			
 	  	</button>
+	  	<button class="button mat-shadow button-balanced" ng-disabled="(currentCard.cardAudio.length == 0 || currentCard.cardText === '[click to add text]' || currentCard.cardImage === 'img/add-image.png')" ng-click="saveCard()">
+	  		Save Card <i class="icon ion-checkmark"></i> 			
+	  	</button>	  	
   	</div>
        
   </ion-content>
   
   <ion-content ng-show="(contentStep==4)" class="plain add-deck">    
     
-    <div class="add-card-count" ng-show="currentDeck.deckCards.length>0">Nice Job!! <br/><br/> You've got {{currentDeck.deckCards.length}} cards in your deck.</div>
-    <div class="add-card-count" ng-show="currentDeck.deckCards.length==0">No cards yet!  <br/> <br/> Start by adding some below :-)</div>
-        
+    <div class="add-card-count-container">
+		<div class="add-card-count-digit" ng-show="currentDeck.deckCards.length>=0">{{currentDeck.deckCards.length}}</div>
+		<div class="add-card-count" ng-show="currentDeck.deckCards.length!==1">CARDS</div>
+		<div class="add-card-count" ng-show="currentDeck.deckCards.length===1">CARD</div>
+		<div class="add-card-count-message" ng-show="currentDeck.deckCards.length===1">Ok..1 card...good start!</div>
+		<div class="add-card-count-message" ng-show="(currentDeck.deckCards.length>1 && currentDeck.deckCards.length<5)">Keep on building...</div>	
+		<div class="add-card-count-message" ng-show="(currentDeck.deckCards.length>=5 && currentDeck.deckCards.length<10)">5+...you're getting this!</div>
+		<div class="add-card-count-message" ng-show="(currentDeck.deckCards.length>=10)">Card...Building...Genius! :-)</div>
+	</div>
+    
     <div class="how-to-add-buttons">    
-	    <button class="button button-balanced button-block" ng-click="gotoStep(2)">
+	    <button class="button mat-shadow button-balanced button-block" ng-click="gotoStep(2)">
 	  				<i class="icon ion-star"></i> Build a Card  			
 	  	</button>
-	  	<button class="button button-balanced button-block" ng-click="gotoStep(5)">
+	  	<button class="button mat-shadow button-balanced button-block" ng-click="gotoStep(5)">
 	  				<i class="icon ion-grid"></i> Choose from Gallery  			
 	  	</button>    
     </div>
     <div class="button-bar">
-  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(1)">Back</a>  			
-  		<a class="button icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)">Next</a>  		
+  		<a class="button mat-shadow icon-left ion-chevron-left button-stable" ng-click="gotoStep(1)">Back</a>  			
+  		<a class="button mat-shadow icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)" ng-disabled="currentDeck.deckCards.length === 0 ">Next</a>  		
 	</div>   
   </ion-content>
   
@@ -133,12 +145,12 @@
         </div>
     </div>
     <div class="button-bar">
-	  	<button class="button button-balanced" ng-click="addCardsFromGallery()">
-	  		<i class="icon ion-checkmark"></i> Add  			
-	  	</button>
-	  	<button class="button button-light" ng-click="cancelBuildCard()">
+	  	<button class="button mat-shadow button-stable" ng-click="cancelBuildCard()">
 	  		<i class="icon ion-close"></i> Cancel 			
 	  	</button>
+		<button class="button mat-shadow button-balanced" ng-click="addCardsFromGallery()">
+	  		<i class="icon ion-checkmark"></i> Add  			
+	  	</button>	  	
   	</div>       
   </ion-content>
   
@@ -155,14 +167,13 @@
 	    		<p>{{currentDeck.deckDescription}}</p>
 	    	</a>
 	    	<div class="item item-divider deck-list-item-footer">    		
-	    		<div class="deck-card-footer">
-	    			Cards: {{currentDeck.deckCards.length}}
-	    		</div>
-	    		<div class="deck-card-footer-actions">
-	    			<button class="button button-small button-clear icon ion-edit" ng-click=""></button>
-	    			<button class="button button-small button-clear icon ion-trash-a" ></button>
-	    		</div>
-	  		</div>
+				<div class="deck-card-footer">
+					{{currentDeck.deckCards.length}} cards
+				</div>
+				<div class="deck-card-footer-actions">
+					<img class="deck-list-action-button-play" src="img/movie.png" ng-click="showPlayerModal(deck.deckId)" />    			
+				</div>
+			</div>
 		</div>
   	<div class="add-deck-commentary">...and here are your cards...</div>
   	<div class="add-deck-commentary-sub">(swipe a card left to edit or remove, long press to rearrange!)</div>  		
@@ -178,8 +189,8 @@
 	<div class="add-deck-commentary">...when you are happy click below to save your new deck!</div>
 	<div class="add-deck-commentary-sub">(or click Back to add more cards!)</div>
 	<div class="button-bar">  		
-  		<a class="button icon-left ion-chevron-left button-calm" ng-click="gotoStep(4)">Back</a>
-  		<a class="button icon-right ion-checkmark button-balanced" ng-click="saveDeck()">Save Deck</a>  		
+  		<a class="button icon-left mat-shadow ion-chevron-left button-stable" ng-click="gotoStep(4)">Back</a>
+  		<a class="button icon-right mat-shadow ion-checkmark button-balanced" ng-click="saveDeck()">Save Deck</a>  		
 	</div>
   </ion-content>
   

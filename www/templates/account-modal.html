@@ -9,9 +9,7 @@
           </label>
           <label class="item item-input">
               <input type="password" placeholder="Password" ng-model="user.password">
-          </label>          
-      	  <button class="button button-calm" ng-click="doLogin()">Login</button>
-      	  <div class="centered"><button class="button button-clear button-positive" ng-click="toggleLoginSignup()">Don't have an account yet? Signup for free!</button></div>      
+          </label>                	        	        
       </div>
       
       <div class="list list-inset" ng-show="(accountModalPageMode==1)">
@@ -24,10 +22,13 @@
           <label class="item item-input">
               <input type="password" placeholder="Password" ng-model="user.password">
           </label>          
-      	  <button class="button button-calm" ng-click="doSignup()">Signup</button>
-      	  <div class="centered"><button class="button button-clear button-positive" ng-click="toggleLoginSignup()">Already have an account? Login here!</button></div>      
       </div>
       
-      <button class="button button-block button-stable" ng-click="aulettaHideLoginModal()">Cancel</button>
+	  <button class="button mat-shadow button-block button-balanced" ng-show="(accountModalPageMode==0)" ng-click="doLogin()">Login</button>
+	  <button class="button mat-shadow button-block button-balanced" ng-show="(accountModalPageMode==1)" ng-click="doSignup()">Signup</button>
+      <button class="button mat-shadow button-block button-stable" ng-click="aulettaHideLoginModal()">Cancel</button>
+	  
+	  <div class="centered" ng-show="(accountModalPageMode==0)"><button class="button button-clear button-positive" ng-click="toggleLoginSignup()">Don't have an account yet? Signup for free!</button></div>
+	  <div class="centered" ng-show="(accountModalPageMode==1)"><button class="button button-clear button-positive" ng-click="toggleLoginSignup()">Already have an account? Login here!</button></div>
 	</ion-content>
 </ion-modal-view>
