@@ -81,7 +81,6 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   .state('tab.home', {
     url: '/home',
-    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/tab-home.html',

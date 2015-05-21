@@ -489,7 +489,7 @@ ion-content.striped
 	/*background-image: url(../img/blue-stripe.png);*/
 	/*background-image: url(../img/notice-board.jpg);*/
 	/*background-image: url(../img/player-background-bw-dark.png);*/
-	background-image: url(../img/bg-lighter-toys.png);	
+	background-image: url(../img/bg-lighter-toys-bw-darker.png);	
 }
 
 .deck-list-item div.item-content
@@ -611,8 +611,8 @@ div.gallery-toggle
   outline: none;
   border-radius: 2px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-  background-color: lightgreen;
-  color: #FFF;
+  background-color: snow;
+  color: #444;
   transition: background-color .3s;
   border-radius: 10px;
 }
