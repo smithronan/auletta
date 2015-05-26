@@ -5,36 +5,21 @@
   <ion-content class="padding striped home-content">  	
 	<!-- <img src="img/sun-clouds.png" class="home-top" /> -->
 	<div class="home-buttons">
-		<div class="material-btn" ng-click="homeNavigate('tab.decks')">
-			<div class="home-button-icon"><img class="home-button" src="img/my-decks.png" /></div>
-			<div class="home-button-text">My Decks</div>
+		<div class="home-button" ng-click="homeNavigate('tab.decks')">
+			<img class="home-button" src="img/home-button-my-decks.png" />			
 		</div>
 		
-		<div class="material-btn" ng-click="homeNavigate('tab.addDeck')">
-			<div class="home-button-icon"><img class="home-button" src="img/add-deck.png" /></div>
-			<div class="home-button-text">Add New Deck</div>
+		<div class="home-button" ng-click="homeNavigate('tab.addDeck')">
+			<img class="home-button" src="img/home-button-add-deck.png" />
 		</div>	
-		
-		<div class="material-btn">
-			<div class="home-button-icon"><img class="home-button" src="img/child-mode.png" /></div>
-			<div class="home-button-text">Child Mode</div>
-		</div>
-		
-		<div class="material-btn" ng-click="homeNavigate('tab.settings')">
-			<div class="home-button-icon"><img class="home-button" src="img/settings.png" /></div>
-			<div class="home-button-text">Settings</div>
-		</div>	
-		
-		<div class="material-btn" ng-click="homeNavigate('tab.settings')">
-			<div class="home-button-icon"><img class="home-button" src="img/settings.png" /></div>
-			<div class="home-button-text">Help</div>
-		</div>	
-		
-		<!-- 
-		<button class="button button-block button-stable" ng-click="homeNavigate('tab.decks')">My Decks</button>
-		<button class="button button-block button-stable" ng-click="homeNavigate('tab.addDeck')" ng-show="!$parent.childModeEnabled">Add Deck</button>
-		<button class="button button-block button-stable" ng-click="homeNavigate('tab.settings')" ng-show="!$parent.childModeEnabled">Settings</button>
-		-->				
+	</div>
+	<div class="home-buttons-secondary">
+		<table style="width: 100%; border: 0;">
+			<tr>
+				<td><img ng-click="homeNavigate('tab.addDeck')" ng-src="img/home-button-help.png" /></td>
+				<td class="pull-right"><img ng-click="homeNavigate('tab.settings')" ng-src="img/home-button-settings.png" /></td>
+			</tr>
+		</table>
 	</div>	   
   </ion-content>
   <!-- 

@@ -513,7 +513,7 @@ angular.module('auletta.controllers', [])
 	blankCard();
 	
 	//Controls for displaying the right content based on step
-	$scope.contentStep = -1;
+	$scope.contentStep = $scope.editingDeck ? 1 : -1;
 	$scope.viewTitle = $scope.editingDeck ? "Edit Deck" : "Add New Deck";
 
 	
@@ -1224,6 +1224,40 @@ angular.module('auletta.controllers', [])
 								);
 							}
 	
+	
+	$scope.backupRestorePrompt = function()
+	{
+		
+		var hideSheet = $ionicActionSheet.show(
+				{
+					buttons: [
+					          { text: 'Backup Decks to Cloud' },
+					          { text: 'Restore Decks from Cloud' }
+					],
+					titleText: 'Backup or Restore your Decks',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{	
+						var _pEventDimensions = { };			
+						$scope.helpers.trackEvent('cloud-backup-restore-cancel', _pEventDimensions);
+					},
+					buttonClicked: function(index) {
+						console.log(index);
+						if(index === 0)
+						{	
+							$scope.syncDecks();
+						}
+						return true;
+					}						
+				}
+		);
+		
+		
+		
+	}
+	
+	
+	
 	$scope.syncDecks = function()
 	{
 		if($scope.helpers.isLoggedIn())
@@ -1239,7 +1273,7 @@ angular.module('auletta.controllers', [])
 			
 			$ionicLoading.show(
     				{
-    					template: 'Syncinc Decks...<br/><br/><i class="icon ion-loading-c"></i>',							
+    					template: 'Backing Up Decks to Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
     				    animation: 'fade-in',
     				    showDelay: 0    				    
     				}
@@ -1252,26 +1286,131 @@ angular.module('auletta.controllers', [])
 			for (var i = 0; i < _decksToSync.length; i++) 
 			{
 				
-				userDeckList.save(
-						{
-							userId: _userId,
-							deckTitle: _decksToSync[i].deckTitle,
-							deckThumb: _decksToSync[i].deckThumb,
-							deckId: _decksToSync[i].deckId,
-							deckDescription: _decksToSync[i].deckDescription										  
-						}, 
-						{
-							success: function(_userDeckList) {
-								console.log(_userDeckList);
-							},
-							error: function(_userDeckList, _error) {
-								_errorState = true
-							}
-						}
-				);
+				var _loopDeckTitle = _decksToSync[i].deckTitle;
+				var _loopDeckThumb = _decksToSync[i].deckThumb;
+				var _loopDeckId = _decksToSync[i].deckId;
+				var _loopDeckDescription = _decksToSync[i].deckDescription;
+				var _loopDeckCards = _decksToSync[i].deckCards;
+				
+				//Calculate the local checksum for the deck
+				var _deckChecksumString = _decksToSync[i].deckTitle + _decksToSync[i].deckThumb + _decksToSync[i].deckId + _decksToSync[i].deckDescription + _decksToSync[i].deckCards.length;
+				var _crc = $scope.helpers.crc32(_deckChecksumString);
+				
+				
+				//Firstly check if this deck already exists in Parse for this user
+				var _deckExists = false;
+				var _deckParseId = '';
+				var _deckCrc32 = '';
+				
+				var UserDeckExistsQuery = Parse.Object.extend("UserDeckList");
+				var query = new Parse.Query(UserDeckExistsQuery);
+				query.equalTo("deckId", _decksToSync[i].deckId);
+				query.equalTo("userId", _userId);
+				
+				query.find({
+				  success: function(results) {
+				    if(results.length > 0)
+				    {	
+				    	_deckExists = true;
+				    	_deckCrc32 = results[0]._serverData.deckCrc32;
+				    	_deckParseId = results[0].id;
+				    }
+				    
+				    if(!_deckExists)
+					{
+						console.log("Deck: " + _loopDeckId + " does not exist in Parse so I'll create and save it.");
+						userDeckList.save(
+								{
+									userId: _userId,
+									deckTitle: _loopDeckTitle,
+									deckThumb: _loopDeckThumb,
+									deckId: _loopDeckId,
+									deckDescription: _loopDeckDescription,
+									deckCrc32: _crc										  
+								}, 
+								{
+									success: function(_userDeckList) {
+										console.log(_userDeckList);
+									},
+									error: function(_userDeckList, _error) {
+										_errorState = true
+									}
+								}
+						);
+					}
+					else if(_crc !== _deckCrc32)
+					{
+						console.log("Deck: " + _loopDeckId + " exists in Parse but has changed locally so I'll update it.");
+						var DeckToUpdate = Parse.Object.extend("UserDeckList");
+						var query = new Parse.Query(DeckToUpdate);
+						query.get(_deckParseId, {
+						  success: function(deck) {
+						    deck.set("deckTitle", _loopDeckTitle);
+						    deck.set("deckThumb", _loopDeckThumb);
+						    deck.set("deckDescription", _loopDeckDescription);
+						    deck.set("deckCrc32", _crc);
+						    deck.save();
+						  },
+						  error: function(object, error) {
+						    // The object was not retrieved successfully.
+						    // error is a Parse.Error with an error code and message.
+						  }
+						});
+					}
+					else
+					{
+						console.log("Deck: " + _loopDeckId + " exists in Parse and has not changed locally so I'll do nothing.");
+					}
+				    
+				    
+				    //At this point we have a valid UserDeckList object for this deck in Parse so we move on to the cards
+				    for (var j = 0; j < _loopDeckCards.length; j++)
+				    {
+				    	var _card = _loopDeckCards[j];
+				    	
+				    	var _cardChecksumString = _card.cardId + _card.cardImage + _card.cardText + _card.cardAudio;
+				    	_cardLocalChecksum = $scope.helpers.crc32(_cardChecksumString);
+				    	
+				    	//For now just save the cards, will come back to updating them afterwards
+				    	var UserDeckCard = Parse.Object.extend("UserDeckCard");
+						var userDeckCard = new UserDeckCard();
+						
+						userDeckCard.save(
+								{
+									userId: _userId,
+									cardId: _card.cardId,
+									cardImage: _card.cardImage,									
+									cardText: _card.cardText,
+									cardAudio: _card.cardAudio,
+									cardOrder: j,
+									deckId: _loopDeckId,
+									cardCrc32: _cardLocalChecksum										  
+								}, 
+								{
+									success: function(_newCard) {
+										console.log("Card: " + _card.cardId + " saved.");
+										console.log(_newCard);
+									},
+									error: function(_userDeckList, _error) {
+										_errorState = true
+									}
+								}
+						);
+				    }
+				    
+				    $ionicLoading.hide();
+				    
+				  },
+				  error: function(error) {
+				    alert("Error: " + error.code + " " + error.message);
+				  }
+				});
+				
+				
+				
 			}
 			
-			$ionicLoading.hide();
+			
 			
 			
 			

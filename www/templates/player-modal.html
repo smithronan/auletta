@@ -10,7 +10,7 @@
 	      		<img class="padding card-player" ng-src="{{currentPlayingCard.cardImage}}" />
 	      	</div>		  	
 		  	<h2 class="card-preview">{{currentPlayingCard.cardText}}</h2>
-		  	<button class="button button-accent icon ion-volume-high" ng-click="playAudio(currentPlayingCard.cardAudio)"></button>      		
+		  	<div class="card-player-sound"><img ng-src="img/sound.png" ng-click="playAudio(currentPlayingCard.cardAudio)"></div>      		
   		</ion-slide>
 	</ion-slide-box>
 	

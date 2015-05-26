@@ -24,7 +24,7 @@
 	   	</a>
 	   	<div class="item item-divider deck-list-item-footer">
 		   	<div class="deck-add-footer-actions">
-		   		<button class="button button-small icon ion-wand" ng-show="!$parent.childModeEnabled" ng-click="gotoStep(1)"> Create Deck</button>    			
+		   		<img ng-src="img/next.png" ng-click="gotoStep(1)" />		   		    			
 		   	</div>
 		</div>    	      	
 	</div>
@@ -37,7 +37,7 @@
     	</a>
     	<div class="item item-divider deck-list-item-footer">
 	    	<div class="deck-add-footer-actions">
-	    		<button class="button button-small icon ion-images" ng-show="!$parent.childModeEnabled" ng-click="gotoStep(6)"> Browse Gallery</button>
+	    		<img ng-src="img/next.png" ng-click="gotoStep(6)" />
 	    	</div>
 	    </div>
     </div>
@@ -68,7 +68,9 @@
 	    <textarea rows="10" ng-model="currentDeck.deckDescription"></textarea>
 	  </label>	  
 	</div>
-  	<button class="button mat-shadow flat icon-right ion-chevron-right button-block button-calm" ng-click="gotoStep(4)">Next</button>
+	<div class="home-buttons-secondary pull-right">
+		<img class="add-deck-flow-button" ng-src="img/next.png" ng-click="gotoStep(4)" />
+	</div>  	
   </ion-content>
   
   <ion-content ng-show="(contentStep==2)" class="plain add-deck">    
@@ -126,9 +128,14 @@
 	  				<i class="icon ion-grid"></i> Choose from Gallery  			
 	  	</button>    
     </div>
-    <div class="button-bar">
-  		<a class="button mat-shadow icon-left ion-chevron-left button-stable" ng-click="gotoStep(1)">Back</a>  			
-  		<a class="button mat-shadow icon-right ion-chevron-right button-calm" ng-click="gotoStep(3)" ng-disabled="currentDeck.deckCards.length === 0 ">Next</a>  		
+    
+    <div style="margin-top: -20px;">
+		<table style="width: 93%; margin-left: 3%; border: 0;">
+			<tr>
+				<td><img class="add-deck-flow-button" ng-src="img/prev.png" ng-click="gotoStep(1)" /></td>
+				<td class="pull-right"><img class="add-deck-flow-button" ng-src="img/next.png" ng-click="gotoStep(3)" /></td>
+			</tr>
+		</table>
 	</div>   
   </ion-content>
   
