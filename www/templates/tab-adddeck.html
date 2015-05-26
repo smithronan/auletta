@@ -99,7 +99,7 @@
 		<button class="button mat-shadow button-light" ng-click="cancelBuildCard()">
 	  		<i class="icon ion-close"></i> Cancel 			
 	  	</button>
-	  	<button class="button mat-shadow button-balanced" ng-disabled="(currentCard.cardAudio.length == 0 || currentCard.cardText === '[click to add text]' || currentCard.cardImage === 'img/add-image.png')" ng-click="saveCard()">
+	  	<button class="button mat-shadow button-balanced" ng-disabled="(currentCard.cardText === '[click to add text]' && currentCard.cardImage === 'img/add-image.png')" ng-click="saveCard()">
 	  		Save Card <i class="icon ion-checkmark"></i> 			
 	  	</button>	  	
   	</div>

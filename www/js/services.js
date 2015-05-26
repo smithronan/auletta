@@ -33,11 +33,7 @@ angular.module('auletta.services', [])
 	
 	var decks = (ls_decks !== null) ? ls_decks : [
 	             {
-	            	 deckId: AulettaGlobal.helpers.generateGUID(),
-	            	 deckTitle: 'Sample Alphabet Deck',
-	            	 deckDescription: 'A sample flashcard deck with the letters of the alphabet',
-	            	 deckThumb: 'https://lh6.ggpht.com/kebsMJJ5QGBrfAatABQcN4xZ7cvCzvaU-9eGXusMHbms3zMqc1XzR-Dp-9mhoqLXow4=w300',
-	            	 deckCards: []
+	            	 
 	             } 	             
 				 ];	
 
@@ -84,6 +80,10 @@ angular.module('auletta.services', [])
 		persist: function()
 		{
 			localStorage.setItem("auletta_decks", JSON.stringify(decks));
+		},
+		allAsJson: function()
+		{
+			return JSON.stringify(decks);
 		}
 	}
 })

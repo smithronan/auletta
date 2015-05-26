@@ -1,19 +1,24 @@
 html, body
 {
 	font-family: 'Short Stack', cursive;
-	color: #fff;
+	color: #212121;
 }
 
 .bar.bar-stable
 {
 	/*background-color: #2BB5C4 !important;*/
-	background-color: #FFF;	
+	background-color: #0288D1;	
 }
 
 .bar.bar-stable .title
 {
-	color: #444;
+	color: #FFF;
 }
+
+.bar-stable .button.button-clear 
+{
+  color: #FFF;
+}  
 
 a.item-content
 {
@@ -25,11 +30,48 @@ a.item-content
 	/*background-color: #FFF7C4;*/
 }
 
+
+div.home-buttons-primary
+{
+	border: solid;
+  	text-align: center;
+ 	margin-bottom: 20vh;
+ 	margin-top: 10vh;
+}
+
+div.home-buttons-secondary
+{
+	border: solid;
+}
+
 div.home-button-primary
 {
-	width: 80%;
-	text-align: center;	
-	margin-bottom: 25vh;
+	text-align: center;
+	/* margin-bottom: 25vh; */
+	border-radius: 20%;
+	background-color: #ffeb3b;
+	width: 35vw;
+	height: 35vw;
+	padding-top: 23vw;
+	color: #212121;
+	font-size: 1.3em;
+	border: solid 1px #b6b6b6;
+	float: left;	
+}
+
+div.home-button-secondary
+{
+	text-align: center;
+	/* margin-bottom: 25vh; */
+	border-radius: 20%;
+	background-color: #ffeb3b;
+	width: 20vw;
+	height: 20vw;
+	padding-top: 15vw;
+	color: #212121;
+	font-size: 1em;
+	border: solid 1px #b6b6b6;
+	float: left;	
 }
 
 div.home-button-icon
@@ -441,7 +483,7 @@ div.deck-list-item-header
 
 div.deck-list-item-footer
 {
-	background-color: lightblue;
+	background-color: #FFF;
 }
 
 div.deck-card-footer-actions
@@ -467,11 +509,12 @@ div.deck-add-footer-actions
 
 div.deck-card-footer
 {
-	width: 50%;
-	float: left;
-	padding-top: 0.5em;
-	font-size: 0.75em;
-	font-weight: bold;
+	  width: 50%;
+	  float: left;
+	  padding-top: 0.8em;
+	  font-size: 1.2em;
+	  /* font-weight: bold; */
+	  color: #727272;
 }
 
 div.home-buttons
@@ -479,7 +522,7 @@ div.home-buttons
 	max-width: 480px;
 }
 
-ion-content.home-content div
+div.home-buttons
 {
 	max-width: 480px;
 	margin-left: auto;
@@ -516,24 +559,25 @@ ion-content.plain, ion-modal-view.plain
 {
 	/*background-color: #B3E0F6;*/	
 	/*background-image: url(../img/notice-board.jpg);*/ 
-	background-image: url(../img/bg-lighter-toys-bw-darker.png);	
+	/*background-image: url(../img/bg-lighter-toys-bw-darker.png);*/
+	background-color: #B3E5FC;	
 }
 
 ion-content.add-deck
 {
-	background-image: url(../img/player-background-bw-dark.png);
-	background-image: url(../img/bg-lighter-toys-bw-darker.png);
+	/*background-image: url(../img/player-background-bw-dark.png);
+	background-image: url(../img/bg-lighter-toys-bw-darker.png);*/
 }
 
 ion-content.paper, ion-modal-view.paper
 {
-	/*background-color: #B3E0F6;*/
-	background-image: url(../img/paper_3.png); 	
+	background-color: #B3E5FC;	 	
 }
 
 h1.player-title, ion-header-bar.player-title
 {
-	background-color: #FFF7C4;
+	background-color: #0288D1;
+	color: #FFF;
 }
 
 .input-label
@@ -556,7 +600,8 @@ ion-content.striped
 	/*background-image: url(../img/blue-stripe.png);*/
 	/*background-image: url(../img/notice-board.jpg);*/
 	/*background-image: url(../img/player-background-bw-dark.png);*/
-	background-image: url(../img/bg-lighter-toys-bw-darker.png);	
+	/*background-image: url(../img/bg-lighter-toys-bw-darker.png);*/
+	background-color: #B3E5FC;	
 }
 
 .deck-list-item div.item-content
@@ -761,3 +806,18 @@ button.flat
 	bottom: 0;
 }
 
+.button.button-accent 
+{
+  border-color: #FFEB3B;
+  background-color: #FFEB3B;
+  color: #FFF;
+  border-radius: 50%;
+  padding-left: 10%;
+}
+
+div.simple-shadow
+{
+	-webkit-box-shadow: 0px 4px 5px 0px rgba(182,182,182,0.6);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(182,182,182,0.6);
+	box-shadow: 0px 4px 5px 0px rgba(182,182,182,0.6);	
+}

@@ -11,7 +11,7 @@
   		<input ng-model="deckFilter" type="search" placeholder="Search for..." class="deck-search">
 	</label>		
     
-    <div class="list list-inset" ng-repeat="deck in decks  | filter:deckFilter track by $index">
+    <div class="list list-inset simple-shadow" ng-repeat="deck in decks  | filter:deckFilter track by $index">
   		<div class="item item-divider deck-list-item-header" ng-show="showEditCardArray[$index]">
 			<div class="deck-title-header"></div>
 			<div class="deck-card-header-actions">
@@ -29,7 +29,7 @@
     			{{deck.deckCards.length}} cards
     		</div>
     		<div class="deck-card-footer-actions">
-    			<img class="deck-list-action-button-play" src="img/movie.png" ng-click="showPlayerModal(deck.deckId)" />    			
+    			<button class="button icon button-accent ion-play" ng-click="showPlayerModal(deck.deckId)"></button>    			
     		</div>
   		</div>
 	</div>
