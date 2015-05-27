@@ -156,7 +156,7 @@ angular.module('auletta.controllers', [])
 		
 
 .controller('DecksCtrl', 
-		function($scope, Decks, Global, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state, $cordovaMedia) 
+		function($scope, Decks, Global, $ionicPlatform, $ionicActionSheet, $ionicModal, $timeout, $ionicSlideBoxDelegate, $ionicLoading, $interval, $ionicHistory, $state, $cordovaMedia) 
 		{
 			
 			$scope.helpers = AulettaGlobal.helpers;
