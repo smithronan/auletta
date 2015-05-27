@@ -1395,6 +1395,34 @@ angular.module('auletta.controllers', [])
 					}
 				    
 				    
+				    var query = new Parse.Query("UserDeckCard");
+				    query.equalTo("deckId", _loopDeckId);
+				    query.equalTo("userId", _userId);
+				    
+				    query.each(function(obj) {
+				      obj.set("cardReplaced", true);
+				      return obj.save();
+				    }).then(function() {
+
+				    	var delQuery = new Parse.Query("UserDeckCard");
+				    	delQuery.equalTo("deckId", _loopDeckId);
+				    	delQuery.equalTo("userId", _userId);
+				    	delQuery.equalTo("cardReplaced", true);
+
+				    	  delQuery.find().then(function(cards) {
+				    	    return Parse.Object.destroyAll(cards);
+				    	  }).then(function(success) {
+				    	    // The related comments were deleted
+				    	  }, function(error) {
+				    	    console.error("Error deleting replaced cards " + error.code + ": " + error.message);
+				    	  });	
+				    	
+				    	
+				    }, function(err) {
+				      console.log(err);
+				    });
+				    
+				    
 				    //At this point we have a valid UserDeckList object for this deck in Parse so we move on to the cards
 				    for (var j = 0; j < _loopDeckCards.length; j++)
 				    {
@@ -1414,13 +1442,13 @@ angular.module('auletta.controllers', [])
 									cardImage: _card.cardImage,									
 									cardText: _card.cardText,
 									cardAudio: _card.cardAudio,
+									cardReplaced: false,
 									cardOrder: j,
 									deckId: _loopDeckId,
 									cardCrc32: _cardLocalChecksum										  
 								}, 
 								{
 									success: function(_newCard) {
-										console.log("Card: " + _card.cardId + " saved.");
 										console.log(_newCard);
 									},
 									error: function(_userDeckList, _error) {
@@ -1428,6 +1456,7 @@ angular.module('auletta.controllers', [])
 									}
 								}
 						);
+						
 				    }
 				    
 				    $ionicLoading.hide();
