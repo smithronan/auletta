@@ -31,7 +31,7 @@ angular.module('auletta.services', [])
 	// Some fake testing data
 	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));
 	
-	var decks = (ls_decks !== null) ? ls_decks : ls_decks;	
+	var decks = (ls_decks !== null) ? ls_decks : [];	
 
 	return {
 		all: function() {
