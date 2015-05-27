@@ -131,10 +131,18 @@ angular.module('auletta.controllers', [])
 )
 
 .controller('HomeCtrl', 
-		function($scope, $state, $ionicHistory)
+		function($scope, $state, $ionicHistory, $ionicPlatform)
 		{
 			
 			$scope.helpers = AulettaGlobal.helpers;
+			
+			$ionicPlatform.registerBackButtonAction(
+				function () 
+				{
+						//Do nothing...as opposed to exiting the app!
+				}
+				, 100
+			);
 			
 			var _pEventDimensions = { screen: 'home' };			
 			$scope.helpers.trackEvent('screenview', _pEventDimensions);
@@ -423,6 +431,14 @@ angular.module('auletta.controllers', [])
 	
 	
 	$scope.helpers = AulettaGlobal.helpers;
+	
+	$ionicPlatform.registerBackButtonAction(
+			function () 
+			{
+					//Do nothing...as opposed to exiting the app!
+			}
+			, 100
+	);
 	
 	var _pEventDimensions = { screen: 'Add Deck Home' };			
 	$scope.helpers.trackEvent('screenview', _pEventDimensions);
@@ -1117,8 +1133,16 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup, Decks) {
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicPlatform, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup, Decks) {
 	$scope.helpers = AulettaGlobal.helpers;
+	
+	$ionicPlatform.registerBackButtonAction(
+			function () 
+			{
+					//Do nothing...as opposed to exiting the app!
+			}
+			, 100
+	);
 	
 	var _pEventDimensions = { screen: 'settings' };			
 	$scope.helpers.trackEvent('screenview', _pEventDimensions);
