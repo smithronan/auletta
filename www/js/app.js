@@ -1,7 +1,7 @@
 var AulettaGlobal = AulettaGlobal || {};
 
 AulettaGlobal.helpers = 
-{
+{				
 		isNotString: function(str) 
 		{
 			return (typeof str !== "string");

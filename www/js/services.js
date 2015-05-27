@@ -27,7 +27,7 @@ angular.module('auletta.services', [])
 )
 
 
-.factory('Decks', function() {
+.factory('Decks', function($rootScope) {
 	// Some fake testing data
 	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));
 	
@@ -80,6 +80,168 @@ angular.module('auletta.services', [])
 		allAsJson: function()
 		{
 			return JSON.stringify(decks);
+		},
+		markCardsReplaced: function(_deckId)
+		{
+			var _userId = Parse.User.current().id;
+			
+			var query = new Parse.Query("UserDeckCard");
+		    query.equalTo("deckId", _deckId);
+		    query.equalTo("userId", _userId);
+		    
+		    query.each(
+			    		function(obj) 
+			    		{
+			    			obj.set("cardReplaced", true);
+			    			return obj.save();
+			    		}
+		    ).then(
+		    			function() {
+		    				var delQuery = new Parse.Query("UserDeckCard");
+		    				delQuery.equalTo("deckId", _deckId);
+		    				delQuery.equalTo("userId", _userId);
+		    				delQuery.equalTo("cardReplaced", true);
+
+		    				delQuery.find().then(
+		    						function(cards) 
+		    						{
+		    							return Parse.Object.destroyAll(cards);
+		    						}
+		    				).then(
+		    						function(success) 
+		    						{
+		    							// The related comments were deleted
+		    						}, 
+		    						function(error) {
+		    							console.error("Error deleting replaced cards " + error.code + ": " + error.message);
+		    						}
+		    				);	
+		    	
+		    	
+		    			}, 
+		    			function(err) {
+		    				console.log(err);
+		    			}
+		    );
+		},
+		saveCardToCloud: function(_card, _order, _deckId)
+		{
+			var _userId = Parse.User.current().id;
+			
+			var UserDeckCard = Parse.Object.extend("UserDeckCard");
+			var userDeckCard = new UserDeckCard();
+			
+			var _cardChecksumString = _card.cardId + _card.cardImage + _card.cardText + _card.cardAudio + _order;
+	    	_cardLocalChecksum = AulettaGlobal.helpers.crc32(_cardChecksumString);
+			
+			userDeckCard.save(
+					{
+						userId: _userId,
+						cardId: _card.cardId,
+						cardImage: _card.cardImage,									
+						cardText: _card.cardText,
+						cardAudio: _card.cardAudio,
+						cardReplaced: false,
+						cardOrder: _order,
+						deckId: _deckId,
+						cardCrc32: _cardLocalChecksum										  
+					}, 
+					{
+						success: function(_newCard) {
+							console.log(_newCard);
+							$rootScope.cardsCurrentlySaving--;
+						},
+						error: function(_userDeckList, _error) {
+							_errorState = true;
+							$rootScope.cardsCurrentlySaving--;
+						}
+					}
+			);
+		},
+		saveToCloud: function(_deck)
+		{
+			var UserDeckList = Parse.Object.extend("UserDeckList");
+			var userDeckList = new UserDeckList();
+			
+			var _userId = Parse.User.current().id;
+			
+			var _deckChecksumString = _deck.deckTitle + _deck.deckThumb + _deck.deckId + _deck.deckDescription + _deck.deckCards.length;
+			var _crc = AulettaGlobal.helpers.crc32(_deckChecksumString);
+			
+			console.log("Decks Currently Saving: " + $rootScope.decksCurrentlySaving);
+			
+			var UserDeckExistsQuery = Parse.Object.extend("UserDeckList");
+			var query = new Parse.Query(UserDeckExistsQuery);
+			query.equalTo("deckId", _deck.deckId);
+			query.equalTo("userId", _userId);
+			
+			query.find({
+				  success: function(results) {
+				    if(results.length > 0)
+				    {					    	
+				    	var _cloudDeckCrc32 = results[0]._serverData.deckCrc32;
+				    	var _deckParseId = results[0].id;
+				    	
+				    	if(_cloudDeckCrc32 !== _crc)
+				    	{
+				    		console.log("Deck: " + _deck.deckId + " exists in the cloud but has changed....updating");
+				    		var DeckToUpdate = Parse.Object.extend("UserDeckList");
+							var query = new Parse.Query(DeckToUpdate);
+							query.get(_deckParseId, {
+							  success: function(deck) {
+							    deck.set("deckTitle", _deck.deckTitle);
+							    deck.set("deckThumb", _deck.deckThumb);
+							    deck.set("deckDescription", _deck.deckDescription);
+							    deck.set("deckCrc32", _crc);
+							    deck.save();
+							    $rootScope.decksCurrentlySaving--;
+							  },
+							  error: function(object, error) {
+							    // The object was not retrieved successfully.
+							    // error is a Parse.Error with an error code and message.
+								$rootScope.decksCurrentlySaving--;  
+							  }
+							});
+				    	}
+				    	else
+				    	{
+				    		console.log("Deck: " + _deck.deckId + " exists in the cloud and has not changed.");
+				    		$rootScope.decksCurrentlySaving--;
+				    	}
+				    }
+				    else
+				    {
+				    	//If this deck does not exist in the cloud then save it now
+				    	console.log("Deck: " + _deck.deckId + " does not exist in the cloud....saving");
+				    	userDeckList.save(
+								{
+									userId: _userId,
+									deckTitle: _deck.deckTitle,
+									deckThumb: _deck.deckThumb,
+									deckId: _deck.deckId,
+									deckDescription: _deck.deckDescription,
+									deckCrc32: _crc
+								}, 
+								{
+									success: function(_userDeckList) {
+										console.log(_userDeckList);
+										$rootScope.decksCurrentlySaving--;
+										console.log("Decks Currently Saving: " + $rootScope.decksCurrentlySaving);
+									},
+									error: function(_userDeckList, _error) {
+										console.log(_error);
+										_errorState = true;
+										$rootScope.decksCurrentlySaving--;
+										console.log("Decks Currently Saving: " + $rootScope.decksCurrentlySaving);
+									}
+								}
+						);
+				    }
+				  },
+				  error: function(error) {
+					    alert("Error: " + error.code + " " + error.message);
+					  }
+			});
 		}
 	}
 })

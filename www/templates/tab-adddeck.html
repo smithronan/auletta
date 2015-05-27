@@ -10,7 +10,8 @@
   	<div class="button-bar">
 		<button class="button" ng-click="showDecks(0)">All</button>
 		<button class="button" ng-click="showDecks(1)">Free</button>
-		<button class="button" ng-click="showDecks(2)">Premium</button>
+		<button class="button" ng-click="showDecks(2)">Paid</button>
+		<button class="button" ng-click="showDecks(3)">Mine</button>
 	</div>			
   </div>
   
@@ -46,9 +47,9 @@
   <ion-content ng-show="(contentStep==6)" class="padding plain has-subheader">
   	<ion-list>
   	  <ion-item ng-repeat="deck in deckGallery track by $index" class="item item-thumbnail-left item-text-wrap">
-		  <img ng-src="{{deck.attributes.DeckImage}}">
-		  <h2>{{deck.attributes.DeckName}}</h2>
-		  <p>{{deck.attributes.DeckDescription}}</p>		  
+		  <img ng-src="{{deck.attributes.deckThumb}}">
+		  <h2>{{deck.attributes.deckTitle}}</h2>
+		  <p>{{deck.attributes.deckDescription}}</p>		  
 	  </ion-item>
 	</ion-list>
   </ion-content>

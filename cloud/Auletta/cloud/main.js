@@ -27,3 +27,33 @@ Parse.Cloud.define("getBrowsableDecks", function(request, response){
   });
        
 });
+
+
+Parse.Cloud.define("myCloudDecks", function(request, response){
+	 
+	  var query = new Parse.Query("UserDeckList");  
+	   
+	  var _user = request.params.user;
+	  if(!_user)
+	  {
+	    _user = 0;
+	  }
+	  else
+	  {	  
+	    query.equalTo("userId", _user);
+	  }
+	   
+	  query.find({
+	    success: function(results) 
+	    {      
+	      response.success(results);
+	    },
+	    error: function() 
+	    {
+	      response.error("An error occurred while retrieving Decks.");
+	    }
+	  });
+	       
+});
+
+

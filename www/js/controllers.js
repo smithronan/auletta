@@ -691,17 +691,35 @@ angular.module('auletta.controllers', [])
     		}
 		);
 		
-		Parse.Cloud.run('getBrowsableDecks', {"type": _type}, {
-			  success: function(result) 
-			  {
-				  $scope.deckGallery = result;
-				  $ionicLoading.hide();
-			  },
-			  error: function(error) 
-			  {
-				  $ionicLoading.hide();
-			  }
-			});			
+		if(_type === 3)
+		{
+			Parse.Cloud.run('myCloudDecks', {"user": Parse.User.current().id}, {
+				  success: function(result) 
+				  {
+					  console.log(result);
+					  $scope.deckGallery = result;
+					  $ionicLoading.hide();
+				  },
+				  error: function(error) 
+				  {
+					  $ionicLoading.hide();
+				  }
+				});
+		}
+		else
+		{
+			Parse.Cloud.run('getBrowsableDecks', {"type": _type}, {
+				  success: function(result) 
+				  {
+					  $scope.deckGallery = result;
+					  $ionicLoading.hide();
+				  },
+				  error: function(error) 
+				  {
+					  $ionicLoading.hide();
+				  }
+				});
+		}
 	}
 		
 	
@@ -1277,7 +1295,7 @@ angular.module('auletta.controllers', [])
 						console.log(index);
 						if(index === 0)
 						{	
-							$scope.syncDecks();
+							$scope.saveDecksToCloud();
 						}
 						return true;
 					}						
@@ -1288,7 +1306,70 @@ angular.module('auletta.controllers', [])
 		
 	}
 	
-	
+	$scope.saveDecksToCloud = function()
+	{
+		if($scope.helpers.isLoggedIn())
+		{
+			var _decksToSync = Decks.all();
+			
+			$ionicLoading.show(
+    				{
+    					template: 'Backing Up Decks to Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
+    				    animation: 'fade-in',
+    				    showDelay: 0    				    
+    				}
+    		);
+			
+			$rootScope.decksCurrentlySaving = 0;
+			$rootScope.cardsCurrentlySaving = 0;
+			
+			//Loop through each of the decks
+			for (var i = 0; i < _decksToSync.length; i++) 
+			{
+				console.log("Calling save for deck: " + _decksToSync[i].deckId);
+				
+				$rootScope.decksCurrentlySaving++;
+				Decks.saveToCloud(_decksToSync[i]);
+								
+				Decks.markCardsReplaced(_decksToSync[i].deckId);
+				
+				//Queue the deck cards individually for saving
+				for(var x=0; x<_decksToSync[i].deckCards.length; x++)
+				{
+					$rootScope.cardsCurrentlySaving++;					
+					Decks.saveCardToCloud(_decksToSync[i].deckCards[x], x, _decksToSync[i].deckId);
+				}				
+			}
+			
+			var _saveMonitorPromise;
+			
+			$scope.startSaveMonitor = function() {
+		      $scope.stopSaveMonitor(); 		      
+		      _saveMonitorPromise = $interval(
+		    		  function()
+		    		  {
+		    			  if($rootScope.decksCurrentlySaving < 1 && $rootScope.cardsCurrentlySaving < 1)
+		    			  {
+		    				  $ionicLoading.hide();
+		    				  $scope.stopSaveMonitor();	
+		    			  }
+		    		  }, 1000);
+		    };
+		  
+		    // stops the interval
+		    $scope.stopSaveMonitor = function() {
+		      $interval.cancel(_saveMonitorPromise);
+		    };
+		  
+		    $scope.startSaveMonitor();
+		}
+		else
+		{
+			var _pEventDimensions = { };
+			$scope.helpers.trackEvent('sync-decks-login-prompt', _pEventDimensions);
+			$scope.aulettaShowLoginModal();
+		}
+	}
 	
 	$scope.syncDecks = function()
 	{
