@@ -161,6 +161,14 @@ angular.module('auletta.controllers', [])
 			
 			$scope.helpers = AulettaGlobal.helpers;
 			
+			$ionicPlatform.registerBackButtonAction(
+					function () 
+					{
+							//Do nothing...as opposed to exiting the app!
+					}
+					, 100
+			);
+			
 			var _pEventDimensions = { screen: 'My Decks' };			
 			$scope.helpers.trackEvent('screenview', _pEventDimensions);
 			
