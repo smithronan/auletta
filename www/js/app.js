@@ -178,13 +178,13 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
     })
     
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.about', {
+    url: '/about',
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+        templateUrl: 'templates/tab-about.html',
+        controller: 'AboutCtrl'
       }
     }
   });

@@ -18,6 +18,7 @@
   <gap:plugin name="org.apache.cordova.media-capture"/>
   <gap:plugin name="org.apache.cordova.camera"/>
   <gap:plugin name="org.apache.cordova.file"/>
+  <gap:plugin name="org.apache.cordova.file-transfer"/>
   <platform name="android">
     <splash src="resources\android\splash\drawable-land-ldpi-screen.png" density="land-ldpi"/>
     <splash src="resources\android\splash\drawable-land-mdpi-screen.png" density="land-mdpi"/>

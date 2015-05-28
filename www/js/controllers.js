@@ -1595,8 +1595,41 @@ angular.module('auletta.controllers', [])
 	}
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AboutCtrl', function($scope, $timeout, $cordovaFileTransfer) {
+
+	$scope.downloadFile = 
+		function() 
+		{
+	    	var url = "http://www.level2studio.com/wp-content/uploads/2015/05/DSCF3925_hps.jpg";
+	    	var filename = url.split("/").pop();
+	    	alert(filename);
+	    
+	    	var targetPath = cordova.file.externalRootDirectory + filename;
+	    	var trustHosts = true
+	    	var options = {};
+	    	alert(cordova.file.externalRootDirectory);
+	    
+	    	$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+	    		.then(
+	    				function(result) 
+	    				{
+	    					// Success!
+	    					alert(JSON.stringify(result));
+	    				}, 
+	    				function(error) 
+	    				{
+	    					// Error
+	    					alert(JSON.stringify(error));
+	    				}, 
+	    				function (progress) 
+	    				{
+	    					$timeout(
+	    							function () 
+	    							{
+	    								$scope.downloadProgress = (progress.loaded / progress.total) * 100;
+	    							}
+	    					);
+	    				}
+	    			)
+		}
 });
