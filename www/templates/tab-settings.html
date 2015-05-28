@@ -2,7 +2,19 @@
   <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
-  <ion-content class="plain">
+  <ion-nav-buttons side="secondary">  	
+  	<button class="button icon ion-close" ng-click="gotoStep(0)" ng-show="(settingStep > 0)"></button>  	  	  	
+  </ion-nav-buttons>
+  
+  <div class="bar bar-subheader" ng-show="(settingStep==1)">
+  	<div class="button-bar">
+		<button class="button" ng-click="gotoSubStep(1)">Backup</button>
+		<button class="button" ng-click="gotoSubStep(2)">Restore</button>
+		<button class="button" ng-click="gotoSubStep(3)">Manage</button>
+	</div>			
+  </div>
+  
+  <ion-content class="plain" ng-Show="(settingStep == 0)">
     <ion-list>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
       	Turn On Child Mode
@@ -16,9 +28,62 @@
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
       Logout
       </ion-item>      
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="backupRestorePrompt()" ng-show="!childModeEnabled">
-      Cloud Backup / Restore
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoStep(1)" ng-show="!childModeEnabled">
+      Cloud Backup / Restore <i class="icon ion-arrow-right-c"></i>
       </ion-item>      
     </ion-list>
-  </ion-content>  
+  </ion-content> 
+  <ion-content ng-show="(settingStep==1)" class="padding plain has-subheader">
+  	  <div ng-show="(settingSubStep==1)">
+  	  	<div class="add-card-count-container padding-10">
+  	  		<h1>Backup Decks</h1>
+  	  		<p>Backup the decks that you have on this device to the cloud for safety and so that you can use them on other devices</p>
+  	  		<br/><br/><br/>
+  	  		<p>Changes made to existing decks will overwrite those decks in the cloud</p>  	  		
+  	  	</div>	
+  	  	<div class="how-to-add-buttons">    
+		    <button class="button mat-shadow button-balanced button-block" ng-click="backupPrompt()">
+		  				<i class="icon ion-upload"></i> Backup Decks  			
+		  	</button>		  	    
+	    </div>
+	  </div>
+	  <div ng-show="(settingSubStep==2)">
+  		<div class="add-card-count-container padding-10">
+  	  		<h1>Restore Decks</h1>
+  	  		Restore all decks that you have in the cloud to this device
+  	  		<br/><br/>
+  	  		<p>Changes made to existing decks will be overwritten by decks restored from the cloud</p>
+  	  		<p>You can download individual decks from the manage tab above</p>  	  		
+  	  	</div>	
+  	  	<div class="how-to-add-buttons">    
+		    <button class="button mat-shadow button-balanced button-block" ng-click="restorePrompt()">
+		  				<i class="icon ion-loop"></i> Restore Decks  			
+		  	</button>		  	    
+	    </div>
+	  </div>	  
+  	  <div ng-show="(settingSubStep==3)" class="list list-inset simple-shadow" ng-repeat="deck in deckGallery track by $index">
+  		<div class="item item-divider deck-list-item-header" ng-show="showEditCardArray[$index]">
+			<div class="deck-title-header"></div>
+			<div class="deck-card-header-actions">
+    			<img class="deck-list-action-button" src="img/edit.png" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)" />
+    			<img class="deck-list-action-button" src="img/delete.png" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck.deckId)" />
+    		</div>		    	
+		</div>
+		<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)">
+			<img ng-src="{{deck.attributes.deckThumb}}">    				
+    		<p class="deck-list-deck-title">{{deck.attributes.deckTitle}}</p>
+    		<p class="deck-list-deck-desc">{{deck.attributes.deckDescription}}</p>
+    	</a>
+    	<div class="item item-divider deck-list-item-footer">    		
+    		<div class="deck-card-footer">
+    			
+    		</div>
+    		<div class="deck-card-footer-actions">
+    			<a class="button button-icon icon ion-trash-a" on-hold="cloudDelete(deck.attributes.deckId, deck.id)"></a>
+    			<a class="button button-icon icon ion-arrow-down-a" on-hold="deckRestoreSingle(deck.attributes.deckId, deck.id)"></a>    					
+    		</div>
+  		</div>
+	</div>
+	
+  </ion-content> 
 </ion-view>

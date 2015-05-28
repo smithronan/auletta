@@ -502,6 +502,11 @@ div.deck-card-footer-actions
 	text-align: right;
 }
 
+.card-image-min
+{
+	min-height: 120px !important;
+}
+
 div.deck-card-footer-actions img
 {
 	width: 15vw;
@@ -521,7 +526,7 @@ div.card-player-sound img
 
 div.deck-card-header-actions
 {
-	width: 50%;
+	width: 100%;
 	float: left;
 	text-align: right;
 }
@@ -600,6 +605,11 @@ ion-content.add-deck
 	
 }
 
+.padding-10
+{
+	padding: 10% !important;
+}
+
 ion-content.paper, ion-modal-view.paper
 {
 	background-color: #B3E5FC;	 	
@@ -655,7 +665,12 @@ ion-content.striped
 
 .add-deck .item
 {
-	border: none;	
+	border: none;
+}
+
+.card-preview .item-content
+{
+	
 }
 
 .add-deck input, .add-deck textarea

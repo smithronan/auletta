@@ -3,7 +3,7 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="secondary">
-  	<button class="button icon ion-search" ng-click="toggleSearch()"></button>  	  	
+  	<button class="button icon ion-search" ng-click="toggleSearch()" ng-show="decks.length > 0"></button>  	  	
   </ion-nav-buttons>
   <ion-content class="padding plain">
   	<label class="item item-input" ng-show="showSearch">
@@ -15,11 +15,11 @@
   		<div class="item item-divider deck-list-item-header" ng-show="showEditCardArray[$index]">
 			<div class="deck-title-header"></div>
 			<div class="deck-card-header-actions">
-    			<img class="deck-list-action-button" src="img/edit.png" ng-show="!$parent.childModeEnabled" ng-click="editDeck(deck.deckId)" />
-    			<img class="deck-list-action-button" src="img/delete.png" ng-show="!$parent.childModeEnabled" ng-click="trashDeck(deck.deckId)" />
+				<a class="button button-icon icon ion-edit" ng-click="editDeck(deck.deckId)"></a>
+				<a class="button button-icon icon ion-trash-a" ng-click="trashDeck(deck.deckId)"></a>    			
     		</div>		    	
 		</div>
-		<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)">
+		<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)" ng-click="clearEditCardArray()">
 			<img ng-src="{{deck.deckThumb}}">    				
     		<p class="deck-list-deck-title">{{deck.deckTitle}}</p>
     		<p class="deck-list-deck-desc">{{deck.deckDescription}}</p>
@@ -33,6 +33,19 @@
     		</div>
   		</div>
 	</div>
+	<div class="add-card-count-container padding-10" ng-show="decks.length == 0">
+  	  		<h1>No Decks</h1>
+  	  		You do not have any decks on this device right now
+  	  		<br/><br/>  	  		  	  		
+  	  	</div>
+  	  	<div class="how-to-add-buttons" ng-show="decks.length == 0">    
+		    <button class="button mat-shadow button-balanced button-block" ng-click="navigateTo('tab.addDeck')">
+		  				<i class="icon ion-plus-circled"></i> Add Decks  			
+		  	</button>
+		  	<button class="button mat-shadow button-balanced button-block" ng-click="navigateTo('tab.settings')">
+		  				<i class="icon ion-loop"></i> Restore from Cloud  			
+		  	</button>		  	    
+	    </div>
 	<br/><br/><br/>
   </ion-content>  
 </ion-view>

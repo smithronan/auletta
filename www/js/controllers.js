@@ -177,6 +177,17 @@ angular.module('auletta.controllers', [])
 					, 100
 			);
 			
+			
+			$scope.navigateTo = function(_destination)
+			{
+				$ionicHistory.nextViewOptions(
+						{
+							disableBack: true
+						}
+				);
+				$state.go(_destination);
+			}
+			
 			var _pEventDimensions = { screen: 'My Decks' };			
 			$scope.helpers.trackEvent('screenview', _pEventDimensions);
 			
@@ -192,6 +203,11 @@ angular.module('auletta.controllers', [])
 					$scope.showEditCardArray = [];
 					$scope.showEditCardArray[_index] = true;
 				}
+			}
+			
+			$scope.clearEditCardArray = function()
+			{
+				$scope.showEditCardArray = [];
 			}
 						
 			$scope.decks = Decks.all();
@@ -274,6 +290,7 @@ angular.module('auletta.controllers', [])
 			
 			$scope.editDeck = function(_deckId)
 			{
+				$scope.clearEditCardArray();
 				$ionicHistory.nextViewOptions({disableBack: true});
 				$state.go('tab.editDeck', {deckId: _deckId});
 			}
@@ -391,7 +408,7 @@ angular.module('auletta.controllers', [])
 			);
 			
 			
-			$scope.trashDeck = function(_deck)
+			$scope.trashDeck = function(_deckId)
 			{	
 				var _pEventDimensions = { };			
 				$scope.helpers.trackEvent('deck-delete-intent', _pEventDimensions);
@@ -411,9 +428,8 @@ angular.module('auletta.controllers', [])
 								return true;
 							},
 							destructiveButtonClicked: function() {
-								$scope.decks = Decks.remove(_deck.deckId);
-								Decks.persist();
-								$scope.toggleEdit();
+								$scope.decks = Decks.remove(_deckId);								
+								$scope.clearEditCardArray();
 								var _pEventDimensions = { };			
 								$scope.helpers.trackEvent('deck-delete-confirm', _pEventDimensions);
 								return true;
@@ -1154,6 +1170,77 @@ angular.module('auletta.controllers', [])
 .controller('SettingsCtrl', function($scope, $rootScope, $ionicPlatform, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup, Decks) {
 	$scope.helpers = AulettaGlobal.helpers;
 	
+	
+	$scope.settingStep = 0;
+	$scope.settingSubStep = 1;
+	
+	$scope.gotoStep = function(_step)
+	{
+		$scope.settingStep = _step;
+		
+		if($scope.settingSubStep == 3)
+		{
+			//Cloud Backup / Restore
+			$ionicLoading.show(
+    				{
+    					template: 'Retrieving your Decks from Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
+    				    animation: 'fade-in',
+    				    showDelay: 0    				    
+    				}
+    		);
+			
+			Parse.Cloud.run('myCloudDecks', {"user": Parse.User.current().id}, {
+				  success: function(result) 
+				  {  
+					  $scope.deckGallery = result;
+					  console.log(result);
+					  
+					  
+					  $ionicLoading.hide();
+				  },
+				  error: function(error) 
+				  {
+					  $ionicLoading.hide();
+				  }
+			});
+		}
+		
+	}	
+	
+	$scope.gotoSubStep = function(_step)
+	{
+		$scope.settingSubStep = _step;
+		
+		if($scope.settingSubStep == 3)
+		{
+			//Cloud Backup / Restore
+			$ionicLoading.show(
+    				{
+    					template: 'Retrieving your Decks from Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
+    				    animation: 'fade-in',
+    				    showDelay: 0    				    
+    				}
+    		);
+			
+			Parse.Cloud.run('myCloudDecks', {"user": Parse.User.current().id}, {
+				  success: function(result) 
+				  {  
+					  $scope.deckGallery = result;
+					  console.log(result);
+					  
+					  
+					  $ionicLoading.hide();
+				  },
+				  error: function(error) 
+				  {
+					  $ionicLoading.hide();
+				  }
+			});
+		}
+		
+	}
+	
+	
 	$ionicPlatform.registerBackButtonAction(
 			function () 
 			{
@@ -1275,21 +1362,20 @@ angular.module('auletta.controllers', [])
 							}
 	
 	
-	$scope.backupRestorePrompt = function()
+	$scope.backupPrompt = function()
 	{
 		
 		var hideSheet = $ionicActionSheet.show(
 				{
 					buttons: [
-					          { text: 'Backup Decks to Cloud' },
-					          { text: 'Restore Decks from Cloud' }
+					          { text: 'Backup Decks to Cloud' }					          
 					],
-					titleText: 'Backup or Restore your Decks',
+					titleText: 'Are you sure you want to Backup your Decks?',
 					cancelText: 'Cancel',
 					cancel: function() 
 					{	
 						var _pEventDimensions = { };			
-						$scope.helpers.trackEvent('cloud-backup-restore-cancel', _pEventDimensions);
+						$scope.helpers.trackEvent('cloud-backup-cancel', _pEventDimensions);
 					},
 					buttonClicked: function(index) {
 						console.log(index);
@@ -1301,10 +1387,147 @@ angular.module('auletta.controllers', [])
 					}						
 				}
 		);
+	}
+	
+	$scope.restorePrompt = function()
+	{
+		
+		var hideSheet = $ionicActionSheet.show(
+				{
+					buttons: [
+					          { text: 'Restore Decks from Cloud' }					          
+					],
+					titleText: 'Are you sure you want to Restore your Decks from the Cloud?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{	
+						var _pEventDimensions = { };			
+						$scope.helpers.trackEvent('cloud-restore-cancel', _pEventDimensions);
+					},
+					buttonClicked: function(index) {
+						console.log(index);
+						if(index === 0)
+						{	
+							$scope.restoreDecksFromCloud();
+						}
+						return true;
+					}						
+				}
+		);
+	}
+	
+	
+	$scope.restoreDecksFromCloud = function(_deckId)
+	{
+		$rootScope.decksDownloading = 1;
+		$rootScope.cardsDownloading = 0;
+		
+		$ionicLoading.show(
+				{
+					template: 'Restoring Decks from Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
+				    animation: 'fade-in',
+				    showDelay: 0    				    
+				}
+		);
+		
+		if(_deckId)
+		{
+			Decks.restoreSingleFromCloud(_deckId);
+		}
+		else
+		{
+			Decks.restoreFromCloud();
+		}
+		
+		var _saveMonitorPromise;
+		
+		$scope.startSaveMonitor = function() {
+	      $scope.stopSaveMonitor(); 		      
+	      _saveMonitorPromise = $interval(
+	    		  function()
+	    		  {
+	    			  if($rootScope.decksDownloading < 1 && $rootScope.cardsDownloading < 1)
+	    			  {
+	    				  $ionicLoading.hide();
+	    				  $scope.stopSaveMonitor();	
+	    			  }
+	    		  }, 1000);
+	    };
+	  
+	    // stops the interval
+	    $scope.stopSaveMonitor = function() {
+	      $interval.cancel(_saveMonitorPromise);
+	    };
+	  
+	    $scope.startSaveMonitor();
 		
 		
 		
 	}
+	
+	$scope.cloudDelete = function(_deckId, _parseObjectId)
+	{
+		var hideSheet = $ionicActionSheet.show(
+				{
+					buttons: [
+					          { text: 'Delete on Device only' },
+					          { text: 'Delete in Cloud only' },
+					          { text: 'Delete from Cloud and Device' },
+					],
+					titleText: 'Are you sure you want to delete this deck?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{	
+						var _pEventDimensions = { };
+					},
+					buttonClicked: function(index) {						
+						if(index === 0)
+						{	
+							Decks.remove(_deckId);
+							Decks.persist();
+						}
+						else if(index === 1)
+						{
+							console.log("Delete deck: " + _deckId + " with parse object id: " + _parseObjectId);
+							Decks.cloudDelete(_parseObjectId, _deckId);
+						}
+						else if(index === 2)
+						{
+							Decks.remove(_deckId);
+							Decks.persist();
+							
+							Decks.cloudDelete(_parseObjectId);
+						}
+						return true;
+					}						
+				}
+		);
+	}
+	
+	$scope.deckRestoreSingle = function(_deckId, _parseObjectId)
+	{
+		var hideSheet = $ionicActionSheet.show(
+				{
+					buttons: [
+					          { text: 'Restore Deck' },					          
+					],
+					titleText: 'Restore this deck from cloud?',
+					cancelText: 'Cancel',
+					cancel: function() 
+					{	
+						var _pEventDimensions = { };
+					},
+					buttonClicked: function(index) {						
+						if(index === 0)
+						{	
+							$scope.restoreDecksFromCloud(_deckId);
+						}						
+						return true;
+					}						
+				}
+		);
+	}
+	
 	
 	$scope.saveDecksToCloud = function()
 	{
@@ -1370,204 +1593,6 @@ angular.module('auletta.controllers', [])
 			$scope.aulettaShowLoginModal();
 		}
 	}
-	
-	$scope.syncDecks = function()
-	{
-		if($scope.helpers.isLoggedIn())
-		{
-			
-			var _pEventDimensions = { };
-			$scope.helpers.trackEvent('sync-decks', _pEventDimensions);
-			
-			var UserDeckList = Parse.Object.extend("UserDeckList");
-			var userDeckList = new UserDeckList();
-
-			var _userId = Parse.User.current().id;
-			
-			$ionicLoading.show(
-    				{
-    					template: 'Backing Up Decks to Cloud...<br/><br/><i class="icon ion-loading-c"></i>',							
-    				    animation: 'fade-in',
-    				    showDelay: 0    				    
-    				}
-    		);
-			
-			var _errorState = false;
-			var _decksToSync = Decks.all();
-			
-			//Loop through each of the decks
-			for (var i = 0; i < _decksToSync.length; i++) 
-			{
-				
-				var _loopDeckTitle = _decksToSync[i].deckTitle;
-				var _loopDeckThumb = _decksToSync[i].deckThumb;
-				var _loopDeckId = _decksToSync[i].deckId;
-				var _loopDeckDescription = _decksToSync[i].deckDescription;
-				var _loopDeckCards = _decksToSync[i].deckCards;
-				
-				//Calculate the local checksum for the deck
-				var _deckChecksumString = _decksToSync[i].deckTitle + _decksToSync[i].deckThumb + _decksToSync[i].deckId + _decksToSync[i].deckDescription + _decksToSync[i].deckCards.length;
-				var _crc = $scope.helpers.crc32(_deckChecksumString);
-				
-				
-				//Firstly check if this deck already exists in Parse for this user
-				var _deckExists = false;
-				var _deckParseId = '';
-				var _deckCrc32 = '';
-				
-				var UserDeckExistsQuery = Parse.Object.extend("UserDeckList");
-				var query = new Parse.Query(UserDeckExistsQuery);
-				query.equalTo("deckId", _decksToSync[i].deckId);
-				query.equalTo("userId", _userId);
-				
-				query.find({
-				  success: function(results) {
-				    if(results.length > 0)
-				    {	
-				    	_deckExists = true;
-				    	_deckCrc32 = results[0]._serverData.deckCrc32;
-				    	_deckParseId = results[0].id;
-				    }
-				    
-				    if(!_deckExists)
-					{
-						console.log("Deck: " + _loopDeckId + " does not exist in Parse so I'll create and save it.");
-						userDeckList.save(
-								{
-									userId: _userId,
-									deckTitle: _loopDeckTitle,
-									deckThumb: _loopDeckThumb,
-									deckId: _loopDeckId,
-									deckDescription: _loopDeckDescription,
-									deckCrc32: _crc										  
-								}, 
-								{
-									success: function(_userDeckList) {
-										console.log(_userDeckList);
-									},
-									error: function(_userDeckList, _error) {
-										_errorState = true
-									}
-								}
-						);
-					}
-					else if(_crc !== _deckCrc32)
-					{
-						console.log("Deck: " + _loopDeckId + " exists in Parse but has changed locally so I'll update it.");
-						var DeckToUpdate = Parse.Object.extend("UserDeckList");
-						var query = new Parse.Query(DeckToUpdate);
-						query.get(_deckParseId, {
-						  success: function(deck) {
-						    deck.set("deckTitle", _loopDeckTitle);
-						    deck.set("deckThumb", _loopDeckThumb);
-						    deck.set("deckDescription", _loopDeckDescription);
-						    deck.set("deckCrc32", _crc);
-						    deck.save();
-						  },
-						  error: function(object, error) {
-						    // The object was not retrieved successfully.
-						    // error is a Parse.Error with an error code and message.
-						  }
-						});
-					}
-					else
-					{
-						console.log("Deck: " + _loopDeckId + " exists in Parse and has not changed locally so I'll do nothing.");
-					}
-				    
-				    
-				    var query = new Parse.Query("UserDeckCard");
-				    query.equalTo("deckId", _loopDeckId);
-				    query.equalTo("userId", _userId);
-				    
-				    query.each(function(obj) {
-				      obj.set("cardReplaced", true);
-				      return obj.save();
-				    }).then(function() {
-
-				    	var delQuery = new Parse.Query("UserDeckCard");
-				    	delQuery.equalTo("deckId", _loopDeckId);
-				    	delQuery.equalTo("userId", _userId);
-				    	delQuery.equalTo("cardReplaced", true);
-
-				    	  delQuery.find().then(function(cards) {
-				    	    return Parse.Object.destroyAll(cards);
-				    	  }).then(function(success) {
-				    	    // The related comments were deleted
-				    	  }, function(error) {
-				    	    console.error("Error deleting replaced cards " + error.code + ": " + error.message);
-				    	  });	
-				    	
-				    	
-				    }, function(err) {
-				      console.log(err);
-				    });
-				    
-				    
-				    //At this point we have a valid UserDeckList object for this deck in Parse so we move on to the cards
-				    for (var j = 0; j < _loopDeckCards.length; j++)
-				    {
-				    	var _card = _loopDeckCards[j];
-				    	
-				    	var _cardChecksumString = _card.cardId + _card.cardImage + _card.cardText + _card.cardAudio;
-				    	_cardLocalChecksum = $scope.helpers.crc32(_cardChecksumString);
-				    	
-				    	//For now just save the cards, will come back to updating them afterwards
-				    	var UserDeckCard = Parse.Object.extend("UserDeckCard");
-						var userDeckCard = new UserDeckCard();
-						
-						userDeckCard.save(
-								{
-									userId: _userId,
-									cardId: _card.cardId,
-									cardImage: _card.cardImage,									
-									cardText: _card.cardText,
-									cardAudio: _card.cardAudio,
-									cardReplaced: false,
-									cardOrder: j,
-									deckId: _loopDeckId,
-									cardCrc32: _cardLocalChecksum										  
-								}, 
-								{
-									success: function(_newCard) {
-										console.log(_newCard);
-									},
-									error: function(_userDeckList, _error) {
-										_errorState = true
-									}
-								}
-						);
-						
-				    }
-				    
-				    $ionicLoading.hide();
-				    
-				  },
-				  error: function(error) {
-				    alert("Error: " + error.code + " " + error.message);
-				  }
-				});
-				
-				
-				
-			}
-			
-			
-			
-			
-			
-			console.log(Decks.all());			
-			
-		}
-		else
-		{
-			var _pEventDimensions = { };
-			$scope.helpers.trackEvent('sync-decks-login-prompt', _pEventDimensions);
-			$scope.aulettaShowLoginModal();
-		}
-	}
-	
-	
 })
 
 .controller('AccountCtrl', function($scope) {

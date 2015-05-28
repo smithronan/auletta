@@ -10,8 +10,7 @@
   	<div class="button-bar">
 		<button class="button" ng-click="showDecks(0)">All</button>
 		<button class="button" ng-click="showDecks(1)">Free</button>
-		<button class="button" ng-click="showDecks(2)">Paid</button>
-		<button class="button" ng-click="showDecks(3)">Mine</button>
+		<button class="button" ng-click="showDecks(2)">Premium</button>		
 	</div>			
   </div>
   
@@ -167,27 +166,25 @@
   <ion-content ng-show="(contentStep==3)" class="plain add-deck" >  	
   	<div class="add-deck-commentary">Here is how your deck will look in the list...</div>
  	 	<div class="deck-review" >
-  			<div class="item item-divider deck-list-item-header">
-				<div class="deck-title-header"><h2>{{currentDeck.deckTitle}}</h2></div>		    	
-			</div>
-			<a class="item item-thumbnail-left item-text-wrap" ng-click="showPlayerModal(deck.deckId)">
-				<img ng-src="{{currentDeck.deckThumb}}">    				
-	    		<p>{{currentDeck.deckDescription}}</p>
-	    	</a>
-	    	<div class="item item-divider deck-list-item-footer">    		
-				<div class="deck-card-footer">
-					{{currentDeck.deckCards.length}} cards
-				</div>
-				<div class="deck-card-footer-actions">
-					<img class="deck-list-action-button-play" src="img/movie.png" ng-click="showPlayerModal(deck.deckId)" />    			
-				</div>
-			</div>
+  			<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)" ng-click="clearEditCardArray()">
+			<img ng-src="{{currentDeck.deckThumb}}">    				
+    		<p class="deck-list-deck-title">{{currentDeck.deckTitle}}</p>
+    		<p class="deck-list-deck-desc">{{currentDeck.deckDescription}}</p>
+    	</a>
+    	<div class="item item-divider deck-list-item-footer">    		
+    		<div class="deck-card-footer">
+    			{{currentDeck.deckCards.length}} cards
+    		</div>
+    		<div class="deck-card-footer-actions">
+    			<img ng-click="showPlayerModal(deck.deckId)" ng-src="img/play.png" />    			
+    		</div>
+  		</div>
 		</div>
   	<div class="add-deck-commentary">...and here are your cards...</div>
   	<div class="add-deck-commentary-sub">(swipe a card left to edit or remove, long press to rearrange!)</div>  		
 	<ion-list show-delete="shouldShowDelete" show-reorder="areReordering" can-swipe="true">
-  	  <ion-item ng-repeat="card in currentDeck.deckCards track by $index" class="item item-thumbnail-left item-text-wrap" on-hold="toggleReviewSaveReorder()">
-		  <img ng-src="{{card.cardImage}}">
+  	  <ion-item ng-repeat="card in currentDeck.deckCards track by $index" class="item item-thumbnail-left item-text-wrap card-preview" on-hold="toggleReviewSaveReorder()">
+		  <img class="card-image-min" ng-src="{{card.cardImage}}">
 		  <h2>{{card.cardText}}</h2>		  
 		  <ion-option-button class="button icon ion-edit" ng-click="editCard(card.cardId)"></ion-option-button>
 		  <ion-option-button class="button icon ion-trash-a" ng-click="deleteCard(card.cardId)"></ion-option-button>		  

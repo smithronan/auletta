@@ -147,6 +147,7 @@ angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', '
 
   .state('tab.settings', {
       url: '/settings',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/tab-settings.html',
