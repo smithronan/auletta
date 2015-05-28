@@ -1615,6 +1615,19 @@ angular.module('auletta.controllers', [])
 	    				{
 	    					// Success!
 	    					alert(JSON.stringify(result));
+	    					
+	    					var location= result.nativeURL;
+	    					  window.resolveLocalFileSystemURL(location, function(oFile) {
+	    					    oFile.file(function(readyFile) {
+	    					      var reader= new FileReader();
+	    					      reader.onloadend= function(evt) {	    					         
+	    					        $scope.imgUrl = evt.target.result;
+	    					      };
+	    					      reader.readAsDataURL(readyFile); 
+	    					    });
+	    					  }, function(err){
+	    					    console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
+	    					});
 	    				}, 
 	    				function(error) 
 	    				{
