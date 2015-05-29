@@ -5,7 +5,7 @@
   <ion-nav-buttons side="secondary">
   	<button class="button icon ion-search" ng-click="toggleSearch()" ng-show="decks.length > 0"></button>  	  	
   </ion-nav-buttons>
-  <ion-content class="padding plain">
+  <ion-content class="padding plain" overflow-scroll="true">
   	<label class="item item-input" ng-show="showSearch">
   		<i class="icon ion-search placeholder-icon"></i>
   		<input ng-model="deckFilter" type="search" placeholder="Search for..." class="deck-search">
