@@ -1174,7 +1174,7 @@ angular.module('auletta.controllers', [])
 	$scope.settingStep = 0;
 	$scope.settingSubStep = 1;
 	
-	$scope.gotoAuthenticatedStep(_step)
+	$scope.gotoAuthenticatedStep = function(_step)
 	{
 		if($scope.helpers.isLoggedIn())
 		{
