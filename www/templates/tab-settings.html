@@ -14,7 +14,7 @@
 	</div>			
   </div>
   
-  <ion-content class="plain" ng-Show="(settingStep == 0)">
+  <ion-content overflow-scroll="true" class="plain" ng-Show="(settingStep == 0)">
     <ion-list>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
       	Turn On Child Mode
@@ -28,12 +28,12 @@
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
       Logout
       </ion-item>      
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoStep(1)" ng-show="!childModeEnabled">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoAuthenticatedStep(1)" ng-show="!childModeEnabled">
       Cloud Backup / Restore <i class="icon ion-arrow-right-c"></i>
       </ion-item>      
     </ion-list>
   </ion-content> 
-  <ion-content ng-show="(settingStep==1)" class="padding plain has-subheader">
+  <ion-content overflow-scroll="true" ng-show="(settingStep==1)" class="padding plain has-subheader">
   	  <div ng-show="(settingSubStep==1)">
   	  	<div class="add-card-count-container padding-10">
   	  		<h1>Backup Decks</h1>

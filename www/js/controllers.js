@@ -1174,6 +1174,22 @@ angular.module('auletta.controllers', [])
 	$scope.settingStep = 0;
 	$scope.settingSubStep = 1;
 	
+	$scope.gotoAuthenticatedStep(_step)
+	{
+		if($scope.helpers.isLoggedIn())
+		{
+			$scope.gotoStep(_step);	
+		}
+		else
+		{
+			var _pEventDimensions = { };
+			$scope.helpers.trackEvent('sync-decks-login-prompt', _pEventDimensions);
+			$scope.aulettaShowLoginModal();
+		}
+	}
+	
+	
+	
 	$scope.gotoStep = function(_step)
 	{
 		$scope.settingStep = _step;

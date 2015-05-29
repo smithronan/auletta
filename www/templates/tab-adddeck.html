@@ -14,7 +14,7 @@
 	</div>			
   </div>
   
-  <ion-content ng-show="(contentStep==-1)" class="padding plain">
+  <ion-content overflow-scroll="true" ng-show="(contentStep==-1)" class="padding plain">
   	<div class="list list-inset">  		
 		<div class="item item-divider add-list-item-header">
 			<div class="deck-title-header"><h2>Create your own Deck</h2></div>		    	
@@ -43,7 +43,7 @@
     </div>
   </ion-content>
   
-  <ion-content ng-show="(contentStep==6)" class="padding plain has-subheader">
+  <ion-content overflow-scroll="true" ng-show="(contentStep==6)" class="padding plain has-subheader">
   	<ion-list>
   	  <ion-item ng-repeat="deck in deckGallery track by $index" class="item item-thumbnail-left item-text-wrap">
 		  <img ng-src="{{deck.attributes.deckThumb}}">
@@ -57,7 +57,7 @@
   
   
   
-  <ion-content ng-show="(contentStep==1)" class="padding plain add-deck">
+  <ion-content overflow-scroll="true" ng-show="(contentStep==1)" class="padding plain add-deck">
   	<div class="list add-deck">
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Deck Title</span>
@@ -73,7 +73,7 @@
 	</div>  	
   </ion-content>
   
-  <ion-content ng-show="(contentStep==2)" class="plain add-deck">    
+  <ion-content overflow-scroll="true" ng-show="(contentStep==2)" class="plain add-deck">    
     <div class="card-add-controls button-bar" ng-show="0==1">
     	<button class="button icon ion-camera add-card-control" ng-click="captureImage()"></button>
     	<button class="button icon ion-compose add-card-control" ng-click="captureText()"></button>    
@@ -108,7 +108,7 @@
        
   </ion-content>
   
-  <ion-content ng-show="(contentStep==4)" class="plain add-deck">    
+  <ion-content overflow-scroll="true" ng-show="(contentStep==4)" class="plain add-deck">    
     
     <div class="add-card-count-container">
 		<div class="add-card-count-digit" ng-show="currentDeck.deckCards.length>=0">{{currentDeck.deckCards.length}}</div>
@@ -139,7 +139,7 @@
 	</div>   
   </ion-content>
   
-  <ion-content ng-show="(contentStep==5)" class="plain add-deck">    
+  <ion-content overflow-scroll="true" ng-show="(contentStep==5)" class="plain add-deck">    
     <label class="item item-input">
   		<i class="icon ion-search placeholder-icon"></i>
   		<input ng-model="galleryCardFilter" type="search" placeholder="Search for..." class="deck-search">
@@ -163,7 +163,7 @@
   
   
   
-  <ion-content ng-show="(contentStep==3)" class="plain add-deck" >  	
+  <ion-content overflow-scroll="true" ng-show="(contentStep==3)" class="plain add-deck" >  	
   	<div class="add-deck-commentary">Here is how your deck will look in the list...</div>
  	 	<div class="deck-review" >
   			<a class="item item-thumbnail-left item-text-wrap" on-hold="toggleEditCardArray($index)" ng-click="clearEditCardArray()">
