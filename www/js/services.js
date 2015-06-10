@@ -20,19 +20,21 @@ angular.module('auletta.services', [])
 		childModeStatus: function()
 			{	
 				return childModeEnabled;		
-			}
+			}		
 	}
 	
 }
 )
 
 
-.factory('Decks', function($rootScope) {
-	// Some fake testing data
-	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));
+.factory('Decks', function($rootScope, $cordovaFileTransfer) {
 	
+	var ls_decks = JSON.parse(localStorage.getItem("auletta_decks"));
+        
 	var decks = (ls_decks !== null) ? ls_decks : [];	
-
+	
+		
+	
 	deckFactory = {};
 
 	deckFactory.all = function() {
@@ -308,6 +310,25 @@ angular.module('auletta.services', [])
 		var _cardChecksumString = _card.cardId + _card.cardImage + _card.cardText + _card.cardAudio + _order;
     	_cardLocalChecksum = AulettaGlobal.helpers.crc32(_cardChecksumString);
 		
+    	//Save the card image file into the parse cloud.....hopefully!
+    	/*window.resolveLocalFileSystemURL(_card.cardImage, function(oFile) {
+		    oFile.file(function(readyFile) {
+		      var reader= new FileReader();
+		      reader.onloadend= function(evt) {	    					         
+		    	  var cardImageFile = new Parse.File(_card.cardId + ".png", { base64: evt.target.result });
+		    	  cardImageFile.save().then(function(_result) {
+		    		  alert(JSON.stringify(_result));
+		    		}, function(error) {
+		    		  // The file either could not be read, or could not be saved to Parse.
+		    		});
+		      };
+		      reader.readAsDataURL(readyFile); 
+		    });
+		  }, function(err){
+		    console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
+		});*/
+    	
+    	
 		userDeckCard.save(
 				{
 					userId: _userId,
