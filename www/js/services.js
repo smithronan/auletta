@@ -143,10 +143,11 @@ angular.module('auletta.services', [])
 							    			{
 							    				cardId: results[i].attributes.cardId,
 							    				cardImage: results[i].attributes.cardImage,
+												//download the card from parse at this point!
 							    				cardText: results[i].attributes.cardText,
 							    				cardAudio: results[i].attributes.cardAudio
 							    			}
-							    			
+							    														
 							    			_newDeck.deckCards.push(_newCard);
 									  }
 									  
@@ -311,47 +312,73 @@ angular.module('auletta.services', [])
     	_cardLocalChecksum = AulettaGlobal.helpers.crc32(_cardChecksumString);
 		
     	//Save the card image file into the parse cloud.....hopefully!
-    	/*window.resolveLocalFileSystemURL(_card.cardImage, function(oFile) {
-		    oFile.file(function(readyFile) {
-		      var reader= new FileReader();
-		      reader.onloadend= function(evt) {	    					         
-		    	  var cardImageFile = new Parse.File(_card.cardId + ".png", { base64: evt.target.result });
-		    	  cardImageFile.save().then(function(_result) {
-		    		  alert(JSON.stringify(_result));
-		    		}, function(error) {
-		    		  // The file either could not be read, or could not be saved to Parse.
-		    		});
-		      };
-		      reader.readAsDataURL(readyFile); 
-		    });
-		  }, function(err){
-		    console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
-		});*/
-    	
-    	
-		userDeckCard.save(
-				{
-					userId: _userId,
-					cardId: _card.cardId,
-					cardImage: _card.cardImage,									
-					cardText: _card.cardText,
-					cardAudio: _card.cardAudio,
-					cardReplaced: false,
-					cardOrder: _order,
-					deckId: _deckId,
-					cardCrc32: _cardLocalChecksum										  
-				}, 
-				{
-					success: function(_newCard) {
-						console.log(_newCard);
-						$rootScope.cardsCurrentlySaving--;
-					},
-					error: function(_userDeckList, _error) {
-						_errorState = true;
-						$rootScope.cardsCurrentlySaving--;
+    	window.resolveLocalFileSystemURL(
+					"file://" + _card.cardImage, 
+					function(oFile) 
+					{
+						oFile.file(
+							function(readyFile) 
+							{
+								var reader= new FileReader();
+								reader.onloadend= function(evt) 
+								{	    					         
+									var cardImageFile = new Parse.File(_card.cardId + ".png", { base64: evt.target.result });
+									cardImageFile.save().then(
+										function(_result) 
+										{
+											for (var key in _result) 
+											{
+											  if (_result.hasOwnProperty(key)) 
+											  {
+												console.log(key + " -> " + _result[key]);
+											  }
+											}
+											
+											userDeckCard.save(
+													{
+														userId: _userId,
+														cardId: _card.cardId,
+														cardImage: _result._url,									
+														cardText: _card.cardText,
+														cardAudio: _card.cardAudio,
+														cardReplaced: false,
+														cardOrder: _order,
+														deckId: _deckId,
+														cardCrc32: _cardLocalChecksum,
+														cardImageParseFile: cardImageFile
+													}, 
+													{
+														success: function(_newCard) {
+															console.log(_newCard);
+															$rootScope.cardsCurrentlySaving--;
+														},
+														error: function(_userDeckList, _error) {
+															_errorState = true;
+															$rootScope.cardsCurrentlySaving--;
+														}
+													}
+											);
+											
+											
+										}, 
+										function(error) 
+										{
+											// The file either could not be read, or could not be saved to Parse.
+										}
+									);
+								};
+								reader.readAsDataURL(readyFile); 
+							}		
+						);
+					}, 
+					function(err)
+					{
+						console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
 					}
-				}
 		);
+    	
+    	
+		
 	}
 	
 	deckFactory.saveToCloud = function(_deck)

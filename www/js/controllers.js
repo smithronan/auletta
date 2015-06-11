@@ -1785,7 +1785,41 @@ angular.module('auletta.controllers', [])
 	$scope.testHarness = 
 		function()
 		{
-			$scope.testResults = "Results";
 			console.log($scope.decks[0].deckCards[0].cardImage);
+			$scope.testResults = $scope.decks[0].deckCards[0].cardImage;
+			
+			window.resolveLocalFileSystemURL(
+				"file://" + $scope.decks[0].deckCards[0].cardImage, 
+				function(fileEntry) 
+				{
+					console.log("Got File");
+					fileEntry.file(
+						function(file) 
+						{
+							var reader = new FileReader();
+
+							reader.onloadend = function(event) {
+								console.log("File Content - B64: " + event.target.result);								
+							}
+
+							reader.readAsDataURL(file);
+						}
+					)
+				}, 
+				function(e) 
+				{
+					console.log("FileSystem Error");
+					for (var key in e) 
+					{
+					  if (e.hasOwnProperty(key)) 
+					  {
+						console.log(key + " -> " + e[key]);
+					  }
+					}
+				}
+			);
+			
+			
+			
 		}	
 });
