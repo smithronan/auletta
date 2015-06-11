@@ -91,7 +91,7 @@ AulettaGlobal.helpers =
 
 angular.module('auletta', ['ionic', 'auletta.controllers', 'auletta.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $cordovaSQLite) {
+.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
