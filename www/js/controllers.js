@@ -1774,7 +1774,18 @@ angular.module('auletta.controllers', [])
 	}
 })
 
-.controller('AboutCtrl', function($scope, $timeout, $cordovaFileTransfer, $cordovaSQLite) {
-
+.controller('AboutCtrl', function($scope, $timeout, $cordovaFileTransfer, Decks, $cordovaFile) {
 	
+	$scope.decks = Decks.all();
+	
+	$scope.testResults = "[Run tests to see results here...if applicable]";
+	
+	//We'll use this as a handy way to run code on the device that may be difficult to re-create the scenarios
+	//for in a natural sense!
+	$scope.testHarness = 
+		function()
+		{
+			$scope.testResults = "Results";
+			console.log($scope.decks[0].deckCards[0].cardImage);
+		}	
 });

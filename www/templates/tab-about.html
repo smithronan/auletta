@@ -5,17 +5,14 @@
   
   <ion-content class="plain">
     <div class="add-card-count-container padding-10">
-  	  		<h1>Progress</h1>
-  	  		<p>{{downloadProgress}}</p>
+  	  		<h1>Results</h1>
+  	  		<div style="height: 200px; overflow-y: scroll;">{{testResults}}</div>
   	  		<br/><br/><br/>  	  		  	  		
   	  	</div>	
     <div class="how-to-add-buttons">    
-		    <button class="button mat-shadow button-balanced button-block" ng-click="insert('Ronan', 'Smith')">
-		  				<i class="icon ion-upload"></i> Insert  			
-		  	</button>
-		  	<button class="button mat-shadow button-balanced button-block" ng-click="select('Smith')">
-		  				<i class="icon ion-upload"></i> Select  			
-		  	</button>		  	    
+		    <button class="button mat-shadow button-balanced button-block" ng-click="testHarness()">
+		  				<i class="icon ion-upload"></i> Run Test  			
+		  	</button>		  			  	    
 	</div>	
   </ion-content> 
 </ion-view>
