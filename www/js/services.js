@@ -50,8 +50,6 @@ angular.module('auletta.services', [])
 	}
 	
 	deckFactory.remove = function(_deckId) {
-		console.log("Remove Deck: " + _deckId);
-		
 		var spliceAt = -1;
 		
 		for (var i = 0; i < decks.length; i++) 
@@ -94,6 +92,33 @@ angular.module('auletta.services', [])
 	{
 		return JSON.stringify(decks);
 	}
+	
+	deckFactory.downloadCardAssets = function(_cardImage, _cardAudio)
+	{
+		var ft = new FileTransfer();
+		ft.download
+		(
+			_cardImage, // File to download
+			'', 		//Download destination, happy to throw it into root default storage for now
+			function(_result) 
+			{
+				console.log("File " + _cardImage + " Downloaded Successfully");
+				for (var key in _result) 
+				{
+				  if (_result.hasOwnProperty(key)) 
+				  {
+					console.log(key + " -> " + _result[key]);
+				  }
+				}
+			},
+			function(err) 
+			{
+				console.log(err); 
+			}
+		);	
+	}
+	
+	
 	
 	deckFactory.restoreSingleFromCloud = function(_deckId)
 	{
@@ -144,6 +169,7 @@ angular.module('auletta.services', [])
 							    				cardId: results[i].attributes.cardId,
 							    				cardImage: results[i].attributes.cardImage,
 												//download the card from parse at this point!
+												downloadCardAssets(results[i].attributes.cardImage, results[i].attributes.cardAudio);
 							    				cardText: results[i].attributes.cardText,
 							    				cardAudio: results[i].attributes.cardAudio
 							    			}

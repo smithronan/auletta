@@ -1018,8 +1018,8 @@ angular.module('auletta.controllers', [])
 										
 										//Resize image using a canvas object
 										var resizeCanvas = document.createElement('canvas');										
-										resizeCanvas.width = 640;
-										resizeCanvas.height = 960;
+										resizeCanvas.width = 320;
+										resizeCanvas.height = 480;
 										
 										var resizeContext = resizeCanvas.getContext("2d");
 										var doResizeStep = 1;
@@ -1120,8 +1120,8 @@ angular.module('auletta.controllers', [])
 										
 										//Resize image using a canvas object
 										var resizeCanvas = document.createElement('canvas');										
-										resizeCanvas.width = 640;
-										resizeCanvas.height = 960;
+										resizeCanvas.width = 320;
+										resizeCanvas.height = 480;
 										
 										var resizeContext = resizeCanvas.getContext("2d");
 										var doResizeStep = 1;
