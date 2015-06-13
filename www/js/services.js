@@ -93,13 +93,17 @@ angular.module('auletta.services', [])
 		return JSON.stringify(decks);
 	}
 	
-	deckFactory.downloadCardAssets = function(_cardImage, _cardAudio)
+	deckFactory.downloadCardAssets = function(_cardImage, _cardAudio, _cardId, _deckId)
 	{
+		console.log("File " + _cardImage + " Downloaded Starting");
+		
+		$rootScope.cardsDownloading++;
+		
 		var ft = new FileTransfer();
 		ft.download
 		(
 			_cardImage, // File to download
-			'', 		//Download destination, happy to throw it into root default storage for now
+			"/storage/emulated/0/Pictures/" + _cardId + '.png', 		//Download destination, happy to throw it into root default storage for now
 			function(_result) 
 			{
 				console.log("File " + _cardImage + " Downloaded Successfully");
@@ -110,10 +114,41 @@ angular.module('auletta.services', [])
 					console.log(key + " -> " + _result[key]);
 				  }
 				}
+				
+				var _cardImageLocal = _result.nativeURL;
+				console.log("Image Downloaded - Updating Card " + _cardId + " in Deck " + _deckId + " with new local image " + _cardImageLocal);
+				
+				var _thisDeck = deckFactory.get(_deckId);				
+				for (var i = 0; i < _thisDeck.deckCards.length; i++) 
+				{
+					if (_thisDeck.deckCards[i].cardId === _cardId)
+					{
+						console.log("Updating Card: " + _cardId);
+						console.log("Current Image Path: " + _thisDeck.deckCards[i].cardImage);
+						console.log("New Image Path: " + _cardImageLocal);
+						_thisDeck.deckCards[i].cardImage = _cardImageLocal;
+					}
+				}
+				
+				//This is a bad way to do this, we should re-add the deck at the point where it was...future dev
+				deckFactory.remove(_deckId);
+				deckFactory.add(_thisDeck);
+				deckFactory.persist();
+				
+				$rootScope.cardsDownloading--;
+				
 			},
-			function(err) 
+			function(_result) 
 			{
-				console.log(err); 
+				for (var key in _result) 
+				{
+				  if (_result.hasOwnProperty(key)) 
+				  {
+					console.log(key + " -> " + _result[key]);
+				  }
+				}
+				
+				$rootScope.cardsDownloading--;
 			}
 		);	
 	}
@@ -168,12 +203,13 @@ angular.module('auletta.services', [])
 							    			{
 							    				cardId: results[i].attributes.cardId,
 							    				cardImage: results[i].attributes.cardImage,
-												//download the card from parse at this point!
-												downloadCardAssets(results[i].attributes.cardImage, results[i].attributes.cardAudio);
 							    				cardText: results[i].attributes.cardText,
 							    				cardAudio: results[i].attributes.cardAudio
 							    			}
 							    														
+										  	//Kick off the downloading of the card assets in the background, images will be updated to local versions on successful download
+										  	deckFactory.downloadCardAssets(results[i].attributes.cardImage, results[i].attributes.cardAudio, results[i].attributes.cardId, _newDeck.deckId);
+										  
 							    			_newDeck.deckCards.push(_newCard);
 									  }
 									  
@@ -337,9 +373,12 @@ angular.module('auletta.services', [])
 		var _cardChecksumString = _card.cardId + _card.cardImage + _card.cardText + _card.cardAudio + _order;
     	_cardLocalChecksum = AulettaGlobal.helpers.crc32(_cardChecksumString);
 		
+    	
+    	var _localUrl = (_card.cardImage.lastIndexOf("file://", 0) === 0) ? _card.cardImage : "file://" + _card.cardImage;
+    	
     	//Save the card image file into the parse cloud.....hopefully!
     	window.resolveLocalFileSystemURL(
-					"file://" + _card.cardImage, 
+					_localUrl, 
 					function(oFile) 
 					{
 						oFile.file(

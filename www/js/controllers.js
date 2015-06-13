@@ -260,7 +260,7 @@ angular.module('auletta.controllers', [])
 							}, 
 							function(error)
 							{
-								alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+								console.log('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
 							}
 				);
 				$scope.media.play();

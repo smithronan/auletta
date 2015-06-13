@@ -19,11 +19,11 @@
     "org.apache.cordova.media-capture",
     "org.apache.cordova.camera",
     "org.apache.cordova.file",
-    "org.apache.cordova.file-transfer",
     "https://github.com/CSullivan102/cordova-imageResizer.git",
     "https://github.com/devgeeks/Canvas2ImagePlugin.git",
     "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
     "https://github.com/mesmotronic/cordova-fullscreen-plugin.git",
-    "https://github.com/brodysoft/Cordova-SQLitePlugin.git"
+    "https://github.com/brodysoft/Cordova-SQLitePlugin.git",
+    "org.apache.cordova.file-transfer"
   ]
 }
