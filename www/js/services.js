@@ -95,7 +95,9 @@ angular.module('auletta.services', [])
 	
 	deckFactory.downloadCardAssets = function(_cardImage, _cardAudio, _cardId, _deckId)
 	{
-		console.log("File " + _cardImage + " Downloaded Starting");
+		console.log("Image File " + _cardImage + " Downloaded Starting");
+		console.log("Audio File " + _cardAudio + " Downloaded Starting");
+		
 		
 		$rootScope.cardsDownloading++;
 		
@@ -151,6 +153,66 @@ angular.module('auletta.services', [])
 				$rootScope.cardsDownloading--;
 			}
 		);	
+		
+		
+		console.log("File " + _cardAudio + " Downloaded Starting");
+		var _extension = _cardAudio.substr((~-_cardAudio.lastIndexOf(".") >>> 0) + 2);
+		
+		ft.download
+		(
+			_cardAudio, // File to download
+			"/storage/emulated/0/Pictures/" + _cardId + '.' + _extension, 		//Download destination, happy to throw it into root default storage for now
+			function(_result) 
+			{
+				console.log("File " + _cardAudio + " Downloaded Successfully");
+				for (var key in _result) 
+				{
+				  if (_result.hasOwnProperty(key)) 
+				  {
+					console.log(key + " -> " + _result[key]);
+				  }
+				}
+				
+				var _cardAudioLocal = _result.nativeURL;
+				console.log("Audio Downloaded - Updating Card " + _cardId + " in Deck " + _deckId + " with new local audio " + _cardAudioLocal);
+				
+				var _thisDeck = deckFactory.get(_deckId);				
+				for (var i = 0; i < _thisDeck.deckCards.length; i++) 
+				{
+					if (_thisDeck.deckCards[i].cardId === _cardId)
+					{
+						console.log("Updating Card: " + _cardId);
+						console.log("Current Audio Path: " + _thisDeck.deckCards[i].cardAudio);
+						console.log("New Image Path: " + _cardAudioLocal);
+						_thisDeck.deckCards[i].cardAudio = _cardAudioLocal;
+					}
+				}
+				
+				//This is a bad way to do this, we should re-add the deck at the point where it was...future dev
+				deckFactory.remove(_deckId);
+				deckFactory.add(_thisDeck);
+				deckFactory.persist();
+				
+				$rootScope.cardsDownloading--;
+				
+			},
+			function(_result) 
+			{
+				for (var key in _result) 
+				{
+				  if (_result.hasOwnProperty(key)) 
+				  {
+					console.log(key + " -> " + _result[key]);
+				  }
+				}
+				
+				$rootScope.cardsDownloading--;
+			}
+		);
+		
+		
+		
+		
 	}
 	
 	
@@ -375,42 +437,106 @@ angular.module('auletta.services', [])
 		
     	
     	var _localUrl = (_card.cardImage.lastIndexOf("file://", 0) === 0) ? _card.cardImage : "file://" + _card.cardImage;
+    	var _localAudioUrl = (_card.cardAudio.lastIndexOf("file://", 0) === 0) ? _card.cardAudio : "file://" + _card.cardAudio;
+    	
+    	var _cardHasAudio = (_card.cardAudio.length > 0);
+    	
+    	console.log("=====Saving Card to Cloud=====");
+    	console.log("===== Card Image: " + _localUrl);
+    	console.log("===== Card Audio: " + _localAudioUrl);
+    	
     	
     	//Save the card image file into the parse cloud.....hopefully!
     	window.resolveLocalFileSystemURL(
-					_localUrl, 
-					function(oFile) 
-					{
-						oFile.file(
-							function(readyFile) 
-							{
-								var reader= new FileReader();
-								reader.onloadend= function(evt) 
-								{	    					         
-									var cardImageFile = new Parse.File(_card.cardId + ".png", { base64: evt.target.result });
-									cardImageFile.save().then(
-										function(_result) 
+				_localUrl, 
+				function(oFile) 
+				{
+					oFile.file(
+						function(readyFile) 
+						{
+							var reader= new FileReader();
+							reader.onloadend= function(evt) 
+							{	    					         
+								var cardImageFile = new Parse.File(_card.cardId + ".png", { base64: evt.target.result });
+								cardImageFile.save().then(
+									function(_imageResult) 
+									{
+										
+										if(_cardHasAudio)
 										{
-											for (var key in _result) 
-											{
-											  if (_result.hasOwnProperty(key)) 
-											  {
-												console.log(key + " -> " + _result[key]);
-											  }
-											}
 											
+												var _extension = _localAudioUrl.substr((~-_localAudioUrl.lastIndexOf(".") >>> 0) + 2);
+												window.resolveLocalFileSystemURL(
+															_localAudioUrl, 
+															function(oFile) 
+															{
+																oFile.file(
+																	function(readyFile) 
+																	{
+																		var audioReader = new FileReader();
+																		audioReader.onloadend= function(evt) 
+																		{	    					         
+																			var cardAudioFile = new Parse.File(_card.cardId + "." + _extension, { base64: evt.target.result });
+																			cardAudioFile.save().then(
+																				function(_audioResult) 
+																				{
+																					userDeckCard.save(
+																					{
+																						userId: _userId,
+																						cardId: _card.cardId,
+																						cardImage: _imageResult._url,									
+																						cardText: _card.cardText,
+																						cardAudio: _audioResult._url,
+																						cardReplaced: false,
+																						cardOrder: _order,
+																						deckId: _deckId,
+																						cardCrc32: _cardLocalChecksum,
+																						cardImageParseFile: cardImageFile,
+																						cardAudioParseFile: cardAudioFile
+																					}, 
+																					{
+																						success: function(_newCard) {
+																							console.log(_newCard);
+																							$rootScope.cardsCurrentlySaving--;
+																						},
+																						error: function(_userDeckList, _error) {
+																							_errorState = true;
+																							$rootScope.cardsCurrentlySaving--;
+																						}
+																					}
+																			);
+																					
+																				}, 
+																				function(error) 
+																				{
+																					// The file either could not be read, or could not be saved to Parse.
+																				}
+																			);
+																		};
+																		audioReader.readAsDataURL(readyFile); 
+																	}		
+																);
+															}, 
+															function(err)
+															{
+																console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
+															}
+												);
+										}
+										else
+										{
 											userDeckCard.save(
 													{
 														userId: _userId,
 														cardId: _card.cardId,
-														cardImage: _result._url,									
+														cardImage: _imageResult._url,									
 														cardText: _card.cardText,
 														cardAudio: _card.cardAudio,
 														cardReplaced: false,
 														cardOrder: _order,
 														deckId: _deckId,
 														cardCrc32: _cardLocalChecksum,
-														cardImageParseFile: cardImageFile
+														cardImageParseFile: cardImageFile														
 													}, 
 													{
 														success: function(_newCard) {
@@ -423,24 +549,26 @@ angular.module('auletta.services', [])
 														}
 													}
 											);
-											
-											
-										}, 
-										function(error) 
-										{
-											// The file either could not be read, or could not be saved to Parse.
 										}
-									);
-								};
-								reader.readAsDataURL(readyFile); 
-							}		
-						);
-					}, 
-					function(err)
-					{
-						console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
-					}
-		);
+										
+									
+										
+									}, 
+									function(error) 
+									{
+										// The file either could not be read, or could not be saved to Parse.
+									}
+								);
+							};
+							reader.readAsDataURL(readyFile); 
+						}		
+					);
+				}, 
+				function(err)
+				{
+					console.log('### ERR: filesystem.directoryUp() - ' + (JSON.stringify(err)));
+				}
+	);
     	
     	
 		

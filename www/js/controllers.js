@@ -473,6 +473,8 @@ angular.module('auletta.controllers', [])
 	
 	$scope.areReordering = false;
 	
+	$scope.processingCard = false;
+	
 	$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1);
 	birdInterval = $interval(function(){$scope.imageRandomNumber = Math.floor(Math.random()*(3-1+1)+1)}, 4000);
 	$scope.$on('$destroy', 
@@ -1024,6 +1026,7 @@ angular.module('auletta.controllers', [])
 										var resizeContext = resizeCanvas.getContext("2d");
 										var doResizeStep = 1;
 										
+										$scope.processingCard = true;
 										
 										$('#cardImage').on('load', 
 												function()
@@ -1073,6 +1076,7 @@ angular.module('auletta.controllers', [])
 													            //alert(msg);
 													            $scope.currentCard.cardImage = msg;
 													            $scope.currentCard.cardImagePath = msg;
+													            $scope.processingCard = false;
 													        },
 													        function(err){
 													            console.log(err);

@@ -83,7 +83,8 @@
     
     <div class="card-preview-small">
     	<div class="build-card-capture-image">
-			<img id="cardImage" class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" />
+			<img id="cardImage" class="padding card-preview-add" ng-src="{{currentCard.cardImage}}" ng-click="captureImage()" ng-show="!processingCard" />
+			<img id="cardImage" class="padding card-preview-add" ng-src="img/image-processing.gif" ng-show="processingCard" />
 		</div>
 		<div class="build-card-capture-text">
 			<h4 ng-show="!enteringCardText" class="card-preview" ng-click="captureText()">{{currentCard.cardText}}</h4>   
