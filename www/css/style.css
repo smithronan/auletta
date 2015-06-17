@@ -398,6 +398,11 @@ ion-item h2
 	font-family: 'Short Stack', cursive;
 }
 
+a h2
+{
+	font-family: 'Short Stack', cursive;
+}
+
 ion-item.deck-listing
 {
 	border: none;

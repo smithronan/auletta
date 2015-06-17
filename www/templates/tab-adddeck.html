@@ -3,17 +3,18 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="secondary">  	
-  	<button class="button icon ion-close" ng-click="cancelAddDeck()" ng-show="(contentStep>-1 && contentStep!=3)"></button>  	  	  	
+  	<button class="button icon ion-close" ng-click="cancelAddDeck()" ng-show="(contentStep>-1 && contentStep!=3 && contentStep!=7)"></button>  	  	  	
   </ion-nav-buttons>
   
   <div class="bar bar-subheader" ng-show="(contentStep==6)">
   	<div class="button-bar">
-		<button class="button" ng-click="showDecks(0)">All</button>
-		<button class="button" ng-click="showDecks(1)">Free</button>
-		<button class="button" ng-click="showDecks(2)">Premium</button>		
+		<button ng-show="(galleryCurrentType!=0)" class="button" ng-click="showDecks(0)">All</button><button ng-show="(galleryCurrentType==0)" class="button button-calm" ng-click="showDecks(0)">All</button>
+		<button ng-show="(galleryCurrentType!=1)" class="button" ng-click="showDecks(1)">Free</button><button ng-show="(galleryCurrentType==1)" class="button button-calm" ng-click="showDecks(1)">Free</button>
+		<button ng-show="(galleryCurrentType!=2)" class="button" ng-click="showDecks(2)">Premium</button><button ng-show="(galleryCurrentType==2)" class="button button-calm" ng-click="showDecks(2)">Premium</button>		
 	</div>			
   </div>
   
+ 
   <ion-content overflow-scroll="true" ng-show="(contentStep==-1)" class="padding plain">
   	<div class="list list-inset">  		
 		<div class="item item-divider add-list-item-header">
@@ -44,13 +45,29 @@
   </ion-content>
   
   <ion-content overflow-scroll="true" ng-show="(contentStep==6)" class="padding plain has-subheader">
-  	<ion-list>
-  	  <ion-item ng-repeat="deck in deckGallery track by $index" class="item item-thumbnail-left item-text-wrap">
-		  <img ng-src="{{deck.attributes.deckThumb}}">
-		  <h2>{{deck.attributes.deckTitle}}</h2>
-		  <p>{{deck.attributes.deckDescription}}</p>		  
-	  </ion-item>
-	</ion-list>
+  	<div class="list">
+	  <a ng-repeat="deck in deckGallery track by $index" class="item item-text-wrap item-icon-right" ng-click="deckGalleryDetail(deck.id)">	    
+	   	<h2>{{deck.attributes.deckTitle}}</h2><br />
+	    <p>{{deck.attributes.deckDescription}}</p>
+	    <i class="icon ion-arrow-right-b"></i>
+	  </a>
+	</div>  	
+  </ion-content>
+  
+  <ion-content overflow-scroll="true" ng-show="(contentStep==7)" class="padding plain">
+  	<div class="deck-gallery-detail">
+  		Detail for deck 
+  	</div>
+  	
+  	<div class="button-bar">
+		<button class="button mat-shadow button-light" ng-click="gotoStep(6)">
+	  		<i class="icon ion-close"></i> Back 			
+	  	</button>
+	  	<button class="button mat-shadow button-balanced" ng-click="saveCard()">
+	  		Download <i class="icon ion-archive"></i> 			
+	  	</button>	  	
+  	</div>
+  	
   </ion-content>
   
   

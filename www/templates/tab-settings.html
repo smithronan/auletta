@@ -8,31 +8,34 @@
   
   <div class="bar bar-subheader" ng-show="(settingStep==1)">
   	<div class="button-bar">
-		<button class="button" ng-click="gotoSubStep(1)">Backup</button>
-		<button class="button" ng-click="gotoSubStep(2)">Restore</button>
-		<button class="button" ng-click="gotoSubStep(3)">Manage</button>
+		<button class="button" ng-show="settingSubStep!=1" ng-click="gotoSubStep(1)">Backup</button><button class="button button-calm" ng-show="settingSubStep==1" ng-click="gotoSubStep(1)">Backup</button>
+		<button class="button" ng-show="settingSubStep!=2" ng-click="gotoSubStep(2)">Restore</button><button class="button button-calm" ng-show="settingSubStep==2" ng-click="gotoSubStep(2)">Restore</button>
+		<button class="button" ng-show="settingSubStep!=3" ng-click="gotoSubStep(3)">Manage</button><button class="button button-calm" ng-show="settingSubStep==3" ng-click="gotoSubStep(3)">Manage</button>
 	</div>			
   </div>
   
   <ion-content overflow-scroll="true" class="plain" ng-Show="(settingStep == 0)">
     <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
-      	Turn On Child Mode
-      </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="childModeEnabled">
-      	Turn Off Child Mode
-      </ion-item>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn && !childModeEnabled">
-      Login / Signup
+      Login / Signup<i class="icon ion-arrow-right-b"></i>
       </ion-item>
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
       Logout
+      </ion-item>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoSettingStep(2)" ng-show="!childModeEnabled">
+      	Child Mode<i class="icon ion-arrow-right-b"></i>
       </ion-item>      
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
+      	Player Settings<i class="icon ion-arrow-right-b"></i>
+      </ion-item>            
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoAuthenticatedStep(1)" ng-show="!childModeEnabled">
-      Cloud Backup / Restore <i class="icon ion-arrow-right-c"></i>
+      Cloud Backup / Restore <i class="icon ion-arrow-right-b"></i>
       </ion-item>      
     </ion-list>
-  </ion-content> 
+  </ion-content>
+  
+   
+  
   <ion-content overflow-scroll="true" ng-show="(settingStep==1)" class="padding plain has-subheader">
   	  <div ng-show="(settingSubStep==1)">
   	  	<div class="add-card-count-container padding-10">
@@ -86,4 +89,21 @@
 	</div>
 	
   </ion-content> 
+  
+  <ion-content overflow-scroll="true" class="plain" ng-Show="(settingStep == 2)">
+    <ion-list>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
+      	Turn On Child Mode
+      </ion-item>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="childModeEnabled">
+      	Turn Off Child Mode
+      </ion-item>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn && !childModeEnabled">
+      Set Child Mode PIN
+      </ion-item>
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
+      Change Child Mode PIN
+      </ion-item>
+    </ion-list>
+  </ion-content>
 </ion-view>

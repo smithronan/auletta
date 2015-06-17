@@ -694,13 +694,23 @@ angular.module('auletta.controllers', [])
 			
 			$scope.deckGallery = [];
 			
-			$scope.showDecks(0);
+			if(!$scope.galleryCurrentType)
+			{
+				$scope.galleryCurrentType = 0;
+			}
+			
+			$scope.showDecks($scope.galleryCurrentType);
 		}
 		
 		
 		$scope.contentStep = _stepId;
 	}
 	
+	
+	$scope.deckGalleryDetail = function(_deckParseId)
+	{
+		$scope.contentStep = 7;
+	}
 	
 	$scope.showDecks = function(_type)
 	{
@@ -735,6 +745,7 @@ angular.module('auletta.controllers', [])
 			Parse.Cloud.run('getBrowsableDecks', {"type": _type}, {
 				  success: function(result) 
 				  {
+					  console.log(result);
 					  $scope.deckGallery = result;
 					  $ionicLoading.hide();
 				  },
@@ -744,6 +755,8 @@ angular.module('auletta.controllers', [])
 				  }
 				});
 		}
+		
+		$scope.galleryCurrentType = _type;
 	}
 		
 	
@@ -1355,7 +1368,10 @@ angular.module('auletta.controllers', [])
 		}
 	}
 	
-	
+	$scope.gotoSettingStep = function(_step)
+	{
+		$scope.settingStep = _step;
+	}
 	
 	$scope.gotoStep = function(_step)
 	{
