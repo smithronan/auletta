@@ -1347,12 +1347,67 @@ angular.module('auletta.controllers', [])
 	
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicPlatform, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup, Decks) {
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicPlatform, $ionicModal, $ionicActionSheet, $interval, $ionicLoading, Global, $ionicPopup, Decks) {
 	$scope.helpers = AulettaGlobal.helpers;
 	
 	
 	$scope.settingStep = 0;
 	$scope.settingSubStep = 1;
+	
+	
+	$ionicModal.fromTemplateUrl('templates/pin-modal.html', 
+					{
+						scope: $scope,
+						animation: 'slide-in-up',
+						backdropClickToClose: false
+					}
+			).then(
+					function(modal) {
+						$scope.pinModal = modal;
+					}
+			);	
+	
+	
+	
+	
+	$scope.setChildModePin = function()
+	{
+		$scope.pinModal.show();
+		$scope.currentPinField = 1;
+		
+		$scope.childModePinTitle = "Set PIN to exit Child Mode";
+	}
+	
+	
+	$scope.setCurrentPinField = function(_field)
+	{
+		$scope.currentPinField = _field;
+	}
+	
+	$scope.setAndNext = function(_value)
+	{
+		if($scope.currentPinField == 1)
+		{
+			$scope.pin1 = _value;
+			$scope.currentPinField = 2
+		}
+		else if($scope.currentPinField == 2)
+		{
+			$scope.pin2 = _value;
+			$scope.currentPinField = 3
+		}
+		else if($scope.currentPinField == 3)
+		{
+			$scope.pin3 = _value;
+			$scope.currentPinField = 4
+		}
+		else if($scope.currentPinField == 4)
+		{
+			$scope.pin4 = _value;			
+		}
+	}
+	
+	
 	
 	$scope.gotoAuthenticatedStep = function(_step)
 	{

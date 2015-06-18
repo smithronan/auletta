@@ -22,7 +22,7 @@
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
       Logout
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoSettingStep(2)" ng-show="!childModeEnabled">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="gotoSettingStep(2)" >
       	Child Mode<i class="icon ion-arrow-right-b"></i>
       </ion-item>      
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="!childModeEnabled">
@@ -98,10 +98,10 @@
       <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="toggleChildMode()" ng-show="childModeEnabled">
       	Turn Off Child Mode
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="aulettaShowLoginModal()" ng-show="!isLoggedIn && !childModeEnabled">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="setChildModePin()" ng-show="!childModeEnabled && !childModePinIsSet">
       Set Child Mode PIN
       </ion-item>
-      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="isLoggedIn && !childModeEnabled">
+      <ion-item class="item-remove-animate item-icon-right" type="item-text-wrap" ng-click="broadcastLogout()" ng-show="childModePinIsSet">
       Change Child Mode PIN
       </ion-item>
     </ion-list>

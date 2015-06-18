@@ -1,0 +1,35 @@
+<ion-modal-view class="paper">
+    <ion-header-bar class="player-title">
+      <h1 class="title player-title" ng-show="!canClosePlayer">{{childModePinTitle}}</h1>      
+    </ion-header-bar>    
+    <ion-content class="plain">
+	<div style="width: 90%; margin-left: auto; margin-right: auto;">
+		<div style="margin-top: 3vh;"></div>
+		<div style="float: left; width: 25%; text-align: center;"><input style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; font-weight: bold; font-size: 1.6em; font-family: 'Short Stack', cursive;" type="text" maxlength="1" ng-model="pin1" ng-focus="setCurrentPinField(1)"></div>
+		<div style="float: left; width: 25%; text-align: center;"><input style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; font-weight: bold; font-size: 1.6em; font-family: 'Short Stack', cursive;" type="text" maxlength="1" ng-model="pin2" ng-focus="setCurrentPinField(2)"></div>
+		<div style="float: left; width: 25%; text-align: center;"><input style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; font-weight: bold; font-size: 1.6em; font-family: 'Short Stack', cursive;" type="text" maxlength="1" ng-model="pin3" ng-focus="setCurrentPinField(3)"></div>
+		<div style="float: left; width: 25%; text-align: center;"><input style="width: 50%; margin-left: auto; margin-right: auto; text-align: center; font-weight: bold; font-size: 1.6em; font-family: 'Short Stack', cursive;" type="text" maxlength="1" ng-model="pin4" ng-focus="setCurrentPinField(4)"></div>
+		<div style="clear: both;"></div>
+		
+		<div class="pin-number-pad">
+			<div class="pin-number" ><button ng-click="setAndNext(1);" class="button mat-shadow button-block button-stable">1</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(2);" class="button mat-shadow button-block button-stable">2</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(3);" class="button mat-shadow button-block button-stable">3</button></div>
+			<div style="clear: both;"></div>
+			<div class="pin-number" ><button ng-click="setAndNext(4);" class="button mat-shadow button-block button-stable">4</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(5);" class="button mat-shadow button-block button-stable">5</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(6);" class="button mat-shadow button-block button-stable">6</button></div>
+			<div style="clear: both;"></div>
+			<div class="pin-number" ><button ng-click="setAndNext(7);" class="button mat-shadow button-block button-stable">7</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(8);" class="button mat-shadow button-block button-stable">8</button></div>
+			<div class="pin-number" ><button ng-click="setAndNext(9);" class="button mat-shadow button-block button-stable">9</button></div>
+			<div style="clear: both;"></div>
+			<div class="pin-number" >&nbsp;</div>
+			<div class="pin-number" ><button ng-click="setAndNext(0);" class="button mat-shadow button-block button-stable">0</button></div>
+			<div class="pin-number" >&nbsp;</div>
+		</div>
+	</div>
+	</ion-content>
+</ion-modal-view>
+
+ 
