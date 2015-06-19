@@ -1368,7 +1368,7 @@ angular.module('auletta.controllers', [])
 			);	
 	
 	
-	
+	$scope.childModePinIsSet = localStorage.getItem('auletta_child_mode_pin').length > 0;
 	
 	$scope.setChildModePin = function()
 	{
@@ -1378,6 +1378,30 @@ angular.module('auletta.controllers', [])
 		$scope.childModePinTitle = "Set PIN to exit Child Mode";
 	}
 	
+	$scope.cancelSetPin = function()
+	{
+		$scope.pin1 = '';
+		$scope.pin2 = '';
+		$scope.pin3 = '';
+		$scope.pin4 = '';
+		$scope.pinModal.hide();
+	}
+	
+	$scope.saveChildModePin = function()
+	{
+		var _pinString = $scope.pin1 + '_' + $scope.pin2 + '_' + $scope.pin3 + '_' + $scope.pin4;
+		_pinString = _pinString.split("_").join('');
+		
+		localStorage.setItem('auletta_child_mode_pin', _pinString);
+		$scope.pin1 = '';
+		$scope.pin2 = '';
+		$scope.pin3 = '';
+		$scope.pin4 = '';
+		
+		$scope.childModePinIsSet = true;
+		
+		$scope.pinModal.hide();
+	}
 	
 	$scope.setCurrentPinField = function(_field)
 	{
@@ -1525,6 +1549,57 @@ angular.module('auletta.controllers', [])
 		$scope.isLoggedIn = true;
     });  
 	
+	$scope.changeChildModePinPrompt = function()
+	{
+		var _message = $scope.childModeEnabled ? 'Turning Off Child Mode...<br/><br/><i class="icon ion-loading"></i>' : 'Turning On Child Mode...<br/><br/><i class="icon ion-loading"></i>' 
+		var myPopup = $ionicPopup.show({
+			template: '<input type="password" ng-model="childModePin.value">',
+			title: 'Enter your current PIN',
+			scope: $scope,
+			buttons: [
+			  { 
+				  text: 'Cancel',
+				  onTap: function(e) {
+					  return;		          
+				  }
+			  },
+			  {
+				text: '<b>Ok</b>',
+				type: 'button-positive',
+				onTap: function(e) {		          
+					console.log($scope.childModePin.value);
+					
+					var _pinEntered = $scope.childModePin.value;
+					$scope.childModePin.value = '';
+					
+					if(_pinEntered == localStorage.getItem('auletta_child_mode_pin'))
+					{
+						$scope.setChildModePin();
+					}
+					else
+					{
+						$ionicLoading.show(
+								{
+									template: "Incorrect PIN",							
+									animation: 'fade-in',
+									showDelay: 0,
+									duration: 1500
+								}
+						);
+					}					
+				}
+			  }
+			]
+		  });
+			
+		
+	}
+	
+	
+	
+	
+	
+	
 	$scope.toggleChildMode = function()
 	{
 		var _message = $scope.childModeEnabled ? 'Turning Off Child Mode...<br/><br/><i class="icon ion-loading"></i>' : 'Turning On Child Mode...<br/><br/><i class="icon ion-loading"></i>' 
@@ -1549,7 +1624,10 @@ angular.module('auletta.controllers', [])
 			        onTap: function(e) {		          
 			            console.log($scope.childModePin.value);
 			        	
-			        	if($scope.childModePin.value == "8888")
+						var _pinEntered = $scope.childModePin.value;
+						$scope.childModePin.value = '';
+						
+			        	if(_pinEntered == localStorage.getItem('auletta_child_mode_pin'))
 			            {
 			            	$ionicLoading.show(
 			        				{
@@ -1565,7 +1643,18 @@ angular.module('auletta.controllers', [])
 			            	
 			            	var _pEventDimensions = { };			
 							$scope.helpers.trackEvent('child-mode-disabled', _pEventDimensions);
-			            }	          
+			            }
+						else
+						{
+							$ionicLoading.show(
+			        				{
+			        					template: "Incorrect PIN",							
+			        				    animation: 'fade-in',
+			        				    showDelay: 0,
+			        				    duration: 1500
+			        				}
+			        		);
+						}					
 			        }
 			      }
 			    ]

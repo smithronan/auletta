@@ -28,6 +28,16 @@
 			<div class="pin-number" ><button ng-click="setAndNext(0);" class="button mat-shadow button-block button-stable">0</button></div>
 			<div class="pin-number" >&nbsp;</div>
 		</div>
+		
+		<div class="button-bar">
+			<button class="button mat-shadow button-light" ng-click="cancelSetPin()">
+				<i class="icon ion-close"></i> Cancel 			
+			</button>
+			<button class="button mat-shadow button-balanced" ng-disabled="pin1.length == 0 || pin2.length == 0 || pin3.length == 0 || pin4.length == 0" ng-click="saveChildModePin()">
+				Save PIN <i class="icon ion-checkmark"></i> 			
+			</button>	  	
+		</div>
+		
 	</div>
 	</ion-content>
 </ion-modal-view>
